@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b4d2e">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Van Prahari | वन प्रहरी</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--g:#1b4d2e;--g2:#2e7d4f;--g3:#e8f3ec;--bg:#f4f6f3;--tx:#1d2420;--mu:#5d6b62;--bd:#d5ddd7;--rd:#b3261e;--am:#b26a00;--r:14px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari","Noto Sans",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.screen{display:none;min-height:100vh;max-width:620px;margin:0 auto;padding-bottom:40px}
+.screen.on{display:block}
+.top{position:sticky;top:0;z-index:500;background:var(--g);color:#fff;display:flex;align-items:center;gap:8px;padding:12px 12px;padding-top:max(12px,env(safe-area-inset-top))}
+.top h1{font-size:18px;margin:0;flex:1;font-weight:650}
+.top .ib{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:10px;min-width:40px;height:40px;font-size:18px;padding:0 10px}
+.wrap{padding:14px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:16px;color:var(--g)}
+label{display:block;font-size:13px;color:var(--mu);margin:8px 0 4px;font-weight:600}
+input,select,textarea{width:100%;border:1px solid var(--bd);border-radius:10px;padding:11px 12px;background:#fff;font-size:16px;color:var(--tx)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--g2);border-color:transparent}
+textarea{min-height:70px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 8px}
+@media(max-width:400px){.grid3{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;background:var(--g);color:#fff;font-weight:650;padding:13px 16px;min-height:48px;width:100%;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.55}
+.btn.ghost{background:var(--g3);color:var(--g)}
+.btn.red{background:var(--rd)}
+.btn.amber{background:var(--am)}
+.btn.sm{min-height:42px;padding:9px 12px;font-size:15px;width:auto;flex:1}
+.row{display:flex;gap:10px;margin-top:10px}
+.link{background:none;border:0;color:var(--g2);font-weight:600;padding:12px 0;width:100%;text-align:center;text-decoration:underline}
+.hero{background:linear-gradient(160deg,#1b4d2e,#2e7d4f);color:#fff;padding:48px 20px 34px;text-align:center;border-radius:0 0 28px 28px}
+.hero img{width:84px;height:84px;border-radius:22px;background:#fff2}
+.hero h2{margin:10px 0 2px;font-size:26px}
+.hero p{margin:0;opacity:.85}
+.lang{position:absolute;top:14px;right:14px;background:#ffffff26;border:0;color:#fff;border-radius:20px;padding:6px 14px;font-weight:650}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:18px 12px;text-align:center;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-weight:650;color:var(--g);cursor:pointer}
+.tile .ic{font-size:34px;line-height:1}
+.tile.wide{grid-column:1/-1;flex-direction:row;min-height:70px}
+.who{display:flex;gap:12px;align-items:center}
+.who .av{width:46px;height:46px;border-radius:50%;background:var(--g3);color:var(--g);display:grid;place-items:center;font-weight:700;font-size:18px}
+.who b{display:block}
+.who small{color:var(--mu)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:13px;padding:5px 10px;border-radius:20px;background:var(--g3);color:var(--g);font-weight:600;border:0}
+.chip.off{background:#fde8e6;color:var(--rd)}
+.chip.pend{background:#fff1dc;color:var(--am)}
+.banner{background:#fff1dc;color:#6b4300;border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.pbox .prow{display:flex;gap:8px}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.thumb{position:relative;width:92px;height:92px;border-radius:10px;overflow:hidden;background:#ddd}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb button{position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:16px;line-height:1}
+.thumb.busy{display:grid;place-items:center;font-size:12px;color:var(--mu)}
+.map{height:52vh;min-height:300px;border-radius:var(--r);border:1px solid var(--bd);z-index:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.stat{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:8px 4px;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--g)}
+.stat small{font-size:11px;color:var(--mu)}
+.list .it{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid #eef1ee}
+.list .it:last-child{border-bottom:0}
+.list .it small{color:var(--mu);display:block}
+.st{font-size:12px;font-weight:700;padding:3px 8px;border-radius:12px;background:#fff1dc;color:var(--am);white-space:nowrap}
+.st.ok{background:var(--g3);color:var(--g)}
+.st.err{background:#fde8e6;color:var(--rd)}
+.ins h3{display:flex;justify-content:space-between;align-items:center}
+.ins .req{font-size:12px;color:var(--rd);font-weight:600}
+.ins.done{border-color:var(--g2)}
+.ins.done .req{color:var(--g2)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#1d2420;color:#fff;padding:12px 18px;border-radius:12px;z-index:3000;max-width:90vw;transition:transform .25s;font-size:15px;text-align:center}
+#toast.on{transform:translateX(-50%) translateY(0)}
+.ov{position:fixed;inset:0;background:#0009;z-index:2000;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:620px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}
+.sheet h3{margin:0 0 6px;color:var(--g)}
+#viewer{align-items:center;background:#000e}
+#viewer img{max-width:100%;max-height:100%}
+#busy{align-items:center;z-index:2500}
+#busy div{background:#fff;padding:18px 22px;border-radius:14px;font-weight:600}
+.muted{color:var(--mu);font-size:14px}
+.gpsline{font-size:13px;color:var(--mu);margin-top:6px}
+.rec{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff5a4f;margin-right:6px;animation:bl 1.2s infinite}
+@keyframes bl{50%{opacity:.25}}
+.center{text-align:center}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<section class="screen" id="s-login">
+  <div class="hero" style="position:relative">
+    <button class="lang" onclick="toggleLang()">EN / हिं</button>
+    <img src="icons/icon-192.png" alt="">
+    <h2 data-i18n="appName">Van Prahari</h2>
+    <p data-i18n="tagline"></p>
+  </div>
+  <div class="wrap">
+    <div id="demoBanner1" class="banner hide" data-i18n="demoLogin"></div>
+    <div class="card">
+      <label data-i18n="empOrMobile"></label>
+      <input id="lg-id" autocomplete="username" inputmode="text">
+      <label data-i18n="password"></label>
+      <input id="lg-pw" type="password" autocomplete="current-password">
+      <div class="row" style="margin-top:6px"><label style="display:flex;gap:8px;align-items:center;margin:0;font-weight:500"><input type="checkbox" id="lg-show" style="width:auto"> <span data-i18n="showPw"></span></label></div>
+      <div class="row"><button class="btn" id="lg-btn" onclick="doLogin()" data-i18n="login"></button></div>
+      <button class="link" onclick="openOtp()" data-i18n="forgot"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OTP / SET PASSWORD ============ -->
+<section class="screen" id="s-otp">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="setPwTitle"></h1></div>
+  <div class="wrap">
+    <div class="card" id="otp1">
+      <p class="muted" data-i18n="otpHelp"></p>
+      <label data-i18n="empOrMobile"></label>
+      <input id="ot-id">
+      <div class="row"><button class="btn" id="ot-send" onclick="sendOtp()" data-i18n="sendOtp"></button></div>
+    </div>
+    <div class="card hide" id="otp2">
+      <p class="muted" id="ot-sent"></p>
+      <label data-i18n="otp"></label>
+      <input id="ot-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+      <label data-i18n="newPw"></label>
+      <input id="ot-pw" type="password" autocomplete="new-password">
+      <label data-i18n="confirmPw"></label>
+      <input id="ot-pw2" type="password" autocomplete="new-password">
+      <p class="muted" data-i18n="pwRule"></p>
+      <div class="row"><button class="btn" id="ot-set" onclick="resetPw()" data-i18n="setPw"></button></div>
+      <button class="link" id="ot-resend" onclick="sendOtp(true)" disabled></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOME ============ -->
+<section class="screen" id="s-home">
+  <div class="top"><h1 data-i18n="appName"></h1><button class="ib" onclick="toggleLang()">EN/हिं</button><button class="ib" onclick="openSettings()">⚙</button></div>
+  <div class="wrap">
+    <div id="demoBanner2" class="banner hide" data-i18n="demo"></div>
+    <div class="card">
+      <div class="who"><div class="av" id="h-av"></div><div><b id="h-name"></b><small id="h-sub"></small></div></div>
+      <div class="chips"><span class="chip" id="h-net"></span><button class="chip pend" id="h-pend" onclick="trySync(true)"></button></div>
+    </div>
+    <div class="tiles">
+      <div class="tile" onclick="openPatrol()"><span class="ic">🧭</span><span data-i18n="patrol"></span></div>
+      <div class="tile" onclick="openInspect()"><span class="ic">🌳</span><span data-i18n="inspect"></span></div>
+      <div class="tile" onclick="openAttend()"><span class="ic">📍</span><span data-i18n="attend"></span></div>
+      <div class="tile" onclick="openWorks()"><span class="ic">🛠️</span><span data-i18n="works"></span></div>
+      <div class="tile wide" onclick="openPhotos()"><span class="ic">📷</span><span data-i18n="photos"></span></div>
+    </div>
+    <div id="h-active" class="banner hide" style="margin-top:12px" onclick="show('s-patrol-active')"></div>
+  </div>
+</section>
+
+<!-- ============ PATROL LIST ============ -->
+<section class="screen" id="s-patrol">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="patrol"></h1></div>
+  <div class="wrap">
+    <button class="btn" onclick="openPatrolStart()">▶ <span data-i18n="startPatrol"></span></button>
+    <div class="card" style="margin-top:12px"><h3 data-i18n="pastPatrols"></h3><div class="list" id="pt-list"></div></div>
+  </div>
+</section>
+
+<!-- ============ PATROL START ============ -->
+<section class="screen" id="s-patrol-start">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="startPatrol"></h1></div>
+  <div class="wrap">
+    <div class="card">
+      <label data-i18n="patrolType"></label><select id="ps-type"></select>
+      <div id="ps-loc"></div>
+      <label data-i18n="team"></label><input id="ps-team">
+      <label data-i18n="purpose"></label><input id="ps-purpose">
+      <p class="muted" data-i18n="patrolTip"></p>
+      <div class="row"><button class="btn" onclick="startPatrol()">▶ <span data-i18n="start"></span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATROL ACTIVE ============ -->
+<section class="screen" id="s-patrol-active">
+  <div class="top"><h1><span class="rec" id="pa-rec"></span><span data-i18n="patrolOn"></span></h1><button class="ib" id="pa-layer" onclick="cycleLayer('active')">🗺</button></div>
+  <div class="wrap">
+    <div id="pa-map" class="map"></div>
+    <div class="stats">
+      <div class="stat"><b id="pa-dist">0.00</b><small data-i18n="distKm"></small></div>
+      <div class="stat"><b id="pa-time">00:00</b><small data-i18n="duration"></small></div>
+      <div class="stat"><b id="pa-pts">0</b><small data-i18n="points"></small></div>
+      <div class="stat"><b id="pa-acc">–</b><small data-i18n="accuracy"></small></div>
+    </div>
+    <div class="gpsline" id="pa-gps"></div>
+    <div class="row"><button class="btn amber" onclick="openObs()">＋ <span data-i18n="addObs"></span></button></div>
+    <div class="row">
+      <button class="btn ghost sm" id="pa-pause" onclick="togglePause()"></button>
+      <button class="btn ghost sm" onclick="centerMe()">◎ <span data-i18n="center"></span></button>
+      <button class="btn red sm" onclick="stopPatrol()">■ <span data-i18n="stop"></span></button>
+    </div>
+    <div class="card" style="margin-top:12px"><h3 data-i18n="observations"></h3><div class="list" id="pa-obs"></div></div>
+  </div>
+</section>
+
+<!-- ============ PATROL VIEW ============ -->
+<section class="screen" id="s-patrol-view">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 id="pv-title"></h1><button class="ib" onclick="cycleLayer('view')">🗺</button></div>
+  <div class="wrap">
+    <div id="pv-map" class="map"></div>
+    <div class="card" style="margin-top:12px" id="pv-info"></div>
+    <div class="row"><button class="btn ghost" onclick="downloadKml()">⬇ <span data-i18n="exportKml"></span></button></div>
+    <div class="row"><button class="btn ghost" onclick="openGmaps()">📍 <span data-i18n="openGmaps"></span></button></div>
+  </div>
+</section>
+
+<!-- ============ BEAT INSPECTION ============ -->
+<section class="screen" id="s-inspect">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="inspect"></h1></div>
+  <div class="wrap">
+    <div class="card"><div id="in-loc"></div><label data-i18n="date"></label><input id="in-date" type="date"></div>
+    <div id="in-items"></div>
+    <div class="card"><label data-i18n="remarksAll"></label><textarea id="in-rem"></textarea></div>
+    <button class="btn" onclick="submitInspect()" data-i18n="submit"></button>
+  </div>
+</section>
+
+<!-- ============ ATTENDANCE ============ -->
+<section class="screen" id="s-attend">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="attend"></h1></div>
+  <div class="wrap">
+    <div class="card">
+      <label data-i18n="attType"></label><select id="at-type"></select>
+      <div id="at-loc"></div>
+      <label data-i18n="teep"></label><textarea id="at-teep" rows="2"></textarea>
+      <p class="muted" data-i18n="teepHelp"></p>
+    </div>
+    <div class="card"><h3 data-i18n="attPhoto"></h3><div id="at-photos"></div><p class="muted" data-i18n="stampHelp"></p></div>
+    <button class="btn" onclick="submitAttend()" data-i18n="submit"></button>
+  </div>
+</section>
+
+<!-- ============ DAILY WORKS ============ -->
+<section class="screen" id="s-works">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="works"></h1></div>
+  <div class="wrap">
+    <div class="card">
+      <label data-i18n="workType"></label><select id="wk-type"></select>
+      <div id="wk-loc"></div>
+      <div class="grid2"><div><label data-i18n="date"></label><input id="wk-date" type="date"></div><div><label data-i18n="compartment"></label><input id="wk-comp" inputmode="numeric"></div></div>
+      <label data-i18n="workName"></label><input id="wk-name">
+      <div class="grid3"><div><label data-i18n="qty"></label><input id="wk-qty" inputmode="decimal"></div><div><label data-i18n="unit"></label><select id="wk-unit"></select></div><div><label data-i18n="labour"></label><input id="wk-lab" inputmode="numeric"></div></div>
+      <label data-i18n="remarks"></label><textarea id="wk-rem"></textarea>
+    </div>
+    <div class="card"><h3 data-i18n="photosH"></h3><div id="wk-photos"></div></div>
+    <button class="btn" onclick="submitWorks()" data-i18n="submit"></button>
+  </div>
+</section>
+
+<!-- ============ PHOTO UPLOAD ============ -->
+<section class="screen" id="s-photos">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="photos"></h1></div>
+  <div class="wrap">
+    <div class="card">
+      <label data-i18n="photoCat"></label><select id="ph-cat"></select>
+      <div id="ph-loc"></div>
+      <label data-i18n="subject"></label><input id="ph-sub">
+      <label data-i18n="compartment"></label><input id="ph-comp" inputmode="numeric">
+      <label data-i18n="remarks"></label><textarea id="ph-rem"></textarea>
+    </div>
+    <div class="card"><h3 data-i18n="photosH"></h3><div id="ph-photos"></div></div>
+    <button class="btn" onclick="submitPhotos()" data-i18n="submit"></button>
+  </div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section class="screen" id="s-settings">
+  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="settings"></h1></div>
+  <div class="wrap">
+    <div class="card">
+      <h3 data-i18n="sync"></h3>
+      <p class="muted" id="st-pend"></p>
+      <button class="btn" onclick="trySync(true)" data-i18n="syncNow"></button>
+    </div>
+    <div class="card"><h3 data-i18n="recent"></h3><div class="list" id="st-log"></div></div>
+    <div class="card">
+      <h3 data-i18n="language"></h3>
+      <div class="row"><button class="btn ghost sm" onclick="setLang('hi')">हिंदी</button><button class="btn ghost sm" onclick="setLang('en')">English</button></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="offlineMap"></h3>
+      <p class="muted" data-i18n="offlineMapHelp"></p>
+    </div>
+    <div class="card">
+      <h3 data-i18n="admin"></h3>
+      <label data-i18n="apiUrl"></label><input id="st-api" placeholder="https://script.google.com/macros/s/…/exec">
+      <div class="row"><button class="btn ghost" onclick="saveApi()" data-i18n="save"></button></div>
+    </div>
+    <button class="btn red" onclick="logout()" data-i18n="logout"></button>
+    <p class="muted center" id="st-ver"></p>
+  </div>
+</section>
+
+<!-- Observation sheet -->
+<div class="ov" id="obs-ov"><div class="sheet">
+  <h3 data-i18n="addObs"></h3>
+  <label data-i18n="obsCat"></label><select id="ob-cat"></select>
+  <label data-i18n="detail"></label><input id="ob-detail">
+  <label data-i18n="count"></label><input id="ob-count" inputmode="numeric">
+  <label data-i18n="remarks"></label><textarea id="ob-rem" rows="2"></textarea>
+  <label data-i18n="photosH"></label><div id="ob-photos"></div>
+  <div class="row"><button class="btn ghost sm" onclick="closeObs()" data-i18n="cancel"></button><button class="btn sm" onclick="saveObs()" data-i18n="save"></button></div>
+</div></div>
+
+<div class="ov" id="viewer" onclick="this.classList.remove('on')"><img alt=""></div>
+<div class="ov" id="busy"><div id="busy-t">…</div></div>
+<div id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js"></script>
+<script>
+'use strict';
+/* =====================================================================
+   VAN PRAHARI — all-in-one field app for forest staff
+   1. Paste your Google Apps Script Web App URL below (see SETUP-GUIDE).
+   2. Leave it empty to run in DEMO mode (password: demo, OTP: 123456).
+   ===================================================================== */
+const CONFIG = {
+  API_URL: 'https://script.google.com/macros/s/AKfycbyAoBTQHv94oYfpMHdy6xD1Bf8yvwtTOcwy4sukBVEQklVu0zHkWBokBcrQ0sHjI6s5Kw/exec',
+  APP: 'Van Prahari',
+  VERSION: '1.0.0'
+};
+
+/* ---------------- helpers ---------------- */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem('vp_' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('vp_' + k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem('vp_' + k); } catch (e) {} }
+};
+const pad2 = n => String(n).padStart(2, '0');
+const fmtDate = d => `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()}`;
+const fmtTime = d => `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+const fmtDT = d => fmtDate(d) + ' ' + fmtTime(d);
+const isoDay = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const esc = s => String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+function toast(msg, ms = 2800) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), ms); }
+function busy(on, msg) { $('#busy-t').textContent = msg || t('pleaseWait'); $('#busy').classList.toggle('on', !!on); }
+function viewImg(src) { $('#viewer img').src = src; $('#viewer').classList.add('on'); }
+function hav(a, b, c, d) { const R = 6371000, r = Math.PI / 180; const x = Math.sin((c - a) * r / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin((d - b) * r / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(x)); }
+
+/* ---------------- language ---------------- */
+const T = {
+en: {
+ appName:'Van Prahari', tagline:'Forest field staff app', login:'Login', empOrMobile:'Employee ID or Mobile no.', password:'Password', showPw:'Show password',
+ forgot:'Forgot password / New user? Set password with OTP', setPwTitle:'Set / Reset password', otpHelp:'Enter your Employee ID or registered mobile number. An OTP will be sent to your registered mobile.',
+ sendOtp:'Send OTP', otp:'OTP (6 digits)', newPw:'New password', confirmPw:'Confirm new password', pwRule:'At least 6 characters.', setPw:'Set password', resendIn:'Resend OTP in', resend:'Resend OTP',
+ otpSent:'OTP sent to', pwMismatch:'Passwords do not match', pwShort:'Password must be at least 6 characters', pwDone:'Password set. Please log in.', fillAll:'Please fill all fields',
+ demoLogin:'Demo mode: backend not connected. Use any ID with password "demo". OTP is 123456.', demo:'Demo mode — data stays on this phone until the Google Drive backend is connected (Settings).',
+ needNet:'Internet needed for this step', pleaseWait:'Please wait…',
+ patrol:'Patrol', inspect:'Beat Inspection', attend:'Attendance', works:'Daily Works Upload', photos:'Photo Upload', settings:'Settings', logout:'Logout',
+ online:'● Online', offline:'● Offline', pending:'pending upload', allSynced:'✓ All uploaded', syncing:'Uploading…',
+ range:'Range', circle:'Circle', beat:'Beat', select:'-- Select --', camera:'Camera', gallery:'Gallery', remarks:'Remarks', teep:'Teep (auto-written, editable)', submit:'Submit', save:'Save', cancel:'Cancel', date:'Date',
+ saved:'Saved. It will upload to Google Drive when internet is available.', uploaded:'record(s) uploaded to Google Drive', needPhoto:'Add at least one photo', needLoc:'Please select Range, Circle and Beat',
+ gpsFail:'Could not get GPS. Turn on Location and try outdoors', processing:'Stamping photo…',
+ startPatrol:'Start new patrol', patrolType:'Patrol type', team:'Team members', purpose:'Purpose', start:'Start patrol', patrolTip:'Keep the screen on during patrol. Tracking works without internet; the track uploads later.',
+ patrolOn:'Patrol in progress', pause:'❚❚ Pause', resume:'▶ Resume', stop:'End', center:'Me', addObs:'Add observation', observations:'Observations',
+ distKm:'km', duration:'time', points:'points', accuracy:'GPS ±m', confirmStop:'End this patrol and save?', endFirst:'End the patrol first', patrolSaved:'Patrol saved',
+ obsCat:'Category', detail:'Species / details', count:'Count', exportKml:'Download KML', openGmaps:'Open in Google Maps', pastPatrols:'Previous patrols', noPatrols:'No patrols yet',
+ activePatrol:'A patrol is in progress — tap to open', waitingGps:'Waiting for GPS fix…', gpsWeak:'Weak GPS — point skipped',
+ remarksAll:'Overall remarks', itemStatus:'Status', attType:'Attendance type', attPhoto:'Attendance photo', teepHelp:'Printed on the photo (bottom-left) with GPS, date, time and elevation.',
+ stampHelp:'Take a photo with the camera, or pick one from the gallery. GPS, date, time, elevation and teep are stamped automatically.',
+ workType:'Type of work', workName:'Work / site name', compartment:'Compartment no.', qty:'Quantity', unit:'Unit', labour:'Labourers', photosH:'Photos',
+ photoCat:'Photo category', subject:'Subject / description',
+ sync:'Upload to Google Drive', syncNow:'Upload now', recent:'Recent entries', language:'Language', admin:'Admin', apiUrl:'Backend URL (Google Apps Script web app)',
+ apiSaved:'Backend URL saved', offlineMap:'Offline maps', offlineMapHelp:'Map tiles you view while online are saved on the phone. Before going to the field, open Patrol → Start and zoom over your beat once with internet. GPS tracking works fully offline even without map tiles.',
+ confirmLogout:'Some entries are not uploaded yet. They will stay on this phone. Logout?', none:'Nothing yet', offlineNow:'You are offline. Will upload automatically later.',
+ sessionExpired:'Session expired. Please log in again — your saved entries are safe.',
+ 'pt.foot':'Foot patrol', 'pt.vehicle':'Vehicle patrol', 'pt.night':'Night patrol', 'pt.joint':'Joint patrol', 'pt.special':'Special patrol',
+ 'ob.animal':'Wildlife – direct sighting', 'ob.sign':'Indirect sign (pugmark / scat / scrape)', 'ob.felling':'Illegal felling', 'ob.encroach':'Encroachment', 'ob.mining':'Illegal mining', 'ob.poaching':'Poaching / snare / trap', 'ob.fire':'Fire', 'ob.grazing':'Illegal grazing', 'ob.water':'Water source', 'ob.carcass':'Carcass', 'ob.hwc':'Human–wildlife conflict', 'ob.other':'Other',
+ 'in.patrol':'Patrol', 'in.katai':'Avaidh Katai (illegal felling)', 'in.atikraman':'Avaidh Atikraman (encroachment)', 'in.mining':'Avaidh Mining (illegal mining)', 'in.munara':'Munara (boundary pillar)',
+ 'iq.patrol':'Distance patrolled (km)', 'iq.katai':'Trees / stumps (nos.)', 'iq.atikraman':'Area (ha)', 'iq.mining':'Spots / volume', 'iq.munara':'Munara no. / count',
+ 's.done':'Done', 's.notdone':'Not done', 's.nf':'Not found', 's.found':'Found', 's.intact':'Intact', 's.damaged':'Damaged', 's.missing':'Missing',
+ photoReq:'photo required', photoOk:'photo added', needItemPhoto:'Add a photo for',
+ 'at.in':'Check-in (arrival)', 'at.out':'Check-out (departure)', 'at.field':'On field duty',
+ 'wk.weeding':'Weeding', 'wk.construction':'Construction', 'wk.plantation':'Plantation', 'wk.pits':'Pit digging', 'wk.fireline':'Fire line', 'wk.smc':'Soil & moisture conservation', 'wk.other':'Other',
+ 'pc.construction':'Construction works', 'pc.forestry':'Forestry works', 'pc.samiti':'Samiti works'
+},
+hi: {
+ appName:'वन प्रहरी', tagline:'वन अमले का फ़ील्ड ऐप', login:'लॉगिन', empOrMobile:'कर्मचारी आईडी या मोबाइल नंबर', password:'पासवर्ड', showPw:'पासवर्ड दिखाएँ',
+ forgot:'पासवर्ड भूल गए / नए उपयोगकर्ता? OTP से पासवर्ड सेट करें', setPwTitle:'पासवर्ड सेट / रीसेट', otpHelp:'अपनी कर्मचारी आईडी या पंजीकृत मोबाइल नंबर डालें। पंजीकृत मोबाइल पर OTP भेजा जाएगा।',
+ sendOtp:'OTP भेजें', otp:'OTP (6 अंक)', newPw:'नया पासवर्ड', confirmPw:'नया पासवर्ड दोबारा', pwRule:'कम से कम 6 अक्षर।', setPw:'पासवर्ड सेट करें', resendIn:'OTP दोबारा भेजें', resend:'OTP दोबारा भेजें',
+ otpSent:'OTP भेजा गया', pwMismatch:'दोनों पासवर्ड एक जैसे नहीं हैं', pwShort:'पासवर्ड कम से कम 6 अक्षर का हो', pwDone:'पासवर्ड सेट हो गया। कृपया लॉगिन करें।', fillAll:'कृपया सभी जानकारी भरें',
+ demoLogin:'डेमो मोड: बैकएंड जुड़ा नहीं है। कोई भी आईडी और पासवर्ड "demo" डालें। OTP 123456 है।', demo:'डेमो मोड — Google Drive बैकएंड जुड़ने तक डेटा इसी फ़ोन में रहेगा (सेटिंग्स)।',
+ needNet:'इस चरण के लिए इंटरनेट चाहिए', pleaseWait:'कृपया प्रतीक्षा करें…',
+ patrol:'गश्त', inspect:'बीट निरीक्षण', attend:'उपस्थिति', works:'दैनिक कार्य अपलोड', photos:'फ़ोटो अपलोड', settings:'सेटिंग्स', logout:'लॉगआउट',
+ online:'● ऑनलाइन', offline:'● ऑफ़लाइन', pending:'अपलोड बाकी', allSynced:'✓ सब अपलोड', syncing:'अपलोड हो रहा है…',
+ range:'परिक्षेत्र', circle:'सर्किल', beat:'बीट', select:'-- चुनें --', camera:'कैमरा', gallery:'गैलरी', remarks:'टिप्पणी', teep:'टीप (स्वतः, बदल सकते हैं)', submit:'जमा करें', save:'सहेजें', cancel:'रद्द करें', date:'दिनांक',
+ saved:'सहेजा गया। इंटरनेट मिलते ही Google Drive पर अपलोड होगा।', uploaded:'प्रविष्टि Google Drive पर अपलोड हुई', needPhoto:'कम से कम एक फ़ोटो जोड़ें', needLoc:'कृपया परिक्षेत्र, सर्किल और बीट चुनें',
+ gpsFail:'GPS नहीं मिला। लोकेशन चालू करें और खुले में प्रयास करें', processing:'फ़ोटो पर GPS अंकित हो रहा है…',
+ startPatrol:'नई गश्त शुरू करें', patrolType:'गश्त का प्रकार', team:'दल के सदस्य', purpose:'उद्देश्य', start:'गश्त शुरू करें', patrolTip:'गश्त के दौरान स्क्रीन चालू रखें। ट्रैकिंग बिना इंटरनेट के चलती है; ट्रैक बाद में अपलोड होगा।',
+ patrolOn:'गश्त जारी है', pause:'❚❚ रोकें', resume:'▶ फिर शुरू', stop:'समाप्त', center:'मैं', addObs:'अवलोकन जोड़ें', observations:'अवलोकन',
+ distKm:'कि.मी.', duration:'समय', points:'बिंदु', accuracy:'GPS ±मी', confirmStop:'यह गश्त समाप्त कर सहेजें?', endFirst:'पहले गश्त समाप्त करें', patrolSaved:'गश्त सहेजी गई',
+ obsCat:'श्रेणी', detail:'प्रजाति / विवरण', count:'संख्या', exportKml:'KML डाउनलोड', openGmaps:'Google Maps में खोलें', pastPatrols:'पिछली गश्तें', noPatrols:'अभी कोई गश्त नहीं',
+ activePatrol:'गश्त जारी है — खोलने के लिए छुएँ', waitingGps:'GPS की प्रतीक्षा…', gpsWeak:'GPS कमज़ोर — बिंदु छोड़ा',
+ remarksAll:'समग्र टिप्पणी', itemStatus:'स्थिति', attType:'उपस्थिति का प्रकार', attPhoto:'उपस्थिति फ़ोटो', teepHelp:'यह फ़ोटो पर (नीचे बाएँ) GPS, दिनांक, समय और ऊँचाई के साथ छपेगी।',
+ stampHelp:'कैमरे से फ़ोटो लें या गैलरी से चुनें। GPS, दिनांक, समय, ऊँचाई और टीप स्वतः अंकित होंगे।',
+ workType:'कार्य का प्रकार', workName:'कार्य / स्थल का नाम', compartment:'कक्ष क्रमांक', qty:'मात्रा', unit:'इकाई', labour:'मजदूर संख्या', photosH:'फ़ोटो',
+ photoCat:'फ़ोटो श्रेणी', subject:'विषय / विवरण',
+ sync:'Google Drive पर अपलोड', syncNow:'अभी अपलोड करें', recent:'हाल की प्रविष्टियाँ', language:'भाषा', admin:'प्रशासक', apiUrl:'बैकएंड URL (Google Apps Script वेब ऐप)',
+ apiSaved:'बैकएंड URL सहेजा गया', offlineMap:'ऑफ़लाइन नक्शा', offlineMapHelp:'इंटरनेट रहते जो नक्शा देखा जाता है वह फ़ोन में सहेज लिया जाता है। फ़ील्ड जाने से पहले गश्त → शुरू में अपनी बीट का नक्शा एक बार ज़ूम करके देख लें। नक्शा न हो तब भी GPS ट्रैकिंग पूरी तरह ऑफ़लाइन चलती है।',
+ confirmLogout:'कुछ प्रविष्टियाँ अभी अपलोड नहीं हुई हैं। वे इसी फ़ोन में रहेंगी। लॉगआउट करें?', none:'अभी कुछ नहीं', offlineNow:'आप ऑफ़लाइन हैं। बाद में स्वतः अपलोड होगा।',
+ sessionExpired:'सत्र समाप्त। कृपया फिर लॉगिन करें — आपकी प्रविष्टियाँ सुरक्षित हैं।',
+ 'pt.foot':'पैदल गश्त', 'pt.vehicle':'वाहन गश्त', 'pt.night':'रात्रि गश्त', 'pt.joint':'संयुक्त गश्त', 'pt.special':'विशेष गश्त',
+ 'ob.animal':'वन्यप्राणी – प्रत्यक्ष दर्शन', 'ob.sign':'अप्रत्यक्ष चिह्न (पगमार्क / मल / खरोंच)', 'ob.felling':'अवैध कटाई', 'ob.encroach':'अतिक्रमण', 'ob.mining':'अवैध उत्खनन', 'ob.poaching':'शिकार / फंदा / जाल', 'ob.fire':'आग', 'ob.grazing':'अवैध चराई', 'ob.water':'जल स्रोत', 'ob.carcass':'शव', 'ob.hwc':'मानव–वन्यप्राणी द्वंद', 'ob.other':'अन्य',
+ 'in.patrol':'गश्त', 'in.katai':'अवैध कटाई', 'in.atikraman':'अवैध अतिक्रमण', 'in.mining':'अवैध उत्खनन (माइनिंग)', 'in.munara':'मुनारा',
+ 'iq.patrol':'गश्त दूरी (कि.मी.)', 'iq.katai':'पेड़ / ठूँठ (संख्या)', 'iq.atikraman':'क्षेत्रफल (हे.)', 'iq.mining':'स्थान / मात्रा', 'iq.munara':'मुनारा क्र. / संख्या',
+ 's.done':'की गई', 's.notdone':'नहीं की गई', 's.nf':'नहीं पाया गया', 's.found':'पाया गया', 's.intact':'सुरक्षित', 's.damaged':'क्षतिग्रस्त', 's.missing':'गायब',
+ photoReq:'फ़ोटो आवश्यक', photoOk:'फ़ोटो जुड़ी', needItemPhoto:'फ़ोटो जोड़ें:',
+ 'at.in':'आगमन (चेक-इन)', 'at.out':'प्रस्थान (चेक-आउट)', 'at.field':'फ़ील्ड ड्यूटी पर',
+ 'wk.weeding':'निंदाई', 'wk.construction':'निर्माण', 'wk.plantation':'वृक्षारोपण', 'wk.pits':'गड्ढा खुदाई', 'wk.fireline':'अग्नि रेखा', 'wk.smc':'मृदा एवं जल संरक्षण', 'wk.other':'अन्य',
+ 'pc.construction':'निर्माण कार्य', 'pc.forestry':'वानिकी कार्य', 'pc.samiti':'समिति कार्य'
+}};
+let LANG = LS.get('lang', 'hi');
+function t(k) { return (T[LANG] && T[LANG][k]) || T.en[k] || k; }
+function applyI18n() {
+  document.documentElement.lang = LANG;
+  $$('[data-i18n]').forEach(e => { e.textContent = t(e.dataset.i18n); });
+  updateBadge();
+}
+function setLang(l) { LANG = l; LS.set('lang', l); applyI18n(); const cur = stack[stack.length - 1]; if (RERENDER[cur]) RERENDER[cur](); }
+function toggleLang() { setLang(LANG === 'hi' ? 'en' : 'hi'); }
+function fillSel(sel, keys, prefix) { const v = sel.value; sel.innerHTML = keys.map(k => `<option value="${k}">${esc(t(prefix + k))}</option>`).join(''); if (keys.includes(v)) sel.value = v; }
+
+/* ---------------- storage (IndexedDB) ---------------- */
+const idb = (() => {
+  let dbp;
+  function open() {
+    return dbp || (dbp = new Promise((res, rej) => {
+      const r = indexedDB.open('vanprahari', 1);
+      r.onupgradeneeded = () => { const d = r.result; d.createObjectStore('outbox', { keyPath: 'uid' }); d.createObjectStore('patrols', { keyPath: 'id' }); d.createObjectStore('kv'); d.createObjectStore('log', { keyPath: 'uid' }); };
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    }));
+  }
+  async function rq(store, mode, op) { const d = await open(); return new Promise((res, rej) => { const r = op(d.transaction(store, mode).objectStore(store)); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+  return {
+    put: (s, v, k) => rq(s, 'readwrite', o => k === undefined ? o.put(v) : o.put(v, k)),
+    get: (s, k) => rq(s, 'readonly', o => o.get(k)),
+    del: (s, k) => rq(s, 'readwrite', o => o.delete(k)),
+    all: s => rq(s, 'readonly', o => o.getAll()),
+    count: s => rq(s, 'readonly', o => o.count())
+  };
+})();
+
+/* ---------------- backend ---------------- */
+function apiUrl() { return (LS.get('api', '') || CONFIG.API_URL || '').trim(); }
+async function api(action, body) {
+  const url = apiUrl(); if (!url) throw new Error('DEMO');
+  let r;
+  try { r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action }, body)) }); }
+  catch (e) { throw new Error(t('needNet')); }
+  let j; try { j = await r.json(); } catch (e) { throw new Error('Server error (' + r.status + ')'); }
+  if (!j.ok) { const er = new Error(j.error || 'Error'); er.code = j.code; throw er; }
+  return j;
+}
+
+/* ---------------- session & masters ---------------- */
+let session = LS.get('session', null);
+const DEMO_MASTERS = [
+  { range: 'Demo Range A', circle: 'Circle 1', beat: 'Beat 101' }, { range: 'Demo Range A', circle: 'Circle 1', beat: 'Beat 102' },
+  { range: 'Demo Range A', circle: 'Circle 2', beat: 'Beat 201' }, { range: 'Demo Range B', circle: 'Circle 3', beat: 'Beat 301' }
+];
+function masters() { const m = LS.get('masters', null); return (m && m.length) ? m : DEMO_MASTERS; }
+function user() { return (session && session.user) || {}; }
+
+/* ---------------- navigation ---------------- */
+const stack = [];
+const ONSHOW = {}, RERENDER = {};
+function show(id, push = true) {
+  $$('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+  if (push) { if (stack[stack.length - 1] !== id) { stack.push(id); history.pushState({ id }, ''); } }
+  window.scrollTo(0, 0);
+  if (ONSHOW[id]) ONSHOW[id]();
+}
+window.addEventListener('popstate', () => {
+  const cur = stack[stack.length - 1];
+  if ($('#viewer').classList.contains('on')) { $('#viewer').classList.remove('on'); history.pushState({}, ''); return; }
+  if ($('#obs-ov').classList.contains('on')) { closeObs(); history.pushState({}, ''); return; }
+  if (cur === 's-patrol-active' || stack.length <= 1 || cur === 's-home' || cur === 's-login') {
+    history.pushState({}, '');
+    if (cur === 's-patrol-active') toast(t('endFirst'));
+    return;
+  }
+  stack.pop(); show(stack[stack.length - 1], false);
+});
+function resetTo(id) { stack.length = 0; show(id); }
+
+/* ---------------- location selector ---------------- */
+function locSel(el, onChange) {
+  const M = masters();
+  el.innerHTML = `<div class="grid3"><div><label>${esc(t('range'))}</label><select class="r"></select></div><div><label>${esc(t('circle'))}</label><select class="c"></select></div><div><label>${esc(t('beat'))}</label><select class="b"></select></div></div>`;
+  const r = $('.r', el), c = $('.c', el), b = $('.b', el);
+  const uniq = a => [...new Set(a)].filter(Boolean);
+  const opt = (arr) => `<option value="">${esc(t('select'))}</option>` + arr.map(x => `<option>${esc(x)}</option>`).join('');
+  r.innerHTML = opt(uniq(M.map(x => x.range)));
+  const fillC = () => { c.innerHTML = opt(uniq(M.filter(x => x.range === r.value).map(x => x.circle))); };
+  const fillB = () => { b.innerHTML = opt(uniq(M.filter(x => x.range === r.value && x.circle === c.value).map(x => x.beat))); };
+  r.onchange = () => { fillC(); fillB(); onChange && onChange(); };
+  c.onchange = () => { fillB(); onChange && onChange(); };
+  b.onchange = () => onChange && onChange();
+  const u = user(); const last = LS.get('lastLoc', {});
+  const pre = (u.range ? u : last);
+  if (pre.range) { r.value = pre.range; fillC(); c.value = pre.circle || ''; fillB(); b.value = pre.beat || ''; } else { fillC(); fillB(); }
+  return {
+    get: () => ({ range: r.value, circle: c.value, beat: b.value }),
+    valid: () => !!(r.value && c.value && b.value),
+    remember() { LS.set('lastLoc', this.get()); }
+  };
+}
+
+/* ---------------- GPS ---------------- */
+let lastFix = null;
+function getPos(timeout = 25000) {
+  return new Promise((res, rej) => {
+    if (!navigator.geolocation) return rej(new Error(t('gpsFail')));
+    navigator.geolocation.getCurrentPosition(p => { lastFix = p; res(p); }, e => {
+      if (lastFix && Date.now() - lastFix.timestamp < 180000) res(lastFix); else rej(new Error(t('gpsFail')));
+    }, { enableHighAccuracy: true, timeout, maximumAge: 10000 });
+  });
+}
+
+/* ---------------- photo stamping ---------------- */
+async function loadBitmap(file) {
+  if (window.createImageBitmap) { try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (e) {} }
+  return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('Cannot read image')); i.src = URL.createObjectURL(file); });
+}
+function wrapText(ctx, text, maxW) {
+  const words = String(text).split(/\s+/); const lines = []; let cur = '';
+  for (const w of words) { const test = cur ? cur + ' ' + w : w; if (ctx.measureText(test).width > maxW && cur) { lines.push(cur); cur = w; } else cur = test; }
+  if (cur) lines.push(cur); return lines;
+}
+async function stampPhoto(file, m, teep) {
+  const img = await loadBitmap(file);
+  const MAX = 1600; let w = img.width, h = img.height; const s = Math.min(1, MAX / Math.max(w, h)); w = Math.round(w * s); h = Math.round(h * s);
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h; const x = cv.getContext('2d');
+  x.drawImage(img, 0, 0, w, h);
+  const fs = Math.max(13, Math.round(Math.min(w, h) * 0.03)); const lh = Math.round(fs * 1.32); const pd = Math.round(fs * 0.6);
+  x.font = `600 ${fs}px system-ui, "Noto Sans Devanagari", "Noto Sans", sans-serif`;
+  const d = m.time instanceof Date ? m.time : new Date(m.time);
+  const lines = [];
+  lines.push(m.lat != null ? `Lat: ${m.lat.toFixed(6)}°   Long: ${m.lng.toFixed(6)}°` : 'GPS: not available');
+  lines.push(`Date: ${fmtDate(d)}   Time: ${fmtTime(d)}`);
+  lines.push(`Elevation: ${m.alt != null ? Math.round(m.alt) + ' m' : '—'}` + (m.acc != null ? `   Accuracy: ±${Math.round(m.acc)} m` : ''));
+  const maxW = w * 0.86;
+  if (teep) wrapText(x, 'टीप: ' + teep, maxW).slice(0, 4).forEach(l => lines.push(l));
+  const u = user(); lines.push(`${CONFIG.APP} • ${u.name || ''}${u.empId ? ' (' + u.empId + ')' : ''}`);
+  const bw = Math.min(w - pd, Math.max(...lines.map(l => x.measureText(l).width)) + pd * 2);
+  const bh = lines.length * lh + pd * 1.4;
+  const bx = Math.round(pd * 0.6), by = Math.round(h - bh - pd * 0.6);
+  x.fillStyle = 'rgba(0,0,0,0.58)'; x.fillRect(bx, by, bw, bh);
+  x.fillStyle = '#ffd54f'; x.fillRect(bx, by, Math.max(3, fs * 0.2), bh);
+  x.textBaseline = 'top';
+  lines.forEach((l, i) => { x.fillStyle = i === lines.length - 1 ? '#c8e6c9' : '#fff'; x.fillText(l, bx + pd, by + pd * 0.7 + i * lh); });
+  return cv.toDataURL('image/jpeg', 0.82);
+}
+async function processPhoto(file, src, teep) {
+  let meta = null, exTime = null;
+  if (src === 'gallery' && window.exifr) {
+    try {
+      const ex = await exifr.parse(file);
+      if (ex) {
+        exTime = ex.DateTimeOriginal || ex.CreateDate || ex.ModifyDate || null;
+        if (ex.latitude != null && ex.longitude != null) meta = { lat: ex.latitude, lng: ex.longitude, alt: ex.GPSAltitude ?? null, acc: null, time: exTime ? new Date(exTime) : new Date(file.lastModified), gpsFrom: 'photo' };
+      }
+    } catch (e) {}
+  }
+  if (!meta) {
+    let p = null; try { p = await getPos(); } catch (e) { toast(e.message); }
+    const tm = src === 'gallery' ? (exTime ? new Date(exTime) : new Date(file.lastModified || Date.now())) : new Date();
+    meta = p ? { lat: p.coords.latitude, lng: p.coords.longitude, alt: p.coords.altitude, acc: p.coords.accuracy, time: tm, gpsFrom: 'device' } : { lat: null, lng: null, alt: null, acc: null, time: tm, gpsFrom: 'none' };
+  }
+  const data = await stampPhoto(file, meta, teep);
+  return { data, lat: meta.lat, lng: meta.lng, alt: meta.alt, acc: meta.acc, time: new Date(meta.time).toISOString(), src, gpsFrom: meta.gpsFrom, teep };
+}
+function photoBox(el, opt = {}) {
+  const st = { list: [] };
+  el.className = 'pbox';
+  el.innerHTML = `<div class="prow"><button type="button" class="btn sm cam">📷 ${esc(t('camera'))}</button><button type="button" class="btn sm ghost gal">🖼 ${esc(t('gallery'))}</button></div><div class="thumbs"></div>
+    <input type="file" accept="image/*" capture="environment" class="fcam hide"><input type="file" accept="image/*" ${opt.single ? '' : 'multiple'} class="fgal hide">`;
+  const th = $('.thumbs', el);
+  $('.cam', el).onclick = () => $('.fcam', el).click();
+  $('.gal', el).onclick = () => $('.fgal', el).click();
+  async function handle(files, src) {
+    for (const f of files) {
+      const b = document.createElement('div'); b.className = 'thumb busy'; b.textContent = '…'; th.appendChild(b);
+      try { const p = await processPhoto(f, src, opt.teep ? opt.teep() : ''); if (opt.single) st.list = []; st.list.push(p); }
+      catch (e) { toast(e.message); }
+      finally { b.remove(); draw(); opt.onChange && opt.onChange(); }
+    }
+  }
+  $('.fcam', el).onchange = e => { handle([...e.target.files], 'camera'); e.target.value = ''; };
+  $('.fgal', el).onchange = e => { handle([...e.target.files], 'gallery'); e.target.value = ''; };
+  function draw() {
+    th.querySelectorAll('.thumb:not(.busy)').forEach(n => n.remove());
+    st.list.forEach((p, i) => {
+      const d = document.createElement('div'); d.className = 'thumb';
+      d.innerHTML = `<img src="${p.data}" alt=""><button type="button">×</button>`;
+      d.querySelector('button').onclick = () => { st.list.splice(i, 1); draw(); opt.onChange && opt.onChange(); };
+      d.querySelector('img').onclick = () => viewImg(p.data);
+      th.insertBefore(d, th.querySelector('.busy'));
+    });
+  }
+  return { get: () => st.list.slice(), count: () => st.list.length, clear() { st.list = []; draw(); } };
+}
+function firstGps(photos) { const p = photos.find(x => x.lat != null); return p ? { lat: p.lat, lng: p.lng, alt: p.alt, acc: p.acc } : (lastFix ? { lat: lastFix.coords.latitude, lng: lastFix.coords.longitude, alt: lastFix.coords.altitude, acc: lastFix.coords.accuracy } : {}); }
+
+/* ---------------- outbox & sync ---------------- */
+function baseRecord(kind, loc) {
+  const u = user();
+  return { uid: kind.slice(0, 3) + '-' + uid(), kind, capturedAt: new Date().toISOString(), user: { empId: u.empId, name: u.name, designation: u.designation, mobile: u.mobile }, loc };
+}
+async function enqueue(rec, title) {
+  await idb.put('outbox', rec);
+  await idb.put('log', { uid: rec.uid, kind: rec.kind, title, at: Date.now(), status: 'pending' });
+  updateBadge(); toast(t('saved')); trySync();
+}
+let syncing = false;
+async function trySync(manual) {
+  if (syncing) return;
+  if (!apiUrl()) { if (manual) toast(t('demo')); return; }
+  if (!navigator.onLine) { if (manual) toast(t('offlineNow')); return; }
+  if (!session || session.token === 'demo') return;
+  syncing = true; updateBadge(); let ok = 0;
+  try {
+    const items = (await idb.all('outbox')).sort((a, b) => a.capturedAt < b.capturedAt ? -1 : 1);
+    for (const it of items) {
+      try {
+        await api('submit', { token: session.token, record: it });
+        await idb.del('outbox', it.uid);
+        const lg = await idb.get('log', it.uid); if (lg) { lg.status = 'ok'; lg.err = ''; await idb.put('log', lg); }
+        if (it.kind === 'patrol') { const p = await idb.get('patrols', it.uid); if (p) { p.synced = true; (p.obs || []).forEach(o => o.photos = (o.photos || []).map(x => Object.assign({}, x, { data: '' }))); await idb.put('patrols', p); } }
+        ok++;
+      } catch (e) {
+        if (e.code === 'AUTH') { toast(t('sessionExpired'), 5000); session = null; LS.del('session'); resetTo('s-login'); break; }
+        const lg = await idb.get('log', it.uid); if (lg) { lg.status = 'err'; lg.err = e.message; await idb.put('log', lg); }
+        if (e.message === t('needNet')) break;
+      }
+    }
+  } finally { syncing = false; updateBadge(); if (stack[stack.length - 1] === 's-settings') renderSettings(); }
+  if (ok) toast(ok + ' ' + t('uploaded'));
+}
+async function updateBadge() {
+  const net = $('#h-net'); if (!net) return;
+  net.textContent = navigator.onLine ? t('online') : t('offline'); net.classList.toggle('off', !navigator.onLine);
+  let n = 0; try { n = await idb.count('outbox'); } catch (e) {}
+  const pe = $('#h-pend'); pe.textContent = syncing ? t('syncing') : (n ? `⬆ ${n} ${t('pending')}` : t('allSynced'));
+  pe.className = 'chip' + (n ? ' pend' : '');
+}
+window.addEventListener('online', () => { updateBadge(); trySync(); });
+window.addEventListener('offline', updateBadge);
+setInterval(() => trySync(), 90000);
+
+/* ---------------- LOGIN / OTP ---------------- */
+$('#lg-show').onchange = e => { $('#lg-pw').type = e.target.checked ? 'text' : 'password'; };
+$('#lg-pw').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+async function doLogin() {
+  const id = $('#lg-id').value.trim(), pw = $('#lg-pw').value;
+  if (!id || !pw) return toast(t('fillAll'));
+  if (!apiUrl()) {
+    if (pw !== 'demo') return toast(t('demoLogin'), 5000);
+    session = { token: 'demo', user: { empId: id, name: 'Demo User', designation: 'Forest Guard', mobile: '', range: '', circle: '', beat: '' } };
+    LS.set('session', session); return enterHome();
+  }
+  busy(true);
+  try {
+    const r = await api('login', { id, password: pw });
+    session = { token: r.token, user: r.user }; LS.set('session', session);
+    if (r.masters) LS.set('masters', r.masters);
+    $('#lg-pw').value = ''; enterHome();
+  } catch (e) { toast(e.message, 4000); } finally { busy(false); }
+}
+function openOtp() { $('#otp1').classList.remove('hide'); $('#otp2').classList.add('hide'); $('#ot-id').value = $('#lg-id').value; show('s-otp'); }
+let otpTimer;
+async function sendOtp(again) {
+  const id = $('#ot-id').value.trim(); if (!id) return toast(t('fillAll'));
+  busy(true);
+  try {
+    let sentTo;
+    if (!apiUrl()) sentTo = 'DEMO (OTP 123456)'; else sentTo = (await api('requestOtp', { id })).sentTo;
+    $('#ot-sent').textContent = `${t('otpSent')}: ${sentTo}`;
+    $('#otp1').classList.add('hide'); $('#otp2').classList.remove('hide');
+    let s = 60; const rb = $('#ot-resend'); rb.disabled = true; clearInterval(otpTimer);
+    otpTimer = setInterval(() => { s--; rb.textContent = s > 0 ? `${t('resendIn')} (${s}s)` : t('resend'); if (s <= 0) { rb.disabled = false; clearInterval(otpTimer); } }, 1000);
+    rb.textContent = `${t('resendIn')} (60s)`;
+  } catch (e) { toast(e.message, 4000); } finally { busy(false); }
+}
+async function resetPw() {
+  const id = $('#ot-id').value.trim(), otp = $('#ot-code').value.trim(), p1 = $('#ot-pw').value, p2 = $('#ot-pw2').value;
+  if (!otp || !p1) return toast(t('fillAll'));
+  if (p1.length < 6) return toast(t('pwShort'));
+  if (p1 !== p2) return toast(t('pwMismatch'));
+  busy(true);
+  try {
+    if (apiUrl()) await api('resetPassword', { id, otp, password: p1 });
+    else if (otp !== '123456') throw new Error('Wrong OTP');
+    toast(t('pwDone'), 4000); $('#lg-id').value = id; ['#ot-code', '#ot-pw', '#ot-pw2'].forEach(s => $(s).value = '');
+    resetTo('s-login');
+  } catch (e) { toast(e.message, 4000); } finally { busy(false); }
+}
+function enterHome() { resetTo('s-home'); trySync(); }
+ONSHOW['s-home'] = async () => {
+  const u = user();
+  $('#h-av').textContent = (u.name || '?').trim().charAt(0).toUpperCase();
+  $('#h-name').textContent = u.name || u.empId || '';
+  $('#h-sub').textContent = [u.designation, u.beat, u.range].filter(Boolean).join(' • ');
+  $('#demoBanner2').classList.toggle('hide', !!apiUrl());
+  const ap = await idb.get('kv', 'activePatrol');
+  $('#h-active').classList.toggle('hide', !ap); $('#h-active').textContent = '🔴 ' + t('activePatrol');
+  updateBadge();
+};
+ONSHOW['s-login'] = () => { $('#demoBanner1').classList.toggle('hide', !!apiUrl()); };
+
+/* ---------------- PATROL ---------------- */
+const PT = ['foot', 'vehicle', 'night', 'joint', 'special'];
+const OB = ['animal', 'sign', 'felling', 'encroach', 'mining', 'poaching', 'fire', 'grazing', 'water', 'carcass', 'hwc', 'other'];
+let P = null, watchId = null, wakeLock = null, maps = {}, tickTimer = null, persistAt = 0;
+function makeMap(elId, key) {
+  if (maps[key]) { maps[key].map.remove(); }
+  const layers = [
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '© Esri' }),
+    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, subdomains: 'abc', attribution: '© OpenTopoMap' })
+  ];
+  const li = LS.get('layer', 0) % layers.length;
+  const map = L.map(elId, { zoomControl: true }).setView([21.9, 77.9], 12);
+  layers[li].addTo(map);
+  maps[key] = { map, layers, li };
+  setTimeout(() => map.invalidateSize(), 200);
+  return map;
+}
+function cycleLayer(key) { const m = maps[key]; if (!m) return; m.map.removeLayer(m.layers[m.li]); m.li = (m.li + 1) % m.layers.length; m.layers[m.li].addTo(m.map); LS.set('layer', m.li); }
+function openPatrol() { show('s-patrol'); }
+ONSHOW['s-patrol'] = async () => {
+  const ap = await idb.get('kv', 'activePatrol'); if (ap) { P = ap; return resumePatrolUI(); }
+  const list = (await idb.all('patrols')).sort((a, b) => b.start - a.start);
+  $('#pt-list').innerHTML = list.length ? list.map(p => `<div class="it" onclick="viewPatrol('${p.id}')"><div><b>${esc(t('pt.' + p.type))}</b> — ${esc(p.loc.beat)}<small>${fmtDT(new Date(p.start))} • ${(p.distance / 1000).toFixed(2)} km • ${p.obs.length} obs</small></div><span class="st ${p.synced ? 'ok' : ''}">${p.synced ? '✓' : '⬆'}</span></div>`).join('') : `<p class="muted">${esc(t('noPatrols'))}</p>`;
+};
+RERENDER['s-patrol'] = ONSHOW['s-patrol'];
+let psLoc;
+function openPatrolStart() { show('s-patrol-start'); }
+ONSHOW['s-patrol-start'] = () => {
+  fillSel($('#ps-type'), PT, 'pt.'); psLoc = locSel($('#ps-loc'));
+  getPos().catch(() => {}); // warm up GPS
+};
+RERENDER['s-patrol-start'] = ONSHOW['s-patrol-start'];
+async function startPatrol() {
+  if (!psLoc.valid()) return toast(t('needLoc'));
+  psLoc.remember();
+  P = { id: 'pat-' + uid(), type: $('#ps-type').value, loc: psLoc.get(), team: $('#ps-team').value.trim(), purpose: $('#ps-purpose').value.trim(),
+        start: Date.now(), end: null, pausedMs: 0, pausedAt: null, segs: [[]], distance: 0, obs: [] };
+  await idb.put('kv', P, 'activePatrol');
+  stack.length = 0; stack.push('s-home'); history.pushState({}, '');
+  resumePatrolUI();
+}
+function resumePatrolUI() {
+  show('s-patrol-active');
+  const map = makeMap('pa-map', 'active');
+  const all = P.segs.flat();
+  maps.active.lines = P.segs.map(s => L.polyline(s.map(p => [p[0], p[1]]), { color: '#e53935', weight: 5 }).addTo(map));
+  maps.active.me = L.circleMarker([0, 0], { radius: 8, color: '#fff', weight: 3, fillColor: '#1e88e5', fillOpacity: 1 });
+  if (all.length) { map.setView([all[all.length - 1][0], all[all.length - 1][1]], 16); L.circleMarker([all[0][0], all[0][1]], { radius: 7, color: '#2e7d32', fillOpacity: 1 }).addTo(map).bindPopup('Start'); }
+  P.obs.forEach(o => addObsMarker(o));
+  renderObsList(); startWatch(); keepAwake(); tick();
+  clearInterval(tickTimer); tickTimer = setInterval(tick, 1000);
+  $('#pa-pause').textContent = P.pausedAt ? t('resume') : t('pause');
+}
+RERENDER['s-patrol-active'] = () => { $('#pa-pause').textContent = P && P.pausedAt ? t('resume') : t('pause'); renderObsList(); };
+function startWatch() {
+  if (watchId != null) navigator.geolocation.clearWatch(watchId);
+  $('#pa-gps').textContent = t('waitingGps');
+  watchId = navigator.geolocation.watchPosition(onPos, e => { $('#pa-gps').textContent = t('gpsFail') + ' (' + e.message + ')'; }, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+}
+function onPos(pos) {
+  lastFix = pos; if (!P) return;
+  const c = pos.coords, now = pos.timestamp || Date.now();
+  $('#pa-acc').textContent = Math.round(c.accuracy);
+  $('#pa-gps').textContent = `${c.latitude.toFixed(6)}, ${c.longitude.toFixed(6)}` + (c.altitude != null ? ` • ${Math.round(c.altitude)} m` : '');
+  const m = maps.active; if (m) { m.me.setLatLng([c.latitude, c.longitude]); if (!m.map.hasLayer(m.me)) { m.me.addTo(m.map); m.map.setView([c.latitude, c.longitude], 16); } }
+  if (P.pausedAt) return;
+  if (c.accuracy > 50) { $('#pa-gps').textContent += ' • ' + t('gpsWeak'); return; }
+  const seg = P.segs[P.segs.length - 1]; const last = seg[seg.length - 1];
+  const pt = [+c.latitude.toFixed(6), +c.longitude.toFixed(6), c.altitude != null ? Math.round(c.altitude) : null, Math.round(c.accuracy), now];
+  if (last) {
+    const d = hav(last[0], last[1], pt[0], pt[1]); const dt = (now - last[4]) / 1000;
+    if (d < Math.max(5, c.accuracy / 3) && dt < 60) return;   // not moved enough
+    if (dt > 0 && d / dt > 45) return;                          // GPS jump (>160 km/h)
+    P.distance += d;
+  } else if (!P.segs.flat().length && !maps.active.startMk) {
+    maps.active.startMk = L.circleMarker([pt[0], pt[1]], { radius: 7, color: '#2e7d32', fillOpacity: 1 }).addTo(maps.active.map).bindPopup('Start');
+  }
+  seg.push(pt);
+  if (m) m.lines[m.lines.length - 1].addLatLng([pt[0], pt[1]]);
+  if (Date.now() - persistAt > 2000) { persistAt = Date.now(); idb.put('kv', P, 'activePatrol'); }
+}
+function elapsed(p) { const end = p.end || Date.now(); return end - p.start - p.pausedMs - (p.pausedAt ? end - p.pausedAt : 0); }
+function fmtDur(ms) { const s = Math.floor(ms / 1000); const h = Math.floor(s / 3600), mi = Math.floor(s % 3600 / 60); return h ? `${h}:${pad2(mi)}:${pad2(s % 60)}` : `${pad2(mi)}:${pad2(s % 60)}`; }
+function tick() { if (!P) return; $('#pa-dist').textContent = (P.distance / 1000).toFixed(2); $('#pa-time').textContent = fmtDur(elapsed(P)); $('#pa-pts').textContent = P.segs.reduce((a, s) => a + s.length, 0); $('#pa-rec').style.visibility = P.pausedAt ? 'hidden' : 'visible'; }
+function togglePause() {
+  if (!P) return;
+  if (P.pausedAt) { P.pausedMs += Date.now() - P.pausedAt; P.pausedAt = null; P.segs.push([]); maps.active.lines.push(L.polyline([], { color: '#e53935', weight: 5 }).addTo(maps.active.map)); }
+  else P.pausedAt = Date.now();
+  $('#pa-pause').textContent = P.pausedAt ? t('resume') : t('pause');
+  idb.put('kv', P, 'activePatrol'); tick();
+}
+function centerMe() { const m = maps.active; if (lastFix && m) m.map.setView([lastFix.coords.latitude, lastFix.coords.longitude], Math.max(m.map.getZoom(), 16)); }
+async function keepAwake() { try { if ('wakeLock' in navigator && document.visibilityState === 'visible') wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && P && !P.end) { keepAwake(); if (P) idb.put('kv', P, 'activePatrol'); } else if (P) idb.put('kv', P, 'activePatrol'); });
+async function stopPatrol() {
+  if (!P || !confirm(t('confirmStop'))) return;
+  if (P.pausedAt) { P.pausedMs += Date.now() - P.pausedAt; P.pausedAt = null; }
+  P.end = Date.now(); P.segs = P.segs.filter(s => s.length);
+  if (watchId != null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+  clearInterval(tickTimer); try { wakeLock && wakeLock.release(); } catch (e) {}
+  const done = P; P = null;
+  await idb.put('patrols', done); await idb.del('kv', 'activePatrol');
+  const rec = baseRecord('patrol', done.loc); rec.uid = done.id; rec.capturedAt = new Date(done.start).toISOString();
+  rec.patrol = { type: done.type, typeLabel: T.en['pt.' + done.type], team: done.team, purpose: done.purpose, start: new Date(done.start).toISOString(), end: new Date(done.end).toISOString(),
+    durationMin: Math.round(elapsed(done) / 60000), distanceKm: +(done.distance / 1000).toFixed(3), points: done.segs.reduce((a, s) => a + s.length, 0) };
+  rec.kml = buildKml(done);
+  rec.observations = done.obs.map(o => ({ id: o.id, time: o.time, cat: o.cat, catLabel: T.en['ob.' + o.cat], detail: o.detail, count: o.count, remarks: o.remarks, lat: o.lat, lng: o.lng, alt: o.alt, photos: o.photos }));
+  await enqueue(rec, `${t('pt.' + done.type)} — ${done.loc.beat} — ${(done.distance / 1000).toFixed(2)} km`);
+  toast(t('patrolSaved'));
+  resetTo('s-home'); show('s-patrol'); viewPatrol(done.id);
+}
+/* observations */
+let obBox;
+function openObs() {
+  fillSel($('#ob-cat'), OB, 'ob.'); ['#ob-detail', '#ob-count', '#ob-rem'].forEach(s => $(s).value = '');
+  obBox = photoBox($('#ob-photos'), { teep: () => `${T.en['ob.' + $('#ob-cat').value]}${$('#ob-detail').value ? ' — ' + $('#ob-detail').value : ''} (Patrol, ${P.loc.beat})` });
+  $('#obs-ov').classList.add('on');
+}
+function closeObs() { $('#obs-ov').classList.remove('on'); }
+async function saveObs() {
+  let pos = lastFix; if (!pos) { try { pos = await getPos(10000); } catch (e) {} }
+  const ph = obBox.get(); const g = pos ? pos.coords : (ph[0] || {});
+  const o = { id: 'obs-' + uid(), time: new Date().toISOString(), cat: $('#ob-cat').value, detail: $('#ob-detail').value.trim(), count: $('#ob-count').value.trim(), remarks: $('#ob-rem').value.trim(),
+    lat: g.latitude ?? g.lat ?? null, lng: g.longitude ?? g.lng ?? null, alt: g.altitude ?? g.alt ?? null, photos: ph };
+  P.obs.push(o); await idb.put('kv', P, 'activePatrol');
+  addObsMarker(o); renderObsList(); closeObs(); toast('✓');
+}
+function addObsMarker(o) { if (o.lat == null || !maps.active) return; L.marker([o.lat, o.lng]).addTo(maps.active.map).bindPopup(`<b>${esc(t('ob.' + o.cat))}</b><br>${esc(o.detail)}`); }
+function renderObsList() { if (!P) return; $('#pa-obs').innerHTML = P.obs.length ? P.obs.slice().reverse().map(o => `<div class="it"><div><b>${esc(t('ob.' + o.cat))}</b> ${esc(o.detail)}<small>${fmtTime(new Date(o.time))} • ${o.photos.length} 📷</small></div></div>`).join('') : `<p class="muted">${esc(t('none'))}</p>`; }
+/* view, KML */
+let viewing = null;
+async function viewPatrol(id) {
+  viewing = await idb.get('patrols', id); if (!viewing) return;
+  show('s-patrol-view');
+  const p = viewing; $('#pv-title').textContent = t('pt.' + p.type);
+  const map = makeMap('pv-map', 'view'); const b = [];
+  p.segs.forEach(s => { const ll = s.map(x => [x[0], x[1]]); b.push(...ll); L.polyline(ll, { color: '#e53935', weight: 5 }).addTo(map); });
+  if (b.length) { L.circleMarker(b[0], { radius: 7, color: '#2e7d32', fillOpacity: 1 }).addTo(map).bindPopup('Start'); L.circleMarker(b[b.length - 1], { radius: 7, color: '#b71c1c', fillOpacity: 1 }).addTo(map).bindPopup('End'); }
+  p.obs.forEach(o => { if (o.lat != null) { L.marker([o.lat, o.lng]).addTo(map).bindPopup(`<b>${esc(t('ob.' + o.cat))}</b><br>${esc(o.detail)}`); b.push([o.lat, o.lng]); } });
+  setTimeout(() => { map.invalidateSize(); if (b.length) map.fitBounds(b, { padding: [24, 24] }); }, 250);
+  $('#pv-info').innerHTML = `<div class="list">
+    <div class="it"><span>${esc(t('range'))} / ${esc(t('circle'))} / ${esc(t('beat'))}</span><b>${esc(p.loc.range)} / ${esc(p.loc.circle)} / ${esc(p.loc.beat)}</b></div>
+    <div class="it"><span>${esc(t('date'))}</span><b>${fmtDT(new Date(p.start))} – ${fmtTime(new Date(p.end))}</b></div>
+    <div class="it"><span>${esc(t('distKm'))}</span><b>${(p.distance / 1000).toFixed(2)}</b></div>
+    <div class="it"><span>${esc(t('duration'))}</span><b>${fmtDur(elapsed(p))}</b></div>
+    <div class="it"><span>${esc(t('team'))}</span><b>${esc(p.team) || '—'}</b></div>
+    <div class="it"><span>${esc(t('observations'))}</span><b>${p.obs.length}</b></div>
+    <div class="it"><span>Google Drive</span><span class="st ${p.synced ? 'ok' : ''}">${p.synced ? '✓' : '⬆ ' + esc(t('pending'))}</span></div></div>`;
+}
+function buildKml(p) {
+  const x = s => esc(s);
+  const segs = p.segs.filter(s => s.length > 1).map(s => `<LineString><tessellate>1</tessellate><altitudeMode>clampToGround</altitudeMode><coordinates>${s.map(q => `${q[1]},${q[0]},${q[2] ?? 0}`).join(' ')}</coordinates></LineString>`).join('');
+  const all = p.segs.flat();
+  const pm = (name, desc, lat, lng, style) => `<Placemark><name>${x(name)}</name><description>${x(desc)}</description><styleUrl>#${style}</styleUrl><Point><coordinates>${lng},${lat},0</coordinates></Point></Placemark>`;
+  const obs = p.obs.filter(o => o.lat != null).map(o => pm(T.en['ob.' + o.cat], `${o.detail || ''} ${o.count ? '(' + o.count + ')' : ''} ${o.remarks || ''} @ ${fmtDT(new Date(o.time))}`, o.lat, o.lng, 'obs')).join('');
+  const u = user();
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document>
+<name>${x(`Patrol ${p.loc.beat} ${isoDay(new Date(p.start))} ${u.name || ''}`)}</name>
+<Style id="track"><LineStyle><color>ff2b39e5</color><width>4</width></LineStyle></Style>
+<Style id="obs"><IconStyle><color>ff00b4ff</color><Icon><href>http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png</href></Icon></IconStyle></Style>
+<Style id="se"><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href></Icon></IconStyle></Style>
+<ExtendedData>
+<Data name="PatrolType"><value>${x(T.en['pt.' + p.type])}</value></Data>
+<Data name="Range"><value>${x(p.loc.range)}</value></Data><Data name="Circle"><value>${x(p.loc.circle)}</value></Data><Data name="Beat"><value>${x(p.loc.beat)}</value></Data>
+<Data name="Staff"><value>${x((u.name || '') + ' ' + (u.empId || ''))}</value></Data><Data name="Team"><value>${x(p.team)}</value></Data>
+<Data name="Start"><value>${new Date(p.start).toISOString()}</value></Data><Data name="End"><value>${new Date(p.end || Date.now()).toISOString()}</value></Data>
+<Data name="DistanceKm"><value>${(p.distance / 1000).toFixed(3)}</value></Data>
+</ExtendedData>
+<Placemark><name>Patrol track</name><styleUrl>#track</styleUrl><MultiGeometry>${segs}</MultiGeometry></Placemark>
+${all.length ? pm('Start', fmtDT(new Date(all[0][4])), all[0][0], all[0][1], 'se') + pm('End', fmtDT(new Date(all[all.length - 1][4])), all[all.length - 1][0], all[all.length - 1][1], 'se') : ''}
+${obs}
+</Document></kml>`;
+}
+function downloadKml() {
+  if (!viewing) return;
+  const blob = new Blob([buildKml(viewing)], { type: 'application/vnd.google-earth.kml+xml' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `patrol_${viewing.loc.beat}_${isoDay(new Date(viewing.start))}.kml`.replace(/\s+/g, '_');
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+function openGmaps() {
+  if (!viewing) return; const all = viewing.segs.flat(); if (!all.length) return toast(t('none'));
+  const pick = n => all[Math.round(n * (all.length - 1))];
+  const o = pick(0), d = pick(1), wps = [0.25, 0.5, 0.75].map(pick).map(q => q[0] + ',' + q[1]).join('|');
+  window.open(`https://www.google.com/maps/dir/?api=1&origin=${o[0]},${o[1]}&destination=${d[0]},${d[1]}&waypoints=${encodeURIComponent(wps)}&travelmode=walking`, '_blank');
+}
+
+/* ---------------- BEAT INSPECTION ---------------- */
+const INS = [
+  { k: 'patrol', st: ['done', 'notdone'] }, { k: 'katai', st: ['nf', 'found'] }, { k: 'atikraman', st: ['nf', 'found'] },
+  { k: 'mining', st: ['nf', 'found'] }, { k: 'munara', st: ['intact', 'damaged', 'missing'] }
+];
+let inLoc, inBoxes = {};
+function openInspect() { show('s-inspect'); }
+ONSHOW['s-inspect'] = () => {
+  inLoc = locSel($('#in-loc')); $('#in-date').value = isoDay(new Date()); $('#in-rem').value = '';
+  $('#in-items').innerHTML = INS.map((it, i) => `<div class="card ins" id="ins-${it.k}"><h3><span>${i + 1}. ${esc(t('in.' + it.k))}</span><span class="req">● ${esc(t('photoReq'))}</span></h3>
+    <div class="grid2"><div><label>${esc(t('itemStatus'))}</label><select class="ist">${it.st.map(s => `<option value="${s}">${esc(t('s.' + s))}</option>`).join('')}</select></div>
+    <div><label>${esc(t('iq.' + it.k))}</label><input class="iqty" inputmode="decimal"></div></div>
+    <label>${esc(t('remarks'))}</label><input class="irem"><label>${esc(t('photosH'))}</label><div class="iph"></div></div>`).join('');
+  inBoxes = {};
+  INS.forEach(it => {
+    const card = $('#ins-' + it.k);
+    inBoxes[it.k] = photoBox($('.iph', card), {
+      teep: () => { const l = inLoc.get(); return `Beat inspection: ${T.en['in.' + it.k]} — ${T.en['s.' + $('.ist', card).value]}${$('.irem', card).value ? ', ' + $('.irem', card).value : ''} — ${l.beat}, ${l.circle}`; },
+      onChange: () => { const ok = inBoxes[it.k].count() > 0; card.classList.toggle('done', ok); $('.req', card).textContent = '● ' + t(ok ? 'photoOk' : 'photoReq'); }
+    });
+  });
+};
+async function submitInspect() {
+  if (!inLoc.valid()) return toast(t('needLoc'));
+  for (const it of INS) if (!inBoxes[it.k].count()) { $('#ins-' + it.k).scrollIntoView({ behavior: 'smooth', block: 'center' }); return toast(`${t('needItemPhoto')} ${t('in.' + it.k)}`); }
+  inLoc.remember();
+  const rec = baseRecord('inspection', inLoc.get());
+  rec.date = $('#in-date').value; rec.remarks = $('#in-rem').value.trim();
+  rec.items = INS.map(it => { const c = $('#ins-' + it.k); return { key: it.k, label: T.en['in.' + it.k], status: T.en['s.' + $('.ist', c).value], qty: $('.iqty', c).value.trim(), remarks: $('.irem', c).value.trim(), photos: inBoxes[it.k].get() }; });
+  rec.gps = firstGps(rec.items.flatMap(i => i.photos));
+  await enqueue(rec, `${t('inspect')} — ${rec.loc.beat}`); history.back();
+}
+
+/* ---------------- ATTENDANCE ---------------- */
+let atLoc, atBox, atTeepEdited = false;
+const AT = ['in', 'out', 'field'];
+function attTeep() { const u = user(), l = atLoc ? atLoc.get() : {}; return `${u.name || ''}${u.designation ? ', ' + u.designation : ''} — ${T.en['at.' + $('#at-type').value]} — ${[l.beat, l.circle, l.range].filter(Boolean).join(', ')}`; }
+function openAttend() { show('s-attend'); }
+ONSHOW['s-attend'] = () => {
+  fillSel($('#at-type'), AT, 'at.'); const h = new Date().getHours(); $('#at-type').value = h >= 14 ? 'out' : 'in';
+  atTeepEdited = false;
+  atLoc = locSel($('#at-loc'), () => { if (!atTeepEdited) $('#at-teep').value = attTeep(); });
+  $('#at-type').onchange = () => { if (!atTeepEdited) $('#at-teep').value = attTeep(); };
+  $('#at-teep').value = attTeep(); $('#at-teep').oninput = () => { atTeepEdited = true; };
+  atBox = photoBox($('#at-photos'), { single: true, teep: () => $('#at-teep').value.trim() });
+  getPos().catch(() => {});
+};
+RERENDER['s-attend'] = () => { fillSel($('#at-type'), AT, 'at.'); };
+async function submitAttend() {
+  if (!atLoc.valid()) return toast(t('needLoc'));
+  if (!atBox.count()) return toast(t('needPhoto'));
+  atLoc.remember();
+  const rec = baseRecord('attendance', atLoc.get());
+  const ph = atBox.get();
+  rec.attType = T.en['at.' + $('#at-type').value]; rec.teep = $('#at-teep').value.trim(); rec.photos = ph; rec.gps = firstGps(ph); rec.photoTime = ph[0].time; rec.source = ph[0].src;
+  await enqueue(rec, `${t('attend')} — ${t('at.' + $('#at-type').value)}`); history.back();
+}
+
+/* ---------------- DAILY WORKS ---------------- */
+const WK = ['weeding', 'construction', 'plantation', 'pits', 'fireline', 'smc', 'other'];
+const UNITS = ['ha', 'km', 'rmt', 'nos', 'cum', 'sqm', 'other'];
+let wkLoc, wkBox;
+function openWorks() { show('s-works'); }
+ONSHOW['s-works'] = () => {
+  fillSel($('#wk-type'), WK, 'wk.'); $('#wk-unit').innerHTML = UNITS.map(u => `<option>${u}</option>`).join('');
+  wkLoc = locSel($('#wk-loc')); $('#wk-date').value = isoDay(new Date());
+  ['#wk-comp', '#wk-name', '#wk-qty', '#wk-lab', '#wk-rem'].forEach(s => $(s).value = '');
+  wkBox = photoBox($('#wk-photos'), { teep: () => { const l = wkLoc.get(); return `${T.en['wk.' + $('#wk-type').value]}${$('#wk-name').value ? ' — ' + $('#wk-name').value : ''}${$('#wk-comp').value ? ', Comp. ' + $('#wk-comp').value : ''} — ${l.beat || ''}`; } });
+};
+RERENDER['s-works'] = () => fillSel($('#wk-type'), WK, 'wk.');
+async function submitWorks() {
+  if (!wkLoc.valid()) return toast(t('needLoc'));
+  if (!wkBox.count()) return toast(t('needPhoto'));
+  wkLoc.remember();
+  const rec = baseRecord('works', wkLoc.get()); const ph = wkBox.get();
+  Object.assign(rec, { workDate: $('#wk-date').value, workType: T.en['wk.' + $('#wk-type').value], workName: $('#wk-name').value.trim(), compartment: $('#wk-comp').value.trim(),
+    qty: $('#wk-qty').value.trim(), unit: $('#wk-unit').value, labour: $('#wk-lab').value.trim(), remarks: $('#wk-rem').value.trim(), photos: ph, gps: firstGps(ph) });
+  await enqueue(rec, `${t('wk.' + $('#wk-type').value)} — ${rec.workName || rec.loc.beat}`); history.back();
+}
+
+/* ---------------- PHOTO UPLOAD ---------------- */
+const PC = ['construction', 'forestry', 'samiti'];
+let phLoc, phBox;
+function openPhotos() { show('s-photos'); }
+ONSHOW['s-photos'] = () => {
+  fillSel($('#ph-cat'), PC, 'pc.'); phLoc = locSel($('#ph-loc'));
+  ['#ph-sub', '#ph-comp', '#ph-rem'].forEach(s => $(s).value = '');
+  phBox = photoBox($('#ph-photos'), { teep: () => { const l = phLoc.get(); return `${T.en['pc.' + $('#ph-cat').value]}${$('#ph-sub').value ? ' — ' + $('#ph-sub').value : ''}${$('#ph-comp').value ? ', Comp. ' + $('#ph-comp').value : ''} — ${l.beat || ''}`; } });
+};
+RERENDER['s-photos'] = () => fillSel($('#ph-cat'), PC, 'pc.');
+async function submitPhotos() {
+  if (!phLoc.valid()) return toast(t('needLoc'));
+  if (!phBox.count()) return toast(t('needPhoto'));
+  phLoc.remember();
+  const rec = baseRecord('photo', phLoc.get()); const ph = phBox.get();
+  Object.assign(rec, { category: T.en['pc.' + $('#ph-cat').value], subject: $('#ph-sub').value.trim(), compartment: $('#ph-comp').value.trim(), remarks: $('#ph-rem').value.trim(), photos: ph, gps: firstGps(ph) });
+  await enqueue(rec, `${t('pc.' + $('#ph-cat').value)} — ${rec.subject || rec.loc.beat} (${ph.length})`); history.back();
+}
+
+/* ---------------- SETTINGS ---------------- */
+function openSettings() { show('s-settings'); }
+async function renderSettings() {
+  const n = await idb.count('outbox');
+  $('#st-pend').textContent = n ? `⬆ ${n} ${t('pending')}` : t('allSynced');
+  const log = (await idb.all('log')).sort((a, b) => b.at - a.at).slice(0, 40);
+  $('#st-log').innerHTML = log.length ? log.map(l => `<div class="it"><div>${esc(l.title)}<small>${fmtDT(new Date(l.at))}${l.err ? ' • ' + esc(l.err) : ''}</small></div><span class="st ${l.status === 'ok' ? 'ok' : l.status === 'err' ? 'err' : ''}">${l.status === 'ok' ? '✓ Drive' : l.status === 'err' ? '!' : '⬆'}</span></div>`).join('') : `<p class="muted">${esc(t('none'))}</p>`;
+  $('#st-api').value = LS.get('api', '') || CONFIG.API_URL;
+  $('#st-ver').textContent = `${CONFIG.APP} v${CONFIG.VERSION}`;
+}
+ONSHOW['s-settings'] = renderSettings; RERENDER['s-settings'] = renderSettings;
+function saveApi() { const v = $('#st-api').value.trim(); if (v && !/^https:\/\/script\.google(usercontent)?\.com\//.test(v)) return toast('URL should start with https://script.google.com/'); LS.set('api', v); toast(t('apiSaved')); }
+async function logout() {
+  const n = await idb.count('outbox'); if (n && !confirm(t('confirmLogout'))) return;
+  if (session && session.token !== 'demo' && apiUrl()) api('logout', { token: session.token }).catch(() => {});
+  session = null; LS.del('session'); resetTo('s-login');
+}
+
+/* ---------------- start ---------------- */
+if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+applyI18n();
+(async () => {
+  if (session) {
+    const ap = await idb.get('kv', 'activePatrol');
+    if (ap) { P = ap; stack.push('s-home'); history.replaceState({}, ''); resumePatrolUI(); } else enterHome();
+  } else resetTo('s-login');
+})();
+</script>
+</body>
+</html>
