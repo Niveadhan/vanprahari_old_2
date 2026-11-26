@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1b4d2e">
+<title>Van Prahari — Dashboard</title>
+<link rel="icon" href="icons/icon-192.png">
+<style>
+.viz-root{color-scheme:light;
+  --surface-1:#ffffff;--page:#f4f6f3;--text-primary:#191919;--text-secondary:#666666;--grid:#e7e7e7;--axis:#c2c2c2;--border:rgba(11,11,11,.10);
+  --brand:#1b4d2e;--brand-2:#2e7d4f;--brand-3:#e8f3ec;
+  --series-1:#257de0;--series-2:#f47230;--series-3:#00b894;--series-4:#f2a600;--series-5:#ee7fac;
+  --good:#0aac23;--good-text:#006c10;--warning:#fbb315;--serious:#f18a59;--critical:#dc3c3d}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--page);color:var(--text-primary);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--brand-2)}
+.hdr{background:var(--brand);color:#fff;display:flex;align-items:center;gap:12px;padding:10px 18px;position:sticky;top:0;z-index:50}
+.hdr img{width:34px;height:34px;border-radius:9px}
+.hdr h1{font-size:17px;margin:0;flex:1;font-weight:650}
+.hdr .who{font-size:13px;opacity:.9;text-align:right}
+.hdr button{background:#ffffff22;border:0;color:#fff;border-radius:8px;padding:7px 12px;cursor:pointer}
+.wrap{max-width:1360px;margin:0 auto;padding:14px 18px 40px}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:15px;margin:0 0 2px;font-weight:650}
+.card .sub{color:var(--text-secondary);font-size:13px;margin:0 0 10px}
+.filters{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end}
+.filters label{display:flex;flex-direction:column;font-size:12px;color:var(--text-secondary);font-weight:600;gap:3px}
+.filters input,.filters select{border:1px solid #d5ddd7;border-radius:8px;padding:7px 9px;background:#fff;min-width:120px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid #d5ddd7;background:#fff;border-radius:16px;padding:6px 11px;cursor:pointer;font-size:13px}
+.chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn{border:0;border-radius:9px;background:var(--brand);color:#fff;padding:8px 14px;cursor:pointer;font-weight:600}
+.btn.ghost{background:var(--brand-3);color:var(--brand)}
+.tabs{display:flex;gap:4px;margin:4px 0 14px;overflow-x:auto;border-bottom:1px solid #d5ddd7}
+.tabs button{border:0;background:none;padding:10px 14px;cursor:pointer;font-weight:600;color:var(--text-secondary);border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.kpi .l{font-size:12px;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.kpi .v{font-size:28px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:13px;color:var(--text-secondary)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.tbl{overflow:auto;max-height:70vh;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:7px 9px;border-bottom:1px solid #eef1ee;text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:#f7faf7;font-weight:650;color:#3c4a41;cursor:pointer;white-space:nowrap;z-index:1}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:hover td{background:#fafcfa}
+tr.click{cursor:pointer}
+.st{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:650;padding:2px 8px;border-radius:10px;white-space:nowrap;color:var(--text-primary)}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.st.good{background:#e6f6e8}.st.good::before{background:var(--good)}
+.st.warn{background:#fff4dc}.st.warn::before{background:var(--warning)}
+.st.bad{background:#fde9e9}.st.bad::before{background:var(--critical)}
+.st.mute{background:#f0f0f0}.st.mute::before{background:#9a9a9a}
+.reg td,.reg th{padding:4px 5px;text-align:center;font-size:12px}
+.reg td:first-child,.reg th:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:2;white-space:nowrap}
+.reg th:first-child{background:#f7faf7;z-index:3}
+.c-P{background:#e6f6e8;color:var(--good-text);font-weight:700}
+.c-W{background:#fff4dc;color:#7a5200;font-weight:700}
+.c-A{color:#b3261e}
+.c-off{color:#bbb}
+.ph{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#e9eee9;cursor:zoom-in;display:inline-block;vertical-align:top}
+.strip{display:flex;gap:6px;flex-wrap:wrap}
+.lay{display:grid;grid-template-columns:260px 1fr;gap:14px}
+@media(max-width:900px){.lay{grid-template-columns:1fr}}
+.cats .g{font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;margin:12px 0 4px;letter-spacing:.03em}
+.cats button{display:flex;justify-content:space-between;width:100%;border:0;background:none;padding:7px 9px;border-radius:8px;cursor:pointer;text-align:left}
+.cats button.on{background:var(--brand-3);color:var(--brand);font-weight:650}
+.cats button span:last-child{color:var(--text-secondary);font-variant-numeric:tabular-nums}
+.album{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:#fff}
+.album .h{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.album .h b{font-size:14px}
+.album .m{color:var(--text-secondary);font-size:12.5px}
+.album .ph{width:120px;height:120px}
+.dayh{font-weight:700;margin:16px 0 8px;color:var(--brand)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.chart{position:relative}
+.chart svg{display:block;width:100%}
+#tip{position:fixed;pointer-events:none;background:#191919;color:#fff;padding:7px 10px;border-radius:8px;font-size:12.5px;z-index:100;display:none;max-width:260px}
+#tip b{display:block;margin-bottom:2px}
+#tip i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.ov{position:fixed;inset:0;background:#000c;z-index:90;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
+.ov.on{display:flex}
+.ov img{max-width:96vw;max-height:80vh;border-radius:6px;background:#222}
+.ov .cap{color:#eee;font-size:13px;text-align:center;max-width:900px}
+.ov .x{position:absolute;top:14px;right:18px;background:#fff2;color:#fff;border:0;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:#fff;z-index:80;box-shadow:-6px 0 30px #0003;transform:translateX(105%);transition:transform .2s;overflow:auto;padding:16px 18px}
+.drawer.on{transform:none}
+.tl{border-left:2px solid #d5ddd7;margin-left:6px;padding-left:14px}
+.tl .e{margin-bottom:12px;position:relative}
+.tl .e::before{content:"";position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--brand-2)}
+.banner{background:#fff4dc;color:#5a3d00;border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:13px}
+.login{max-width:380px;margin:60px auto}
+.login input{width:100%;border:1px solid #d5ddd7;border-radius:9px;padding:10px 12px;margin:4px 0 10px;font-size:15px}
+.login .btn{width:100%;padding:11px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#191919;color:#fff;padding:10px 16px;border-radius:10px;z-index:120;display:none}
+#busy{position:fixed;inset:0;background:#fff8;z-index:110;display:none;align-items:center;justify-content:center;font-weight:650}
+.muted{color:var(--text-secondary)}
+.right{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.hide{display:none!important}
+.small{font-size:12px}
+#ed .box{background:#fff;border-radius:14px;width:min(620px,94vw);max-height:88vh;overflow:auto;padding:16px 18px;color:var(--text-primary)}
+#ed h3{margin:0 0 4px}
+#ed .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 12px}
+#ed label{display:block;font-size:12px;color:var(--text-secondary);font-weight:600;margin:8px 0 3px}
+#ed input,#ed select,#ed textarea{width:100%;border:1px solid #d5ddd7;border-radius:8px;padding:8px 10px;background:#fff;font-size:15px}
+#ed .sec{grid-column:1/-1;font-weight:700;color:var(--brand);margin-top:10px;border-top:1px solid #eef1ee;padding-top:8px}
+.eb{border:0;background:var(--brand-3);color:var(--brand);border-radius:7px;padding:3px 8px;cursor:pointer;font-size:12px;font-weight:600;margin:2px 4px 2px 0;white-space:nowrap}
+.eb.del{background:#fde9e9;color:#b3261e}
+.st.leave{background:#e8eefc}.st.leave::before{background:#3d6fd8}
+.c-O{background:#fff4dc;color:#7a5200;font-weight:700}
+.c-L{background:#e8eefc;color:#2a4fa0;font-weight:700}
+.badge{display:inline-block;background:#fff3;border-radius:8px;padding:1px 7px;font-size:11px;margin-left:6px}
+</style>
+</head>
+<body class="viz-root">
+<header class="hdr"><img src="icons/icon-192.png" alt=""><h1>Van Prahari — Dashboard <span id="scopeT" class="small" style="opacity:.8"></span></h1><div class="who" id="who"></div><button id="outB" class="hide" onclick="logout()">Logout</button></header>
+
+<section id="loginV" class="login hide">
+  <div class="card">
+    <h2>Officer login</h2>
+    <p class="sub">Use your Van Prahari Employee ID / mobile and password. For Range Officer (own range), SDO and DFO (all staff) and Admin (all staff + editing).</p>
+    <div id="demoNote" class="banner hide">Demo mode: backend not connected (config.js is empty). Password <b>demo</b>. ID decides the role: <b>ro</b>… Range Officer, <b>sdo</b>…, <b>dfo</b>…, <b>admin</b>… (admin can edit).</div>
+    <label class="small muted">Employee ID or mobile</label><input id="lgId" autocomplete="username">
+    <label class="small muted">Password</label><input id="lgPw" type="password" autocomplete="current-password">
+    <button class="btn" onclick="login()">Login</button>
+  </div>
+</section>
+
+<main id="appV" class="wrap hide">
+  <div id="demoBan" class="banner hide">Showing <b>sample data</b>: connect the backend in config.js to see your division's real data.</div>
+  <div class="card">
+    <div class="filters">
+      <label>From<input type="date" id="fFrom"></label>
+      <label>To<input type="date" id="fTo"></label>
+      <div class="chips" id="quick">
+        <button class="chip" data-q="today">Today</button><button class="chip" data-q="yday">Yesterday</button>
+        <button class="chip" data-q="7">Last 7 days</button><button class="chip" data-q="month">This month</button><button class="chip" data-q="lmonth">Last month</button>
+      </div>
+      <label>Range<select id="fRange"></select></label>
+      <label>Circle<select id="fCircle"></select></label>
+      <label>Beat<select id="fBeat"></select></label>
+      <label>Employee<select id="fEmp"></select></label>
+      <button class="btn" onclick="load()">↻ Refresh</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-t="overview" class="on">Overview</button><button data-t="attendance">Attendance</button><button data-t="employees">Employees</button>
+    <button data-t="patrols">Patrols</button><button data-t="inspections">Beat inspections</button><button data-t="gallery">Works &amp; photos</button><button data-t="gis">GIS files</button><button data-t="staff">Staff &amp; HQ</button>
+  </nav>
+  <div id="view"></div>
+  <p class="muted small" id="genAt"></p>
+</main>
+
+<div id="tip"></div>
+<div class="ov" id="ed" style="z-index:95"><div class="box" id="edBox"></div></div>
+<div class="ov" id="lb"><button class="x" onclick="closeLb()">✕</button><img id="lbImg" alt=""><div class="cap" id="lbCap"></div></div>
+<aside class="drawer" id="drawer"></aside>
+<div id="toast"></div><div id="busy">Loading…</div>
+
+<script src="config.js"></script>
+<script>
+'use strict';
+/* ================= setup ================= */
+const API = ((window.VP_CONFIG && window.VP_CONFIG.API_URL) || (() => { try { return JSON.parse(localStorage.getItem('vp_api') || '""'); } catch (e) { return ''; } })() || '').trim();
+const DEMO = !API;
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+const IST = 'Asia/Kolkata';
+const dayIST = d => new Intl.DateTimeFormat('en-CA', { timeZone: IST, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+const timeIST = v => { if (!v) return ''; const d = new Date(v); return isNaN(d) ? '' : d.toLocaleTimeString('en-IN', { timeZone: IST, hour: '2-digit', minute: '2-digit', hour12: false }); };
+const dShort = s => { const [y, m, d] = s.split('-'); return `${d}/${m}`; };
+const dLong = s => { const d = new Date(s + 'T12:00:00+05:30'); return d.toLocaleDateString('en-IN', { timeZone: IST, weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }); };
+const addDays = (s, n) => { const d = new Date(s + 'T12:00:00+05:30'); d.setUTCDate(d.getUTCDate() + n); return dayIST(d); };
+const daysBetween = (a, b) => { const o = []; for (let d = a; d <= b; d = addDays(d, 1)) o.push(d); return o; };
+const fmtN = (n, k = 0) => (n == null || isNaN(n)) ? '—' : Number(n).toLocaleString('en-IN', { maximumFractionDigits: k, minimumFractionDigits: k });
+function toast(m, ms = 3000) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast._t); toast._t = setTimeout(() => t.style.display = 'none', ms); }
+function busy(on) { $('#busy').style.display = on ? 'flex' : 'none'; }
+const COLORS = { patrol: 'var(--series-1)', inspection: 'var(--series-2)', works: 'var(--series-3)', photo: 'var(--series-4)', obs: 'var(--series-5)' };
+const ISSUE_OBS = ['Illegal felling', 'Encroachment', 'Illegal mining', 'Poaching / snare / trap', 'Fire', 'Illegal grazing', 'Carcass', 'Human–wildlife conflict'];
+const BAD_STATUS = ['Found', 'Damaged', 'Missing', 'Not done'];
+const INS_LABEL = { patrol: 'Patrol', katai: 'Avaidh Katai (illegal felling)', atikraman: 'Avaidh Atikraman (encroachment)', mining: 'Avaidh Mining (illegal mining)', munara: 'Munara (boundary pillar)' };
+
+let session = (() => { try { return JSON.parse(localStorage.getItem('vp_dash') || 'null'); } catch (e) { return null; } })();
+const S = { raw: null, from: null, to: null, f: { range: '', circle: '', beat: '', emp: '' }, tab: 'overview', attMode: 'day', attDay: null, cat: null, sort: {} };
+
+/* ================= backend ================= */
+async function api(action, body) {
+  if (DEMO) return demoApi(action, body);
+  let r; try { r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action }, body)) }); }
+  catch (e) { throw new Error('No internet / backend not reachable'); }
+  const j = await r.json(); if (!j.ok) { const e = new Error(j.error); e.code = j.code; throw e; } return j;
+}
+async function login() {
+  const id = $('#lgId').value.trim(), password = $('#lgPw').value; if (!id || !password) return toast('Enter ID and password');
+  busy(true);
+  try {
+    const r = await api('login', { id, password, portal: 'officer' });
+    const role = String(r.user.role || '').toLowerCase();
+    if (!['admin', 'dfo', 'sdo', 'officer', 'ranger'].includes(role)) throw new Error('You are registered as ' + (r.user.roleLabel || r.user.role || 'field staff') + '. The dashboard is for Range Officer, SDO, DFO and Admin.');
+    session = { token: r.token, user: r.user }; try { localStorage.setItem('vp_dash', JSON.stringify(session)); } catch (e) {}
+    start();
+  } catch (e) { toast(e.message, 5000); } finally { busy(false); }
+}
+function logout() { if (!DEMO && session) api('logout', { token: session.token }).catch(() => {}); session = null; try { localStorage.removeItem('vp_dash'); } catch (e) {} location.reload(); }
+
+/* ================= load & filters ================= */
+function setRange(q) {
+  const today = dayIST(new Date());
+  let a = today, b = today;
+  if (q === 'yday') a = b = addDays(today, -1);
+  else if (q === '7') a = addDays(today, -6);
+  else if (q === 'month') a = today.slice(0, 8) + '01';
+  else if (q === 'lmonth') { const first = today.slice(0, 8) + '01'; b = addDays(first, -1); a = b.slice(0, 8) + '01'; }
+  $('#fFrom').value = a; $('#fTo').value = b;
+  $$('#quick .chip').forEach(c => c.classList.toggle('on', c.dataset.q === q));
+  load();
+}
+async function load() {
+  const from = $('#fFrom').value, to = $('#fTo').value; if (!from || !to || from > to) return toast('Choose a valid date range');
+  busy(true);
+  try {
+    const r = await api('dashboard', { token: session && session.token, from, to });
+    S.raw = r.data; S.raw.gis = S.raw.gis || []; S.from = r.from; S.to = r.to; if (!S.attDay || S.attDay < r.from || S.attDay > r.to) S.attDay = r.to;
+    S.canEdit = !!(r.me && r.me.canEdit); S.me = r.me || {}; indexRecs();
+    $('#scopeT').textContent = r.scope ? `· ${/range$/i.test(r.scope) ? r.scope : r.scope + ' Range'} only` : '';
+    $('#genAt').textContent = `Data as of ${new Date(r.generatedAt).toLocaleString('en-IN', { timeZone: IST })} IST. Sources: Van Prahari – Data sheet and Drive folders.`;
+    fillFilters(); render();
+  } catch (e) { if (e.code === 'AUTH' || e.code === 'ROLE') { toast(e.message, 5000); logout(); } else toast(e.message, 5000); }
+  finally { busy(false); }
+}
+function fillFilters() {
+  const U = S.raw.users, all = [...U, ...S.raw.attendance, ...S.raw.patrols, ...S.raw.inspections, ...S.raw.works, ...S.raw.photos];
+  const uniq = a => [...new Set(a.filter(Boolean))].sort();
+  const opt = (sel, vals, cur, allLbl) => { sel.innerHTML = `<option value="">${allLbl}</option>` + vals.map(v => `<option ${v === cur ? 'selected' : ''}>${esc(v)}</option>`).join(''); if (!vals.includes(cur)) sel.value = ''; };
+  const f = S.f;
+  opt($('#fRange'), uniq(all.map(x => x.range)), f.range, 'All ranges'); f.range = $('#fRange').value;
+  opt($('#fCircle'), uniq(all.filter(x => !f.range || x.range === f.range).map(x => x.circle)), f.circle, 'All circles'); f.circle = $('#fCircle').value;
+  opt($('#fBeat'), uniq(all.filter(x => (!f.range || x.range === f.range) && (!f.circle || x.circle === f.circle)).map(x => x.beat)), f.beat, 'All beats'); f.beat = $('#fBeat').value;
+  const emps = U.filter(u => match(u)).sort((a, b) => a.name.localeCompare(b.name));
+  $('#fEmp').innerHTML = '<option value="">All employees</option>' + emps.map(u => `<option value="${esc(u.empId)}" ${u.empId === f.emp ? 'selected' : ''}>${esc(u.name)} (${esc(u.empId)})</option>`).join('');
+  if (!emps.some(u => u.empId === f.emp)) f.emp = '';
+}
+function match(x, ignoreEmp) { const f = S.f; return (!f.range || x.range === f.range) && (!f.circle || x.circle === f.circle) && (!f.beat || x.beat === f.beat) && (ignoreEmp || !f.emp || x.empId === f.emp); }
+function D() {   // filtered data
+  const r = S.raw, f = S.f;
+  const users = r.users.filter(u => match(u));
+  const rec = a => a.filter(x => f.emp ? x.empId === f.emp : match(x));   // records filtered by where they were made
+  return { users, attendance: rec(r.attendance), patrols: rec(r.patrols), observations: rec(r.observations), inspections: rec(r.inspections), works: rec(r.works), photos: rec(r.photos), gis: rec(r.gis || []) };
+}
+/* attendance logic: per employee per day */
+function attIndex(d) {
+  const att = {}, act = {};
+  d.attendance.forEach(a => { (att[a.empId + '|' + a.day] = att[a.empId + '|' + a.day] || []).push(a); });
+  [...d.patrols, ...d.inspections, ...d.works, ...d.photos, ...d.observations].forEach(x => { act[x.empId + '|' + x.day] = (act[x.empId + '|' + x.day] || 0) + 1; });
+  // P = present at HQ (or HQ not set) · O = outside HQ on official work · L = leave · W = other entries, no attendance · A = nothing
+  const status = (emp, day) => { const a = att[emp + '|' + day]; if (a) return attCode(a); return act[emp + '|' + day] ? 'W' : 'A'; };
+  return { att, act, status };
+}
+
+function attCode(list) {
+  if (list.some(x => x.atHQ !== 'No')) return 'P';
+  return list.some(x => /official/i.test(x.outReason)) ? 'O' : 'L';
+}
+const onDuty = c => c === 'P' || c === 'O';
+const ST_HTML = { P: '<span class="st good">At HQ / present</span>', O: '<span class="st warn">Out of HQ – official work</span>', L: '<span class="st leave">Leave</span>', A: '<span class="st bad">Absent</span>' };
+function hqCell(a) {
+  if (!a) return '';
+  if (a.atHQ === 'Yes') return `<span class="st good">✓ At HQ</span><div class="small muted">${esc(a.hqName)}${a.hqDist != null ? ' · ' + fmtDistD(a.hqDist) : ''}</div>`;
+  if (a.atHQ === 'No') return `<span class="st ${/leave/i.test(a.outReason) ? 'leave' : 'warn'}">⚠ Out of HQ · ${esc(a.outReason || '—')}</span><div class="small muted">${a.hqDist != null ? fmtDistD(a.hqDist) + ' from ' : ''}${esc(a.hqName)}${a.outRemarks ? ' — ' + esc(a.outRemarks) : ''}</div>`;
+  return `<span class="st mute">${esc(a.atHQ || 'HQ not checked')}</span>`;
+}
+const fmtDistD = m => m >= 1000 ? (m / 1000).toFixed(2) + ' km' : Math.round(m) + ' m';
+
+/* ================= render ================= */
+function render() {
+  $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === S.tab));
+  const d = D();
+  ({ overview: rOverview, attendance: rAttendance, employees: rEmployees, patrols: rPatrols, inspections: rInspections, gallery: rGallery, gis: rGis, staff: rStaff })[S.tab](d);
+  observePhotos();
+}
+function rOverview(d) {
+  const days = daysBetween(S.from, S.to), ix = attIndex(d), n = d.users.length;
+  const presentTo = d.users.filter(u => onDuty(ix.status(u.empId, S.to))).length;
+  const km = d.patrols.reduce((a, p) => a + (p.km || 0), 0);
+  const issues = issueList(d);
+  const nPhotos = [...d.attendance, ...d.works, ...d.photos, ...d.observations].reduce((a, x) => a + x.photos.length, 0) + d.inspections.reduce((a, x) => a + x.items.reduce((b, i) => b + i.photos.length, 0), 0);
+  const inactive = d.users.filter(u => !days.some(dd => ix.status(u.empId, dd) !== 'A'));
+  $('#view').innerHTML = `
+  <div class="kpis">
+    ${kpi('Staff', fmtN(n), 'active in Users sheet')}
+    ${kpi('On duty on ' + dShort(S.to), `${presentTo}<span class="s"> / ${n}</span>`, n ? Math.round(presentTo / n * 100) + '% (at HQ or official work)' : '')}
+    ${kpi('Patrols', fmtN(d.patrols.length), fmtN(km, 1) + ' km covered')}
+    ${kpi('Beat inspections', fmtN(d.inspections.length), issues.length + (issues.length === 1 ? ' issue' : ' issues') + ' reported')}
+    ${kpi('Work entries', fmtN(d.works.length), d.photos.length + ' photo uploads')}
+    ${kpi('Photos', fmtN(nPhotos), 'all modules')}
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Staff on duty per day</h2><p class="sub">Share of ${n} staff with attendance at HQ or on official work (leave not counted)</p><div class="chart" id="chAtt"></div></div>
+    <div class="card"><h2>Field entries per day</h2><p class="sub">Entries uploaded, by module</p>
+      <div class="legend">${[['patrol', 'Patrols'], ['inspection', 'Beat inspections'], ['works', 'Daily works'], ['photo', 'Photo uploads']].map(([k, l]) => `<span><i style="background:${COLORS[k]}"></i>${l}</span>`).join('')}</div>
+      <div class="chart" id="chAct"></div></div>
+  </div>
+  <div class="card"><div class="right" style="justify-content:space-between"><div><h2>Issues reported</h2><p class="sub" style="margin:0">Illegal felling, encroachment, mining, damaged/missing munara, poaching, fire… from inspections and patrols</p></div><button class="btn ghost" onclick="csvIssues()">⬇ CSV</button></div>
+    <div class="tbl" id="tIssues"></div></div>
+  <div class="card"><h2>No activity in this period (${inactive.length})</h2><p class="sub">No attendance or any other entry between ${dShort(S.from)} and ${dShort(S.to)}</p>
+    ${inactive.length ? inactive.map(u => `<span class="st bad" style="margin:0 6px 6px 0">${esc(u.name)} · ${esc(u.beat)}</span>`).join('') : '<span class="st good">Everyone has at least one entry</span>'}</div>`;
+  barChart($('#chAtt'), days, [{ key: 'att', label: 'Present', color: 'var(--series-1)', values: days.map(dd => n ? d.users.filter(u => onDuty(ix.status(u.empId, dd))).length / n * 100 : 0) }],
+    { max: 100, fmt: v => Math.round(v) + '%', tip: (i) => { const p = d.users.filter(u => onDuty(ix.status(u.empId, days[i]))).length; return `${p} of ${n} on duty (${n ? Math.round(p / n * 100) : 0}%)`; } });
+  const cnt = (arr, dd) => arr.filter(x => x.day === dd).length;
+  barChart($('#chAct'), days, [
+    { key: 'patrol', label: 'Patrols', color: COLORS.patrol, values: days.map(dd => cnt(d.patrols, dd)) },
+    { key: 'inspection', label: 'Beat inspections', color: COLORS.inspection, values: days.map(dd => cnt(d.inspections, dd)) },
+    { key: 'works', label: 'Daily works', color: COLORS.works, values: days.map(dd => cnt(d.works, dd)) },
+    { key: 'photo', label: 'Photo uploads', color: COLORS.photo, values: days.map(dd => cnt(d.photos, dd)) }], { stacked: true });
+  table('#tIssues', 'issues', [
+    { k: 'day', l: 'Date', f: r => dShort(r.day) }, { k: 'beat', l: 'Beat' }, { k: 'name', l: 'Reported by' }, { k: 'src', l: 'Source' },
+    { k: 'issue', l: 'Issue', h: r => `<span class="st bad">${esc(r.issue)}</span>` }, { k: 'detail', l: 'Details' }, { k: 'photos', l: 'Photos', h: r => strip(r.photos, 3), nosort: 1 }], issues, { empty: 'No issues reported in this period' });
+}
+function kpi(l, v, s) { return `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`; }
+function issueList(d) {
+  const out = [];
+  d.inspections.forEach(x => x.items.forEach(i => { if (BAD_STATUS.includes(i.status)) out.push({ day: x.day, beat: x.beat, name: x.name, src: 'Beat inspection', issue: `${INS_LABEL[i.key] || i.label}: ${i.status}`, detail: [i.qty && 'Qty ' + i.qty, i.remarks].filter(Boolean).join(' · '), photos: i.photos }); }));
+  d.observations.forEach(o => { if (ISSUE_OBS.includes(o.category)) out.push({ day: o.day, beat: o.beat, name: o.name, src: 'Patrol', issue: o.category, detail: [o.detail, o.count && 'Count ' + o.count, o.remarks].filter(Boolean).join(' · '), photos: o.photos }); });
+  return out.sort((a, b) => b.day.localeCompare(a.day));
+}
+function csvIssues() { csv(issueList(D()).map(r => ({ Date: r.day, Beat: r.beat, ReportedBy: r.name, Source: r.src, Issue: r.issue, Details: r.detail, Photos: r.photos.map(driveUrl).join(' ') })), 'issues'); }
+
+/* ---------- attendance ---------- */
+function rAttendance(d) {
+  const days = daysBetween(S.from, S.to), ix = attIndex(d);
+  if (!days.includes(S.attDay)) S.attDay = S.to;
+  const day = S.attDay;
+  const rows = d.users.map(u => {
+    const a = (ix.att[u.empId + '|' + day] || []).slice().sort((x, y) => new Date(x.time) - new Date(y.time));
+    const ins = a.filter(x => /check-in/i.test(x.type)), outs = a.filter(x => /check-out/i.test(x.type));
+    const first = a[0], loc = a.find(x => x.lat != null);
+    return { ...u, st: ix.status(u.empId, day), list: a, inT: (ins[0] || first) ? timeIST((ins[0] || first).time) : '', outT: outs.length ? timeIST(outs[outs.length - 1].time) : '',
+      where: a.length ? [...new Set(a.map(x => x.beat))].join(', ') : '', loc, teep: first ? first.teep : '', photos: a.flatMap(x => x.photos), acts: ix.act[u.empId + '|' + day] || 0 };
+  });
+  const c = k => rows.filter(r => r.st === k).length;
+  $('#view').innerHTML = `
+  <div class="card"><div class="right" style="justify-content:space-between">
+    <div class="chips"><button class="chip ${S.attMode === 'day' ? 'on' : ''}" onclick="S.attMode='day';render()">Daily view</button><button class="chip ${S.attMode === 'reg' ? 'on' : ''}" onclick="S.attMode='reg';render()">Register (${days.length} days)</button></div>
+    ${S.attMode === 'day' ? `<label class="small muted">Day <select id="attDay">${days.slice().reverse().map(x => `<option value="${x}" ${x === day ? 'selected' : ''}>${dLong(x)}</option>`).join('')}</select></label>` : ''}
+    <button class="btn ghost" onclick="${S.attMode === 'day' ? 'csvAttDay()' : 'csvRegister()'}">⬇ CSV</button></div></div>
+  <div id="attBody"></div>`;
+  if (S.attMode === 'day') {
+    $('#attDay').onchange = e => { S.attDay = e.target.value; render(); };
+    $('#attBody').innerHTML = `<div class="kpis">${kpi('At HQ', c('P'), 'within HQ radius (500 m)')}${kpi('Out of HQ – official', c('O'), 'outside HQ, official work')}${kpi('Leave', c('L'), 'marked leave')}${kpi('No attendance', c('W'), 'other entries but no attendance')}${kpi('Absent / no entry', c('A'), dLong(day))}</div><div class="card"><div class="tbl" id="tAtt"></div></div>`;
+    table('#tAtt', 'att', [
+      { k: 'name', l: 'Employee', h: r => `<b>${esc(r.name)}</b><div class="small muted">${esc(roleName(r.role) || r.designation)} · ${esc(r.empId)}</div>` },
+      { k: 'beat', l: 'Assigned beat / HQ', h: r => `${esc(r.beat || '—')}<div class="small muted">${esc(r.range)}${r.hq ? ' · HQ ' + esc(r.hq) : ''}</div>` },
+      { k: 'st', l: 'Status', h: r => r.st === 'W' ? `<span class="st warn">Working, no attendance (${r.acts})</span>` : ST_HTML[r.st] },
+      { k: 'hq', l: 'HQ check', nosort: 1, h: r => r.list.map(hqCell).join('<div style="height:6px"></div>') },
+      { k: 'inT', l: 'In' }, { k: 'outT', l: 'Out' },
+      { k: 'loc', l: 'GPS', nosort: 1, h: r => r.loc ? `<a href="https://www.google.com/maps?q=${r.loc.lat},${r.loc.lng}" target="_blank">${r.loc.lat.toFixed(4)}, ${r.loc.lng.toFixed(4)}</a>${r.loc.elev != null ? `<div class="small muted">${Math.round(r.loc.elev)} m</div>` : ''}` : '' },
+      { k: 'photos', l: 'Photo', nosort: 1, h: r => strip(r.photos, 2) + (S.canEdit ? `<div>${r.list.map(x => editBtns(x.id, timeIST(x.time))).join('')}</div>` : '') }], rows, { sort: 'st' });
+  } else {
+    const reg = d.users.slice().sort((a, b) => a.beat.localeCompare(b.beat) || a.name.localeCompare(b.name));
+    $('#attBody').innerHTML = `<div class="card"><p class="sub"><span class="st good">P</span> at HQ &nbsp; <span class="st warn">O</span> out of HQ, official work &nbsp; <span class="st leave">L</span> leave &nbsp; <span class="st warn">W</span> other entries, no attendance &nbsp; <span class="st bad">–</span> no entry</p>
+    <div class="tbl"><table class="reg"><thead><tr><th>Employee</th>${days.map(x => `<th>${x.slice(8)}<div class="small muted">${new Date(x + 'T12:00:00+05:30').toLocaleDateString('en-IN', { weekday: 'narrow', timeZone: IST })}</div></th>`).join('')}<th>P</th><th>O</th><th>L</th><th>On duty %</th></tr></thead><tbody>
+    ${reg.map(u => { const s = days.map(x => ix.status(u.empId, x)); const n = k => s.filter(v => v === k).length;
+      return `<tr class="click" onclick="openEmp('${esc(u.empId)}')"><td><b>${esc(u.name)}</b> <span class="small muted">${esc(u.beat || roleName(u.role))}</span></td>${s.map(v => `<td class="c-${v}">${v === 'A' ? '–' : v}</td>`).join('')}<td class="num"><b>${n('P')}</b></td><td class="num">${n('O')}</td><td class="num">${n('L')}</td><td class="num">${Math.round((n('P') + n('O')) / days.length * 100)}%</td></tr>`; }).join('')}
+    </tbody></table></div></div>`;
+  }
+}
+const ROLE_NAMES = { beatguard: 'Beat Guard', deputy: 'Deputy Ranger', ranger: 'Range Officer', sdo: 'SDO', dfo: 'DFO', admin: 'Admin' };
+const roleName = r => ROLE_NAMES[r] || r || '';
+const CODE_TXT = { P: 'At HQ / present', O: 'Out of HQ - official work', L: 'Leave', W: 'Working (no attendance photo)', A: 'Absent' };
+function csvAttDay() {
+  const d = D(), ix = attIndex(d), day = S.attDay;
+  csv(d.users.map(u => { const a = (ix.att[u.empId + '|' + day] || []); const st = ix.status(u.empId, day);
+    return { Date: day, EmpID: u.empId, Name: u.name, Role: roleName(u.role), Range: u.range, Circle: u.circle, Beat: u.beat, HQ: u.hq, Status: CODE_TXT[st],
+      Times: a.map(x => timeIST(x.time) + ' ' + x.type).join('; '), AtHQ: a.map(x => x.atHQ).join('; '), DistanceFromHQ_m: a.map(x => x.hqDist ?? '').join('; '),
+      OutReason: a.map(x => x.outReason).filter(Boolean).join('; '), OutRemarks: a.map(x => x.outRemarks).filter(Boolean).join('; '),
+      GPS: a.filter(x => x.lat != null).map(x => x.lat + ',' + x.lng).join('; '), Teep: a.map(x => x.teep).join('; '), Photos: a.flatMap(x => x.photos).map(driveUrl).join(' ') }; }), 'attendance_' + day);
+}
+function csvRegister() {
+  const d = D(), ix = attIndex(d), days = daysBetween(S.from, S.to);
+  csv(d.users.map(u => { const o = { EmpID: u.empId, Name: u.name, Role: roleName(u.role), Beat: u.beat, Circle: u.circle, Range: u.range }; const c = { P: 0, O: 0, L: 0 };
+    days.forEach(x => { const s = ix.status(u.empId, x); o[x] = s === 'A' ? '' : s; if (c[s] != null) c[s]++; });
+    o.AtHQ = c.P; o.OfficialWork = c.O; o.Leave = c.L; return o; }), `attendance_register_${S.from}_${S.to}`);
+}
+
+/* ---------- employees ---------- */
+function empRows(d) {
+  const days = daysBetween(S.from, S.to), ix = attIndex(d);
+  return d.users.map(u => {
+    const mine = a => a.filter(x => x.empId === u.empId);
+    const p = mine(d.patrols), all = [...mine(d.attendance), ...p, ...mine(d.inspections), ...mine(d.works), ...mine(d.photos)];
+    const last = all.map(x => x.day).sort().pop() || '';
+    return { ...u, present: days.filter(x => onDuty(ix.status(u.empId, x))).length, leave: days.filter(x => ix.status(u.empId, x) === 'L').length, patrols: p.length, km: +p.reduce((a, x) => a + (x.km || 0), 0).toFixed(2), obs: mine(d.observations).length, ins: mine(d.inspections).length, works: mine(d.works).length, photos: mine(d.photos).length, last, days: days.length };
+  });
+}
+function rEmployees(d) {
+  $('#view').innerHTML = `<div class="card"><div class="right" style="justify-content:space-between"><div><h2>Employee activity</h2><p class="sub" style="margin:0">${dLong(S.from)} – ${dLong(S.to)} · click a row to see everything the employee uploaded</p></div><button class="btn ghost" onclick="csvEmp()">⬇ CSV</button></div><div class="tbl" id="tEmp"></div></div>`;
+  table('#tEmp', 'emp', [
+    { k: 'name', l: 'Employee', h: r => `<b>${esc(r.name)}</b><div class="small muted">${esc(r.designation)} · ${esc(r.empId)}</div>` }, { k: 'beat', l: 'Beat', h: r => `${esc(r.beat)}<div class="small muted">${esc(r.range)}</div>` },
+    { k: 'present', l: 'Days present', num: 1, h: r => `${r.present}<span class="muted"> / ${r.days}</span>` }, { k: 'patrols', l: 'Patrols', num: 1 }, { k: 'km', l: 'Patrol km', num: 1, f: r => fmtN(r.km, 1) },
+    { k: 'obs', l: 'Observations', num: 1 }, { k: 'ins', l: 'Inspections', num: 1 }, { k: 'works', l: 'Works', num: 1 }, { k: 'photos', l: 'Photo uploads', num: 1 },
+    { k: 'last', l: 'Last entry', f: r => r.last ? dShort(r.last) : '—' }], empRows(d), { sort: 'name', asc: true, rowClick: r => `openEmp('${esc(r.empId)}')` });
+}
+function csvEmp() { csv(empRows(D()).map(r => ({ EmpID: r.empId, Name: r.name, Designation: r.designation, Range: r.range, Circle: r.circle, Beat: r.beat, DaysPresent: r.present, DaysInPeriod: r.days, Patrols: r.patrols, PatrolKm: r.km, Observations: r.obs, Inspections: r.ins, Works: r.works, PhotoUploads: r.photos, LastEntry: r.last })), `employees_${S.from}_${S.to}`); }
+function openEmp(id) {
+  const r = S.raw, u = r.users.find(x => x.empId === id) || { name: id };
+  const mine = a => a.filter(x => x.empId === id);
+  const ev = [
+    ...mine(r.attendance).map(x => ({ id: x.id, t: x.time, day: x.day, ic: '📍', h: `Attendance — ${x.type}${x.atHQ === 'Yes' ? ' · at HQ' : x.atHQ === 'No' ? ' · OUT of HQ (' + (x.outReason || '—') + ')' : ''}`, m: x.teep, ph: x.photos })),
+    ...mine(r.patrols).map(x => ({ id: x.id, t: x.start, day: x.day, ic: '🧭', h: `${x.type} — ${fmtN(x.km, 2)} km, ${x.minutes ?? '—'} min`, m: `${x.beat} · ${x.obs || 0} observations · ${x.kml ? `<a href="${esc(x.kml)}" target="_blank">KML</a>` : ''}`, raw: 1, ph: mine(r.observations).filter(o => o.patrolId === x.id).flatMap(o => o.photos) })),
+    ...mine(r.inspections).map(x => ({ id: x.id, t: x.time, day: x.day, ic: '🌳', h: `Beat inspection — ${x.beat}`, m: x.items.map(i => `${i.label}: ${i.status}`).join(' · '), ph: x.items.flatMap(i => i.photos) })),
+    ...mine(r.works).map(x => ({ id: x.id, t: x.time, day: x.day, ic: '🛠️', h: `${x.workType} — ${x.workName || ''}`, m: [x.compartment && 'Comp. ' + x.compartment, x.qty && x.qty + ' ' + x.unit, x.labour && x.labour + ' labourers', x.remarks].filter(Boolean).join(' · '), ph: x.photos })),
+    ...mine(r.photos).map(x => ({ id: x.id, t: x.time, day: x.day, ic: '📷', h: `${x.category} — ${x.subject || ''}`, m: x.remarks, ph: x.photos })),
+    ...mine(r.gis || []).map(x => ({ id: x.id, t: x.time, day: x.day, ic: '🗺️', h: `GIS — ${x.title} (${x.format})`, m: `${x.features ?? ''} features${x.km ? ' · ' + x.km + ' km' : ''}${x.ha ? ' · ' + x.ha + ' ha' : ''}`, ph: [] }))
+  ].sort((a, b) => (b.day + (b.t || '')).localeCompare(a.day + (a.t || '')));
+  $('#drawer').innerHTML = `<div class="right"><button class="btn ghost" onclick="$('#drawer').classList.remove('on')">Close ✕</button></div>
+    <h2 style="margin:0">${esc(u.name)}</h2><p class="sub">${esc(u.designation || '')} · ${esc(u.beat || '')}, ${esc(u.range || '')} · ${dShort(S.from)}–${dShort(S.to)} · ${ev.length} entries</p>
+    <div class="tl">${ev.map(e => `<div class="e"><div class="small muted">${dLong(e.day)} ${timeIST(e.t)}</div><b>${e.ic} ${esc(e.h)}</b><div class="small muted">${e.raw ? e.m : esc(e.m)}</div><div class="strip" style="margin-top:5px">${strip(e.ph, 6)}</div>${S.canEdit && e.id ? `<div style="margin-top:4px">${editBtns(e.id)}</div>` : ''}</div>`).join('') || '<p class="muted">No entries</p>'}</div>`;
+  $('#drawer').classList.add('on'); observePhotos();
+}
+
+/* ---------- patrols ---------- */
+function rPatrols(d) {
+  const byBeat = {}; d.patrols.forEach(p => { const k = p.range + '|' + p.beat; const b = byBeat[k] = byBeat[k] || { range: p.range, beat: p.beat, n: 0, km: 0, min: 0, obs: 0, staff: new Set() }; b.n++; b.km += p.km || 0; b.min += p.minutes || 0; b.obs += p.obs || 0; b.staff.add(p.name); });
+  $('#view').innerHTML = `<div class="kpis">${kpi('Patrols', d.patrols.length, '')}${kpi('Distance', fmtN(d.patrols.reduce((a, p) => a + (p.km || 0), 0), 1) + ' km', '')}${kpi('Time on patrol', fmtN(d.patrols.reduce((a, p) => a + (p.minutes || 0), 0) / 60, 1) + ' h', '')}${kpi('Observations', d.observations.length, d.observations.filter(o => ISSUE_OBS.includes(o.category)).length + ' are issues')}</div>
+  <div class="grid2"><div class="card"><h2>By beat</h2><div class="tbl" id="tPB"></div></div>
+  <div class="card"><h2>Observations by category</h2><div class="tbl" id="tOC"></div></div></div>
+  <div class="card"><div class="right" style="justify-content:space-between"><h2>All patrols</h2><button class="btn ghost" onclick="csvPatrols()">⬇ CSV</button></div><div class="tbl" id="tP"></div></div>`;
+  table('#tPB', 'pb', [{ k: 'beat', l: 'Beat', h: r => `${esc(r.beat)} <span class="small muted">${esc(r.range)}</span>` }, { k: 'n', l: 'Patrols', num: 1 }, { k: 'km', l: 'Km', num: 1, f: r => fmtN(r.km, 1) }, { k: 'min', l: 'Hours', num: 1, f: r => fmtN(r.min / 60, 1) }, { k: 'obs', l: 'Obs.', num: 1 }, { k: 'staff', l: 'Staff', f: r => [...r.staff].join(', '), nosort: 1 }], Object.values(byBeat), { sort: 'km' });
+  const oc = {}; d.observations.forEach(o => { oc[o.category] = (oc[o.category] || 0) + 1; });
+  table('#tOC', 'oc', [{ k: 'c', l: 'Category', h: r => ISSUE_OBS.includes(r.c) ? `<span class="st bad">${esc(r.c)}</span>` : esc(r.c) }, { k: 'n', l: 'Count', num: 1 }], Object.entries(oc).map(([c, n]) => ({ c, n })), { sort: 'n', empty: 'No observations' });
+  table('#tP', 'p', [{ k: 'day', l: 'Date', f: r => dShort(r.day) }, { k: 'start', l: 'Start', f: r => timeIST(r.start) }, { k: 'name', l: 'Employee' }, { k: 'beat', l: 'Beat' }, { k: 'type', l: 'Type' }, { k: 'team', l: 'Team' },
+    { k: 'km', l: 'Km', num: 1, f: r => fmtN(r.km, 2) }, { k: 'minutes', l: 'Min', num: 1 }, { k: 'obs', l: 'Obs.', num: 1 },
+    { k: 'kml', l: 'Track', nosort: 1, h: r => `${r.kml ? `<a href="${esc(r.kml)}" target="_blank">KML</a>` : ''} ${r.folder ? `· <a href="${esc(r.folder)}" target="_blank">Folder</a>` : ''}${S.canEdit ? `<div>${editBtns(r.id)}</div>` : ''}` }], d.patrols, { sort: 'day' });
+}
+function csvPatrols() { csv(D().patrols.map(p => ({ Date: p.day, Start: timeIST(p.start), End: timeIST(p.end), EmpID: p.empId, Name: p.name, Range: p.range, Circle: p.circle, Beat: p.beat, Type: p.type, Team: p.team, Purpose: p.purpose, Km: p.km, Minutes: p.minutes, Observations: p.obs, KML: p.kml, Folder: p.folder })), `patrols_${S.from}_${S.to}`); }
+
+/* ---------- inspections ---------- */
+function rInspections(d) {
+  const keys = ['patrol', 'katai', 'atikraman', 'mining', 'munara'];
+  const done = new Set(d.inspections.map(x => x.beat)); const beats = [...new Set(d.users.map(u => u.beat))];
+  $('#view').innerHTML = `<div class="kpis">${kpi('Inspections', d.inspections.length, '')}${kpi('Beats inspected', done.size + ' / ' + beats.length, beats.filter(b => !done.has(b)).length + ' beats not inspected')}${keys.slice(1).map(k => kpi(INS_LABEL[k].split(' (')[0], d.inspections.filter(x => BAD_STATUS.includes((x.items.find(i => i.key === k) || {}).status)).length, k === 'munara' ? 'damaged / missing' : 'found')).join('')}</div>
+  <div class="card"><div class="right" style="justify-content:space-between"><h2>Inspection reports</h2><button class="btn ghost" onclick="csvIns()">⬇ CSV</button></div><div class="tbl" id="tI"></div></div>
+  <div class="card"><h2>Beats with no inspection in this period</h2>${beats.filter(b => !done.has(b)).sort().map(b => `<span class="st warn" style="margin:0 6px 6px 0">${esc(b)}</span>`).join('') || '<span class="st good">All beats inspected</span>'}</div>`;
+  const stCls = s => BAD_STATUS.includes(s) ? 'bad' : s ? 'good' : 'mute';
+  table('#tI', 'ins', [{ k: 'day', l: 'Date', f: r => dShort(r.day) }, { k: 'beat', l: 'Beat', h: r => `${esc(r.beat)}<div class="small muted">${esc(r.circle)}</div>` }, { k: 'name', l: 'Inspected by' },
+    ...keys.map(k => ({ k: 'i_' + k, l: INS_LABEL[k].split(' (')[0], nosort: 1, h: r => { const i = r.items.find(x => x.key === k) || {}; return `<span class="st ${stCls(i.status)}">${esc(i.status || '—')}</span>${i.qty ? `<div class="small muted">${esc(i.qty)}</div>` : ''}<div class="strip" style="margin-top:4px">${strip(i.photos || [], 1)}</div>`; } })),
+    { k: 'remarks', l: 'Remarks' }, { k: 'folder', l: '', nosort: 1, h: r => (r.folder ? `<a href="${esc(r.folder)}" target="_blank">Folder</a>` : '') + (S.canEdit ? `<div>${editBtns(r.id)}</div>` : '') }], d.inspections, { sort: 'day' });
+}
+function csvIns() { csv(D().inspections.map(x => { const o = { Date: x.day, EmpID: x.empId, Name: x.name, Range: x.range, Circle: x.circle, Beat: x.beat }; x.items.forEach(i => { o[i.label + '_Status'] = i.status; o[i.label + '_Qty'] = i.qty; o[i.label + '_Remarks'] = i.remarks; }); o.Remarks = x.remarks; o.Folder = x.folder; return o; }), `inspections_${S.from}_${S.to}`); }
+
+/* ---------- works & photos gallery ---------- */
+function albums(d) {
+  const A = [];
+  d.works.forEach(x => A.push({ g: 'Daily works', c: x.workType || 'Other', day: x.day, t: x.time, x, title: x.workName || x.workType, meta: [x.compartment && 'Comp. ' + x.compartment, x.qty && `${x.qty} ${x.unit}`, x.labour && x.labour + ' labourers', x.remarks].filter(Boolean).join(' · '), ph: x.photos }));
+  d.photos.forEach(x => A.push({ g: 'Photo uploads', c: x.category || 'Other', day: x.day, t: x.time, x, title: x.subject || x.category, meta: [x.compartment && 'Comp. ' + x.compartment, x.remarks].filter(Boolean).join(' · '), ph: x.photos, folder: x.folder }));
+  d.inspections.forEach(x => x.items.forEach(i => A.push({ g: 'Beat inspection', c: INS_LABEL[i.key] || i.label, day: x.day, t: x.time, x, title: i.status, meta: [i.qty, i.remarks].filter(Boolean).join(' · '), ph: i.photos, folder: x.folder, bad: BAD_STATUS.includes(i.status) })));
+  d.observations.forEach(x => A.push({ g: 'Patrol observations', c: x.category, day: x.day, t: x.time, x, title: x.detail || x.category, meta: [x.count && 'Count ' + x.count, x.remarks].filter(Boolean).join(' · '), ph: x.photos, bad: ISSUE_OBS.includes(x.category) }));
+  d.attendance.forEach(x => A.push({ g: 'Attendance', c: x.type || 'Attendance', day: x.day, t: x.time, x, title: x.type, meta: x.teep, ph: x.photos }));
+  return A.filter(a => a.ph.length);
+}
+function rGallery(d) {
+  const A = albums(d);
+  const groups = ['Daily works', 'Photo uploads', 'Beat inspection', 'Patrol observations', 'Attendance'];
+  const cats = {}; A.forEach(a => { const k = a.g + '¦' + a.c; cats[k] = (cats[k] || 0) + a.ph.length; });
+  if (!S.cat || !cats[S.cat] && !S.cat.endsWith('¦*')) S.cat = Object.keys(cats).sort((a, b) => groups.indexOf(a.split('¦')[0]) - groups.indexOf(b.split('¦')[0]))[0] || null;
+  const side = groups.map(g => { const ks = Object.keys(cats).filter(k => k.startsWith(g + '¦')).sort(); if (!ks.length) return '';
+    const tot = ks.reduce((a, k) => a + cats[k], 0);
+    return `<div class="g">${g}</div><button class="${S.cat === g + '¦*' ? 'on' : ''}" data-c="${esc(g)}¦*"><span>All ${g.toLowerCase()}</span><span>${tot}</span></button>` + ks.map(k => `<button class="${S.cat === k ? 'on' : ''}" data-c="${esc(k)}"><span>${esc(k.split('¦')[1])}</span><span>${cats[k]}</span></button>`).join(''); }).join('');
+  const [g, c] = (S.cat || '¦').split('¦');
+  const sel = A.filter(a => a.g === g && (c === '*' || a.c === c)).sort((a, b) => (b.day + (b.t || '')).localeCompare(a.day + (a.t || '')));
+  const byDay = {}; sel.forEach(a => (byDay[a.day] = byDay[a.day] || []).push(a));
+  $('#view').innerHTML = `<div class="lay"><div class="card cats">${side || '<p class="muted">No photos in this period</p>'}</div>
+  <div><div class="card" style="padding:12px 16px"><h2>${esc(c === '*' ? 'All ' + g.toLowerCase() : c || '')}</h2><p class="sub" style="margin:0">${sel.length} entries · ${sel.reduce((a, x) => a + x.ph.length, 0)} photos · ${dShort(S.from)}–${dShort(S.to)} · grouped by date, then beat</p></div>
+  ${Object.keys(byDay).map(day => `<div class="dayh">${dLong(day)}</div>` + byDay[day].sort((a, b) => a.x.beat.localeCompare(b.x.beat)).map(a => `
+    <div class="album"><div class="h"><div><b>${a.bad ? '<span class="st bad">issue</span> ' : ''}${esc(a.title || '')}</b> ${c === '*' ? `<span class="small muted">· ${esc(a.c)}</span>` : ''}<div class="m">${esc(a.x.beat)}, ${esc(a.x.circle)}, ${esc(a.x.range)} · ${esc(a.x.name)} · ${timeIST(a.t)}</div>${a.meta ? `<div class="m">${esc(a.meta)}</div>` : ''}</div>
+    <div class="small">${a.folder ? `<a href="${esc(a.folder)}" target="_blank">Open folder in Drive ↗</a>` : ''}${S.canEdit && a.x.id ? `<div style="text-align:right">${editBtns(a.x.id)}</div>` : ''}</div></div>
+    <div class="strip">${strip(a.ph, 99, a)}</div></div>`).join('')).join('') || '<div class="card muted">No photos in this category for the selected period.</div>'}</div></div>`;
+  $$('.cats button').forEach(b => b.onclick = () => { S.cat = b.dataset.c; render(); });
+}
+
+/* ---------- GIS files ---------- */
+function rGis(d) {
+  $('#view').innerHTML = `<div class="kpis">${kpi('GIS files', d.gis.length, 'saved to Drive from the GIS tools')}${kpi('Features', fmtN(d.gis.reduce((a, x) => a + (x.features || 0), 0)), 'points, paths, polygons')}${kpi('Path length', fmtN(d.gis.reduce((a, x) => a + (x.km || 0), 0), 2) + ' km', '')}${kpi('Polygon area', fmtN(d.gis.reduce((a, x) => a + (x.ha || 0), 0), 2) + ' ha', '')}</div>
+  <div class="card"><h2>GIS files saved by staff</h2><p class="sub">KML / GeoJSON exported from the app's GIS tools — open in Google Earth or Google My Maps</p><div class="tbl" id="tG"></div></div>`;
+  table('#tG', 'gis', [{ k: 'day', l: 'Date', f: r => dShort(r.day) }, { k: 'name', l: 'Employee' }, { k: 'beat', l: 'Beat' }, { k: 'title', l: 'Title' }, { k: 'format', l: 'Format' },
+    { k: 'layers', l: 'Layers' }, { k: 'features', l: 'Features', num: 1 }, { k: 'km', l: 'Km', num: 1, f: r => r.km ? fmtN(r.km, 2) : '' }, { k: 'ha', l: 'Ha', num: 1, f: r => r.ha ? fmtN(r.ha, 2) : '' },
+    { k: 'file', l: 'File', nosort: 1, h: r => (r.file && r.file !== '#' ? `<a href="${esc(r.file)}" target="_blank">Open ↗</a>` : '') + (S.canEdit ? `<div>${editBtns(r.id)}</div>` : '') }], d.gis, { sort: 'day', empty: 'No GIS files in this period' });
+}
+
+/* ---------- Staff & HQ ---------- */
+async function rStaff() {
+  $('#view').innerHTML = `<div class="card"><p class="muted">Loading staff…</p></div>`;
+  if (!S.staff) { try { const r = await api('adminUsers', { token: session.token }); S.staff = r.users; S.staffEdit = r.canEdit; } catch (e) { $('#view').innerHTML = `<div class="card">${esc(e.message)}</div>`; return; } }
+  if (S.tab !== 'staff') return;
+  const rows = S.staff.filter(u => match({ range: u.Range, circle: u.Circle, beat: u.Beat, empId: u.EmpID }));
+  const noHQ = rows.filter(u => ['beatguard', 'deputy', 'ranger'].includes(u.Role) && u.Active === 'TRUE' && (u.HQLat === '' || u.HQLng === ''));
+  $('#view').innerHTML = `<div class="kpis">${kpi('Employees', rows.length, rows.filter(u => u.Active === 'TRUE').length + ' active')}${kpi('HQ set', rows.length - noHQ.length, noHQ.length + ' field staff without HQ')}${kpi('Password set', rows.filter(u => u.PasswordSet).length, 'have logged in at least once')}</div>
+  <div class="card"><div class="right" style="justify-content:space-between"><div><h2>Staff, roles and HQ</h2><p class="sub" style="margin:0">HQ location and radius are used for the attendance check (default 500 m)${S.staffEdit ? '' : ' · view only'}</p></div>
+    <div>${S.staffEdit ? '<button class="btn" onclick="editStaff()">＋ Add employee</button> ' : ''}<button class="btn ghost" onclick="csvStaff()">⬇ CSV</button></div></div><div class="tbl" id="tS"></div></div>`;
+  table('#tS', 'staff', [
+    { k: 'Name', l: 'Employee', h: r => `<b>${esc(r.Name)}</b><div class="small muted">${esc(r.EmpID)} · ${esc(r.Designation)}</div>` },
+    { k: 'Role', l: 'Role', f: r => roleName(r.Role) }, { k: 'Beat', l: 'Range / Circle / Beat', h: r => `${esc(r.Range)}<div class="small muted">${esc([r.Circle, r.Beat].filter(Boolean).join(' / '))}</div>` },
+    { k: 'HQName', l: 'HQ', h: r => r.HQLat !== '' && r.HQLng !== '' ? `<b>${esc(r.HQName || 'HQ')}</b><div class="small"><a href="https://www.google.com/maps?q=${esc(r.HQLat)},${esc(r.HQLng)}" target="_blank">${esc((+r.HQLat).toFixed(5))}, ${esc((+r.HQLng).toFixed(5))}</a> · ${esc(r.HQRadius_m || 500)} m</div>` : (['beatguard', 'deputy', 'ranger'].includes(r.Role) ? '<span class="st warn">HQ not set</span>' : '') },
+    { k: 'Mobile', l: 'Mobile' }, { k: 'Active', l: 'Status', h: r => r.Active === 'TRUE' ? '<span class="st good">Active</span>' : '<span class="st mute">Inactive</span>' },
+    { k: 'PasswordSet', l: 'Password', f: r => r.PasswordSet ? 'Set' : 'Not set' },
+    { k: 'x', l: '', nosort: 1, h: r => S.staffEdit ? `<button class="eb" onclick="editStaff('${esc(r.EmpID)}')">✎ Edit</button>` : '' }], rows, { sort: 'Name', asc: true });
+}
+function csvStaff() { csv((S.staff || []).map(u => { const o = Object.assign({}, u); o.Role = roleName(u.Role); return o; }), 'staff_hq'); }
+function parseLatLng(txt) {
+  txt = String(txt || '').trim(); let m = txt.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || txt.match(/[?&](?:q|query|ll)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/) || txt.match(/(-?\d{1,2}\.\d+)\s*[, ]\s*(-?\d{1,3}\.\d+)/);
+  if (m) return [+m[1], +m[2]];
+  const d = [...txt.matchAll(/(\d+)\s*°\s*(\d+)\s*['′]\s*([\d.]+)\s*["″]?\s*([NSEW])/gi)];
+  if (d.length === 2) return d.map(x => (+x[1] + x[2] / 60 + x[3] / 3600) * (/[SW]/i.test(x[4]) ? -1 : 1));
+  return null;
+}
+function editStaff(id) {
+  const u = id ? S.staff.find(x => x.EmpID === id) : { EmpID: '', Name: '', Designation: '', Mobile: '', Email: '', Role: 'beatguard', Range: '', Circle: '', Beat: '', Active: 'TRUE', HQName: '', HQLat: '', HQLng: '', HQRadius_m: '500' };
+  const ranges = [...new Set(S.staff.map(x => x.Range).filter(Boolean))], circles = [...new Set(S.staff.map(x => x.Circle).filter(Boolean))], beats = [...new Set(S.staff.map(x => x.Beat).filter(Boolean))];
+  const inp = (k, l, extra = '') => `<div><label>${l}</label><input id="su-${k}" value="${esc(u[k] ?? '')}" ${extra}></div>`;
+  $('#edBox').innerHTML = `<h3>${id ? 'Edit employee' : 'Add employee'}</h3><p class="sub">${id ? esc(u.Name) + ' · ' + esc(u.EmpID) : 'New employees set their own password with OTP on first login.'}</p>
+   <div class="grid">${inp('EmpID', 'Employee ID *', id ? 'readonly' : '')}${inp('Name', 'Name *')}${inp('Designation', 'Designation')}
+    <div><label>Role *</label><select id="su-Role">${Object.entries(ROLE_NAMES).map(([k, v]) => `<option value="${k}" ${u.Role === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
+    ${inp('Mobile', 'Mobile (for OTP)', 'inputmode="numeric"')}${inp('Email', 'Email (OTP fallback)')}
+    ${inp('Range', 'Range', 'list="dl-r"')}${inp('Circle', 'Circle', 'list="dl-c"')}${inp('Beat', 'Beat', 'list="dl-b"')}
+    <div><label>Status</label><select id="su-Active"><option value="TRUE" ${u.Active === 'TRUE' ? 'selected' : ''}>Active</option><option value="FALSE" ${u.Active !== 'TRUE' ? 'selected' : ''}>Inactive</option></select></div>
+    <div class="sec">Headquarters (HQ) for attendance</div>
+    ${inp('HQName', 'HQ name (e.g. Khedi Naka)')}
+    <div><label>Paste HQ location</label><input id="su-paste" placeholder="21.9012, 77.8987 or Google Maps link"></div>
+    ${inp('HQLat', 'HQ latitude', 'inputmode="decimal"')}${inp('HQLng', 'HQ longitude', 'inputmode="decimal"')}${inp('HQRadius_m', 'Allowed radius (m)', 'inputmode="numeric"')}
+    <div style="align-self:end">${u.HQLat !== '' && u.HQLng !== '' ? `<a id="su-map" href="https://www.google.com/maps?q=${esc(u.HQLat)},${esc(u.HQLng)}" target="_blank">Check on Google Maps ↗</a>` : '<a id="su-map" target="_blank"></a>'}</div>
+    ${id ? `<div class="sec">Password</div><label style="display:flex;gap:8px;align-items:center;grid-column:1/-1"><input type="checkbox" id="su-reset" style="width:auto"> Reset password (employee sets a new one with OTP)</label>` : ''}
+   </div>
+   <datalist id="dl-r">${ranges.map(x => `<option value="${esc(x)}">`).join('')}</datalist><datalist id="dl-c">${circles.map(x => `<option value="${esc(x)}">`).join('')}</datalist><datalist id="dl-b">${beats.map(x => `<option value="${esc(x)}">`).join('')}</datalist>
+   <div class="right" style="margin-top:14px"><button class="btn ghost" onclick="closeEd()">Cancel</button><button class="btn" id="su-save">Save</button></div>`;
+  const upd = () => { const a = $('#su-HQLat').value, b = $('#su-HQLng').value; const m = $('#su-map'); if (a && b) { m.href = `https://www.google.com/maps?q=${a},${b}`; m.textContent = 'Check on Google Maps ↗'; } };
+  $('#su-paste').oninput = e => { const ll = parseLatLng(e.target.value); if (ll) { $('#su-HQLat').value = ll[0].toFixed(6); $('#su-HQLng').value = ll[1].toFixed(6); upd(); } };
+  $('#su-HQLat').oninput = $('#su-HQLng').oninput = upd;
+  $('#su-save').onclick = async () => {
+    const v = {}; ['EmpID', 'Name', 'Designation', 'Role', 'Mobile', 'Email', 'Range', 'Circle', 'Beat', 'Active', 'HQName', 'HQLat', 'HQLng', 'HQRadius_m'].forEach(k => v[k] = $('#su-' + k).value.trim());
+    if (!v.EmpID || !v.Name) return toast('Employee ID and Name are required');
+    if ((v.HQLat || v.HQLng) && (isNaN(+v.HQLat) || isNaN(+v.HQLng) || Math.abs(+v.HQLat) > 90 || Math.abs(+v.HQLng) > 180)) return toast('Check the HQ latitude / longitude');
+    if (v.HQLat && !v.HQRadius_m) v.HQRadius_m = '500';
+    busy(true);
+    try { await api('adminSaveUser', { token: session.token, user: v, isNew: !id, resetPassword: !!($('#su-reset') && $('#su-reset').checked) }); closeEd(); toast('Saved'); S.staff = null; await load(); }
+    catch (e) { toast(e.message, 5000); } finally { busy(false); }
+  };
+  $('#ed').classList.add('on');
+}
+
+/* ---------- admin: edit / delete any record ---------- */
+const REC = new Map();
+function indexRecs() {
+  REC.clear(); const r = S.raw;
+  r.attendance.forEach(x => REC.set(x.id, { kind: 'attendance', x })); r.patrols.forEach(x => REC.set(x.id, { kind: 'patrol', x }));
+  r.observations.forEach(x => REC.set(x.id, { kind: 'observation', x })); r.inspections.forEach(x => REC.set(x.id, { kind: 'inspection', x }));
+  r.works.forEach(x => REC.set(x.id, { kind: 'works', x })); r.photos.forEach(x => REC.set(x.id, { kind: 'photo', x })); (r.gis || []).forEach(x => REC.set(x.id, { kind: 'gis', x }));
+}
+function editBtns(id, label) { if (!S.canEdit || !id || !REC.has(id)) return ''; return `<button class="eb" onclick="event.stopPropagation();editRec('${esc(id)}')">✎ ${label ? esc(label) : 'Edit'}</button><button class="eb del" onclick="event.stopPropagation();delRec('${esc(id)}')">🗑</button>`; }
+const SHEET_OF = { attendance: 'Attendance', patrol: 'Patrols', observation: 'PatrolObservations', inspection: 'BeatInspections', works: 'DailyWorks', photo: 'Photos', gis: 'GIS' };
+const LOC_F = x => [['Range', 'Range', x.range], ['Circle', 'Circle', x.circle], ['Beat', 'Beat', x.beat]];
+function editDefs(kind, x) {
+  if (kind === 'attendance') return [['AttendanceType', 'Attendance type', x.type, ['Check-in (arrival)', 'Check-out (departure)', 'On field duty']], ['AtHQ', 'At HQ?', x.atHQ, ['Yes', 'No', 'HQ not set', 'Unknown']],
+    ['OutReason', 'Reason if outside HQ', x.outReason, ['', 'Official work', 'Leave']], ['OutRemarks', 'Remarks (outside HQ)', x.outRemarks], ['Teep', 'Teep', x.teep], ...LOC_F(x)];
+  if (kind === 'patrol') return [['PatrolType', 'Patrol type', x.type, ['Foot patrol', 'Vehicle patrol', 'Night patrol', 'Joint patrol', 'Special patrol']], ['Team', 'Team', x.team], ['Purpose', 'Purpose', x.purpose],
+    ['Distance_km', 'Distance (km)', x.km], ['Duration_min', 'Duration (min)', x.minutes], ...LOC_F(x)];
+  if (kind === 'observation') return [['Category', 'Category', x.category], ['Detail', 'Detail', x.detail], ['Count', 'Count', x.count], ['Remarks', 'Remarks', x.remarks]];
+  if (kind === 'inspection') {
+    const ST = { Patrol: ['Done', 'Not done'], Munara: ['Intact', 'Damaged', 'Missing'] };
+    return [['InspectionDate', 'Inspection date', x.day], ['Remarks', 'Overall remarks', x.remarks], ...LOC_F(x),
+      ...x.items.flatMap(i => [['§', INS_LABEL[i.key] || i.label], [i.label + '_Status', 'Status', i.status, ST[i.label] || ['Not found', 'Found']], [i.label + '_Qty', 'Quantity', i.qty], [i.label + '_Remarks', 'Remarks', i.remarks]])];
+  }
+  if (kind === 'works') return [['WorkDate', 'Work date', x.day], ['WorkType', 'Work type', x.workType, ['Weeding', 'Construction', 'Plantation', 'Pit digging', 'Fire line', 'Soil & moisture conservation', 'Other']], ['WorkName', 'Work / site', x.workName],
+    ['Compartment', 'Compartment', x.compartment], ['Quantity', 'Quantity', x.qty], ['Unit', 'Unit', x.unit], ['Labourers', 'Labourers', x.labour], ['Remarks', 'Remarks', x.remarks], ...LOC_F(x)];
+  if (kind === 'photo') return [['Category', 'Category', x.category, ['Construction works', 'Forestry works', 'Samiti works']], ['Subject', 'Subject', x.subject], ['Compartment', 'Compartment', x.compartment], ['Remarks', 'Remarks', x.remarks], ...LOC_F(x)];
+  if (kind === 'gis') return [['Title', 'Title', x.title]];
+  return [];
+}
+const KIND_NAME = { attendance: 'Attendance', patrol: 'Patrol', observation: 'Patrol observation', inspection: 'Beat inspection', works: 'Daily work', photo: 'Photo upload', gis: 'GIS file' };
+function editRec(id) {
+  const r = REC.get(id); if (!r) return; const defs = editDefs(r.kind, r.x);
+  $('#edBox').innerHTML = `<h3>Edit ${KIND_NAME[r.kind]}</h3><p class="sub">${esc(r.x.name)} · ${dLong(r.x.day)} · every change is recorded in the AuditLog tab</p>
+    <div class="grid">${defs.map(([k, l, v, opts]) => k === '§' ? `<div class="sec">${esc(l)}</div>` : `<div><label>${esc(l)}</label>${opts ? `<select data-k="${esc(k)}">${(opts.includes(v ?? '') ? opts : [v ?? '', ...opts]).map(o => `<option ${String(o) === String(v ?? '') ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>` : `<input data-k="${esc(k)}" value="${esc(v ?? '')}">`}</div>`).join('')}</div>
+    <div class="right" style="margin-top:14px"><button class="btn ghost" onclick="closeEd()">Cancel</button><button class="btn" id="ed-save">Save changes</button></div>`;
+  $('#ed-save').onclick = async () => {
+    const changes = {}; defs.forEach(([k, , v]) => { if (k === '§') return; const nv = $(`#edBox [data-k="${CSS.escape(k)}"]`).value; if (String(nv) !== String(v ?? '')) changes[k] = nv; });
+    if (!Object.keys(changes).length) return closeEd();
+    busy(true);
+    try { await api('adminUpdate', { token: session.token, sheet: SHEET_OF[r.kind], id, changes }); closeEd(); toast('Saved'); await load(); }
+    catch (e) { toast(e.message, 5000); } finally { busy(false); }
+  };
+  $('#ed').classList.add('on');
+}
+async function delRec(id) {
+  const r = REC.get(id); if (!r) return;
+  if (!(await confirmBox(`Delete this ${KIND_NAME[r.kind].toLowerCase()} by ${r.x.name} (${dLong(r.x.day)})? The row is removed from the sheet; photos stay in Drive. A copy is kept in the AuditLog tab.`))) return;
+  busy(true);
+  try { await api('adminDelete', { token: session.token, sheet: SHEET_OF[r.kind], id }); toast('Deleted'); $('#drawer').classList.remove('on'); await load(); }
+  catch (e) { toast(e.message, 5000); } finally { busy(false); }
+}
+function closeEd() { $('#ed').classList.remove('on'); }
+function confirmBox(msg) {
+  return new Promise(res => {
+    $('#edBox').innerHTML = `<h3>Please confirm</h3><p>${esc(msg)}</p><div class="right"><button class="btn ghost" id="cb-no">Cancel</button><button class="btn" id="cb-yes" style="background:#b3261e">Delete</button></div>`;
+    $('#ed').classList.add('on');
+    $('#cb-no').onclick = () => { closeEd(); res(false); }; $('#cb-yes').onclick = () => { closeEd(); res(true); };
+  });
+}
+
+/* ================= components ================= */
+function table(sel, id, cols, rows, o = {}) {
+  const st = S.sort[id] || (S.sort[id] = { k: o.sort || cols[0].k, asc: !!o.asc });
+  const val = (r, c) => { const v = r[c.k]; return v instanceof Set ? v.size : v; };
+  const sorted = rows.slice().sort((a, b) => { const x = val(a, cols.find(c => c.k === st.k) || cols[0]), y = val(b, cols.find(c => c.k === st.k) || cols[0]); const r = (typeof x === 'number' && typeof y === 'number') ? x - y : String(x ?? '').localeCompare(String(y ?? ''), 'en', { numeric: true }); return st.asc ? r : -r; });
+  const el = $(sel);
+  el.innerHTML = rows.length ? `<table><thead><tr>${cols.map(c => `<th class="${c.num ? 'num' : ''}" data-k="${c.k}" ${c.nosort ? 'data-ns="1"' : ''}>${esc(c.l)}${st.k === c.k ? (st.asc ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>
+    ${sorted.map(r => `<tr ${o.rowClick ? `class="click" onclick="${o.rowClick(r)}"` : ''}>${cols.map(c => `<td class="${c.num ? 'num' : ''}">${c.h ? c.h(r) : esc(c.f ? c.f(r) : (r[c.k] ?? ''))}</td>`).join('')}</tr>`).join('')}</tbody></table>`
+    : `<p class="muted" style="padding:10px">${o.empty || 'No entries in this period'}</p>`;
+  el.querySelectorAll('th').forEach(th => { if (th.dataset.ns) return; th.onclick = () => { if (st.k === th.dataset.k) st.asc = !st.asc; else { st.k = th.dataset.k; st.asc = false; } table(sel, id, cols, rows, o); observePhotos(); }; });
+}
+let CAP = {};
+function strip(ids, max = 99, a) {
+  ids = ids || []; const show = ids.slice(0, max);
+  return show.map(id => { if (a) CAP[id] = `${a.c} — ${a.title || ''} · ${a.x.beat} · ${a.x.name} · ${dLong(a.day)} ${timeIST(a.t)}`; return `<img class="ph" data-id="${esc(id)}" alt="" onclick="openLb('${esc(id)}')">`; }).join('') + (ids.length > max ? `<span class="small muted" style="align-self:center">+${ids.length - max}</span>` : '');
+}
+const driveUrl = id => `https://drive.google.com/file/d/${id}/view`;
+/* lazy thumbnails: batch requests of up to 8 */
+const IMG = new Map(); let queue = [], pending = new Set(), timer = null;
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); want(e.target.dataset.id); } }), { rootMargin: '300px' });
+function observePhotos() { $$('img.ph[data-id]').forEach(im => { const id = im.dataset.id; if (IMG.has(id)) { if (IMG.get(id)) im.src = IMG.get(id); } else io.observe(im); }); }
+function want(id) { if (IMG.has(id) || pending.has(id)) return; pending.add(id); queue.push(id); clearTimeout(timer); timer = setTimeout(flush, 60); }
+let inflight = 0;
+async function flush() {
+  while (queue.length && inflight < 3) {
+    const batch = queue.splice(0, 8); inflight++;
+    api('photo', { token: session && session.token, ids: batch }).then(r => {
+      batch.forEach(id => { IMG.set(id, (r.images || {})[id] || ''); pending.delete(id); $$(`img.ph[data-id="${CSS.escape(id)}"]`).forEach(im => { if (IMG.get(id)) im.src = IMG.get(id); else im.alt = '×'; }); });
+    }).catch(() => batch.forEach(id => pending.delete(id))).finally(() => { inflight--; if (queue.length) flush(); });
+  }
+}
+async function openLb(id) {
+  $('#lbImg').src = IMG.get(id) || ''; $('#lbCap').innerHTML = `${esc(CAP[id] || '')}<br><a href="${driveUrl(id)}" target="_blank" style="color:#9fe0b0">Open original in Google Drive ↗</a>`;
+  $('#lb').classList.add('on');
+  try { const r = await api('photo', { token: session && session.token, ids: [id], full: true }); if (r.images[id] && $('#lb').classList.contains('on')) $('#lbImg').src = r.images[id]; } catch (e) {}
+}
+function closeLb() { $('#lb').classList.remove('on'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLb(); $('#drawer').classList.remove('on'); } });
+function csv(rows, name) {
+  if (!rows.length) return toast('Nothing to export');
+  const keys = [...new Set(rows.flatMap(r => Object.keys(r)))];
+  const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  const txt = '﻿' + [keys.join(','), ...rows.map(r => keys.map(k => q(r[k])).join(','))].join('\n');
+  if (window.VP_PREVIEW) return toast('CSV download works on the real website (downloads are blocked in this preview).', 4000);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/csv;charset=utf-8' })); a.download = name + '.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+/* bar chart (single or stacked), hover tooltip per day */
+function barChart(el, days, series, o = {}) {
+  const W = Math.max(320, el.clientWidth || 600), H = 220, m = { l: 38, r: 8, t: 10, b: 24 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, n = days.length, band = iw / n, bw = Math.max(3, Math.min(28, band * 0.68));
+  const tot = days.map((_, i) => o.stacked ? series.reduce((a, s) => a + s.values[i], 0) : Math.max(...series.map(s => s.values[i])));
+  let max = o.max || Math.max(4, ...tot); if (!o.max) { const step = Math.pow(10, Math.floor(Math.log10(max))); max = Math.ceil(max / step) * step; }
+  const y = v => m.t + ih - v / max * ih, fmt = o.fmt || (v => fmtN(v));
+  const ticks = [0, .25, .5, .75, 1].map(f => f * max);
+  const every = Math.ceil(n / Math.max(1, Math.floor(iw / 46)));
+  const top = (x, y0, w, h) => { const r = Math.min(4, w / 2, h); return `M${x},${y0 + h}V${y0 + r}Q${x},${y0} ${x + r},${y0}H${x + w - r}Q${x + w},${y0} ${x + w},${y0 + r}V${y0 + h}Z`; };
+  let bars = '';
+  days.forEach((d, i) => {
+    const x = m.l + i * band + (band - bw) / 2; let acc = 0;
+    const segs = series.map(s => ({ s, v: s.values[i] })).filter(z => z.v > 0);
+    segs.forEach((z, j) => {
+      const y1 = y(acc + z.v), h = y(acc) - y1; acc += z.v;
+      const last = j === segs.length - 1;
+      bars += last ? `<path d="${top(x, y1, bw, Math.max(0, h))}" fill="${z.s.color}"/>` : `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(0, h)}" fill="${z.s.color}" stroke="var(--surface-1)" stroke-width="2"/>`;
+    });
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(series.map(s => s.label).join(', '))} per day">
+    ${ticks.map(t => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(t)}" y2="${y(t)}" stroke="${t ? 'var(--grid)' : 'var(--axis)'}" stroke-width="1"/><text x="${m.l - 6}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="var(--text-secondary)">${fmt(t)}</text>`).join('')}
+    ${bars}
+    ${days.map((d, i) => i % every === 0 ? `<text x="${m.l + i * band + band / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--text-secondary)">${dShort(d)}</text>` : '').join('')}
+    <line id="hl" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--axis)" stroke-dasharray="3 3" visibility="hidden"/>
+    ${days.map((d, i) => `<rect class="hit" data-i="${i}" x="${m.l + i * band}" y="${m.t}" width="${band}" height="${ih}" fill="transparent"/>`).join('')}
+  </svg>`;
+  const tip = $('#tip');
+  el.querySelectorAll('.hit').forEach(h => {
+    h.onmousemove = e => { const i = +h.dataset.i; tip.innerHTML = `<b>${dLong(days[i])}</b>` + (o.tip ? o.tip(i) : series.map(s => `<div><i style="background:${s.color}"></i>${s.label}: ${fmt(s.values[i])}</div>`).join('') + (o.stacked ? `<div style="margin-top:3px">Total: ${fmt(tot[i])}</div>` : ''));
+      tip.style.display = 'block'; tip.style.left = Math.min(innerWidth - 270, e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px'; };
+    h.onmouseleave = () => tip.style.display = 'none';
+  });
+}
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.raw && S.tab === 'overview') render(); }, 200); });
+
+/* ================= wiring ================= */
+$$('#quick .chip').forEach(c => c.onclick = () => setRange(c.dataset.q));
+['#fFrom', '#fTo'].forEach(s => $(s).onchange = () => { $$('#quick .chip').forEach(c => c.classList.remove('on')); load(); });
+$('#fRange').onchange = e => { S.f.range = e.target.value; S.f.circle = S.f.beat = S.f.emp = ''; fillFilters(); render(); };
+$('#fCircle').onchange = e => { S.f.circle = e.target.value; S.f.beat = S.f.emp = ''; fillFilters(); render(); };
+$('#fBeat').onchange = e => { S.f.beat = e.target.value; S.f.emp = ''; fillFilters(); render(); };
+$('#fEmp').onchange = e => { S.f.emp = e.target.value; render(); };
+$$('#tabs button').forEach(b => b.onclick = () => { S.tab = b.dataset.t; render(); });
+$('#lgPw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+function start() {
+  $('#loginV').classList.add('hide'); $('#appV').classList.remove('hide'); $('#outB').classList.remove('hide');
+  const rl = String(session.user.role || '').toLowerCase();
+  $('#who').innerHTML = `${esc(session.user.name)}<br><span style="opacity:.85">${esc(session.user.roleLabel || roleName(rl))}${rl === 'admin' ? '<span class="badge">can edit</span>' : ''}</span>`;
+  S.staff = null;
+  $('#demoBan').classList.toggle('hide', !DEMO);
+  setRange('7');
+}
+
+/* ================= demo data (only when no backend is configured) ================= */
+function rng(seed) { let h = 2166136261; for (const c of seed) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return () => { h += 0x6D2B79F5; let t = h; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function demoRole(id) { const k = String(id).toLowerCase(); return k.startsWith('admin') ? 'admin' : k.startsWith('sdo') ? 'sdo' : k.startsWith('ro') ? 'ranger' : 'dfo'; }
+function demoStaff() {
+  if (DEMO_ST.staff) return DEMO_ST.staff;
+  const B = [['North Range', 'Khedi', ['Beat 401', 'Beat 402', 'Beat 403']], ['North Range', 'Sehra', ['Beat 411', 'Beat 412']], ['South Range', 'Dhodra', ['Beat 501', 'Beat 502', 'Beat 503']], ['South Range', 'Bhaura', ['Beat 511', 'Beat 512']]];
+  const names = ['Ramesh Uikey', 'Sunil Dhurve', 'Anita Kumre', 'Mahesh Yadav', 'Pooja Bhalavi', 'Rakesh Saryam', 'Dinesh Evne', 'Kavita Parte', 'Santosh Kawde', 'Ravi Shah'];
+  const st = []; let k = 0;
+  B.forEach(([r, c, beats]) => beats.forEach(bt => { const dep = k % 4 === 3; st.push({ EmpID: (dep ? 'DR' : 'BG') + (101 + k), Name: names[k % names.length], Designation: dep ? 'Deputy Ranger' : 'Beat Guard', Role: dep ? 'deputy' : 'beatguard', Mobile: '98765432' + String(10 + k), Email: '', Range: r, Circle: c, Beat: bt, Active: 'TRUE', HQName: k === 6 ? '' : (dep ? c + ' Chowki' : bt.replace('Beat', 'Naka')), HQLat: k === 6 ? '' : String((21.85 + k * 0.012).toFixed(5)), HQLng: k === 6 ? '' : String((77.85 + k * 0.009).toFixed(5)), HQRadius_m: k === 6 ? '' : '500', PasswordSet: k !== 9 }); k++; }));
+  st.push({ EmpID: 'RO1', Name: 'Anil Thakur', Designation: 'Range Officer', Role: 'ranger', Mobile: '9000000011', Email: '', Range: 'North Range', Circle: '', Beat: '', Active: 'TRUE', HQName: 'Range Office, North', HQLat: '21.90120', HQLng: '77.89870', HQRadius_m: '500', PasswordSet: true });
+  st.push({ EmpID: 'RO2', Name: 'Meena Uike', Designation: 'Range Officer', Role: 'ranger', Mobile: '9000000012', Email: '', Range: 'South Range', Circle: '', Beat: '', Active: 'TRUE', HQName: 'Range Office, South', HQLat: '21.95000', HQLng: '77.95000', HQRadius_m: '500', PasswordSet: true });
+  st.push({ EmpID: 'DFO1', Name: 'D. Sharma', Designation: 'DFO', Role: 'dfo', Mobile: '9000000001', Email: '', Range: '', Circle: '', Beat: '', Active: 'TRUE', HQName: '', HQLat: '', HQLng: '', HQRadius_m: '', PasswordSet: true });
+  st.push({ EmpID: 'ADMIN1', Name: 'Office Admin', Designation: 'Admin', Role: 'admin', Mobile: '9000000003', Email: '', Range: '', Circle: '', Beat: '', Active: 'TRUE', HQName: '', HQLat: '', HQLng: '', HQRadius_m: '', PasswordSet: true });
+  return DEMO_ST.staff = st;
+}
+const DEMO_ST = { staff: null, data: {}, role: 'dfo' };
+const DEMO_REV = { AttendanceType: 'type', AtHQ: 'atHQ', OutReason: 'outReason', OutRemarks: 'outRemarks', Teep: 'teep', Range: 'range', Circle: 'circle', Beat: 'beat', PatrolType: 'type', Team: 'team', Purpose: 'purpose',
+  Distance_km: 'km', Duration_min: 'minutes', Category: 'category', Detail: 'detail', Count: 'count', Remarks: 'remarks', WorkType: 'workType', WorkName: 'workName', Compartment: 'compartment', Quantity: 'qty', Unit: 'unit',
+  Labourers: 'labour', Subject: 'subject', Title: 'title', InspectionDate: 'day', WorkDate: 'day' };
+function demoApi(action, b) {
+  if (action === 'login') { if (b.password !== 'demo') throw new Error('Demo mode: use password "demo"'); const r = demoRole(b.id); DEMO_ST.role = r;
+    return { token: 'demo', user: { empId: String(b.id).toUpperCase(), name: { admin: 'Office Admin', dfo: 'D. Sharma', sdo: 'S. Verma', ranger: 'Anil Thakur' }[r], role: r, roleLabel: ROLE_NAMES[r], range: r === 'ranger' ? 'North Range' : '' } }; }
+  const role = (session && session.user && session.user.role) || DEMO_ST.role, scope = role === 'ranger' ? ((session.user && session.user.range) || 'North Range') : '';
+  if (action === 'logout') return {};
+  if (action === 'photo') { const images = {}; b.ids.forEach(id => images[id] = demoImg(id)); return { images }; }
+  if (action === 'adminUsers') return { users: demoStaff().filter(u => !scope || u.Range === scope), canEdit: role === 'admin' };
+  if (action === 'adminSaveUser') { if (role !== 'admin') throw new Error('Only Admin can edit data.'); const st = demoStaff(); const v = Object.assign({}, b.user); const i = st.findIndex(u => u.EmpID.toUpperCase() === v.EmpID.toUpperCase());
+    if (i >= 0) { if (b.isNew) throw new Error('Employee ID ' + v.EmpID + ' already exists'); st[i] = Object.assign(st[i], v, b.resetPassword ? { PasswordSet: false } : {}); } else st.push(Object.assign(v, { PasswordSet: false })); DEMO_ST.data = {}; return { saved: true }; }
+  if (action === 'adminUpdate' || action === 'adminDelete') {
+    if (role !== 'admin') throw new Error('Only Admin can edit data.');
+    for (const key in DEMO_ST.data) { const d = DEMO_ST.data[key].data;
+      for (const arr of ['attendance', 'patrols', 'observations', 'inspections', 'works', 'photos', 'gis']) { const i = d[arr].findIndex(x => x.id === b.id); if (i < 0) continue;
+        if (action === 'adminDelete') { d[arr].splice(i, 1); continue; }
+        const x = d[arr][i]; Object.entries(b.changes).forEach(([k, v]) => { const m = k.match(/^(\w+)_(Status|Qty|Remarks)$/); if (m && x.items) { const it = x.items.find(q => q.label === m[1]); if (it) it[{ Status: 'status', Qty: 'qty', Remarks: 'remarks' }[m[2]]] = v; } else if (DEMO_REV[k]) x[DEMO_REV[k]] = (k === 'Distance_km' || k === 'Duration_min') ? +v : v; }); } }
+    return { saved: true };
+  }
+  // dashboard data
+  const key = b.from + '|' + b.to;
+  if (!DEMO_ST.data[key]) DEMO_ST.data[key] = demoData(b.from, b.to);
+  const full = DEMO_ST.data[key].data, f = arr => arr.filter(x => !scope || x.range === scope);
+  const data = { users: f(full.users) }; ['attendance', 'patrols', 'observations', 'inspections', 'works', 'photos', 'gis'].forEach(k => data[k] = f(full[k]));
+  return { data, from: b.from, to: b.to, scope, me: { name: session && session.user ? session.user.name : 'Demo', role, canEdit: role === 'admin' }, generatedAt: new Date().toISOString() };
+}
+function demoData(from, to) {
+  const staff = demoStaff().filter(u => u.Active === 'TRUE' && ['beatguard', 'deputy', 'ranger'].includes(u.Role));
+  const users = staff.map(u => ({ empId: u.EmpID, name: u.Name, designation: u.Designation, range: u.Range, circle: u.Circle, beat: u.Beat, role: u.Role, hq: u.HQName }));
+  const data = { users, attendance: [], patrols: [], observations: [], inspections: [], works: [], photos: [], gis: [] };
+  let pid = 0, rid = 0; const P = (cat, n) => Array.from({ length: n }, () => `demo-${cat}-${++pid}`); const nid = p => p + (++rid);
+  const at = (d, h, m) => new Date(`${d}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00+05:30`).toISOString();
+  const OBS = ['Wildlife – direct sighting', 'Indirect sign (pugmark / scat / scrape)', 'Water source', 'Illegal felling', 'Illegal grazing', 'Encroachment', 'Fire'];
+  const WT = ['Weeding', 'Construction', 'Plantation', 'Fire line', 'Soil & moisture conservation'], PCAT = ['Construction works', 'Forestry works', 'Samiti works'];
+  daysBetween(from, to).forEach(day => staff.forEach(s => {
+    const u = users.find(x => x.empId === s.EmpID), R = rng(day + u.empId), base = { day, empId: u.empId, name: u.name, range: u.range, circle: u.circle, beat: u.beat };
+    if (new Date(day + 'T12:00:00+05:30').getDay() === 0 && R() < .7) return;
+    if (R() < .84) {
+      const hasHQ = s.HQLat !== '', q = R(), out = hasHQ && q < .16, leave = out && q < .05;
+      const hq = { hqName: s.HQName, hqDist: hasHQ ? (out ? 900 + Math.round(R() * 6000) : Math.round(R() * 420)) : null, atHQ: hasHQ ? (out ? 'No' : 'Yes') : 'HQ not set', outReason: out ? (leave ? 'Leave' : 'Official work') : '', outRemarks: out && !leave ? ['Court case hearing, Betul', 'Fire line inspection', 'Meeting at Range office', 'Plantation site visit'][Math.floor(R() * 4)] : (leave ? 'Casual leave' : '') };
+      data.attendance.push({ ...base, ...hq, id: nid('a'), time: at(day, 8 + Math.floor(R() * 2), Math.floor(R() * 59)), type: 'Check-in (arrival)', lat: 21.9 + R() / 10, lng: 77.9 + R() / 10, elev: 520 + Math.round(R() * 140), teep: `${u.name}, ${u.designation} — Check-in — ${u.beat || u.range} — ${hq.atHQ === 'Yes' ? 'At HQ' : hq.atHQ === 'No' ? 'Out of HQ: ' + hq.outReason : ''}`, photos: P('Attendance', 1) });
+      if (!leave && R() < .55) data.attendance.push({ ...base, ...hq, id: nid('a'), time: at(day, 17, Math.floor(R() * 59)), type: 'Check-out (departure)', lat: 21.9 + R() / 10, lng: 77.9 + R() / 10, elev: 540, teep: `${u.name} — Check-out — ${u.beat || u.range}`, photos: P('Attendance', 1) });
+      if (leave) return;
+    }
+    if (u.role === 'ranger') return;
+    if (R() < .45) { const id = nid('p'), ob = Math.floor(R() * 3); data.patrols.push({ ...base, id, type: R() < .8 ? 'Foot patrol' : 'Night patrol', team: 'Chowkidar Ramlal', purpose: 'Routine', start: at(day, 6, 30), end: at(day, 10, 15), minutes: 120 + Math.floor(R() * 120), km: +(3 + R() * 9).toFixed(2), points: 300, obs: ob, kml: '#', folder: '#' });
+      for (let i = 0; i < ob; i++) { const c = OBS[Math.floor(R() * (R() < .8 ? 3 : OBS.length))]; data.observations.push({ ...base, patrolId: id, id: nid('o'), time: at(day, 7 + i, 20), category: c, detail: c.startsWith('Wild') ? ['Sambar', 'Chital', 'Gaur', 'Sloth bear'][Math.floor(R() * 4)] : c.startsWith('Indirect') ? 'Tiger pugmark' : '', count: '1', remarks: '', lat: 21.9, lng: 77.9, photos: P(c, 1) }); } }
+    if (R() < .12) { const st = [['Done', 'Not done'], ['Not found', 'Found'], ['Not found', 'Found'], ['Not found', 'Found'], ['Intact', 'Damaged', 'Missing']];
+      data.inspections.push({ ...base, id: nid('i'), time: '', remarks: '', folder: '#', items: ['patrol', 'katai', 'atikraman', 'mining', 'munara'].map((key, j) => { const sv = st[j][R() < .88 ? 0 : 1 + Math.floor(R() * (st[j].length - 1))]; return { key, label: ['Patrol', 'AvaidhKatai', 'AvaidhAtikraman', 'AvaidhMining', 'Munara'][j], status: sv, qty: sv === 'Found' ? String(1 + Math.floor(R() * 5)) : '', remarks: '', photos: P(INS_LABEL[key], 1) }; }) }); }
+    if (R() < .3) { const w = WT[Math.floor(R() * WT.length)]; data.works.push({ ...base, id: nid('w'), time: '', workType: w, workName: w === 'Construction' ? 'Check dam, nala' : 'Plantation 2024 RDF', compartment: String(400 + Math.floor(R() * 120)), qty: String(1 + Math.floor(R() * 6)), unit: w === 'Construction' ? 'nos' : 'ha', labour: String(5 + Math.floor(R() * 20)), remarks: '', photos: P(w, 1 + Math.floor(R() * 3)) }); }
+    if (R() < .1) { const c = PCAT[Math.floor(R() * 3)]; data.photos.push({ ...base, id: nid('f'), time: at(day, 15, 0), category: c, subject: c === 'Samiti works' ? 'EDC meeting' : 'Site progress', compartment: '', remarks: '', folder: '#', photos: P(c, 2) }); }
+    if (R() < .04) data.gis.push({ ...base, id: nid('g'), time: at(day, 16, 0), title: ['Encroachment survey', 'Fire line alignment', 'Waterhole points', 'Plantation boundary'][Math.floor(R() * 4)], format: 'KML', layers: 'My drawings', features: 1 + Math.floor(R() * 8), km: +(R() * 4).toFixed(2), ha: +(R() * 25).toFixed(2), file: '#' });
+  }));
+  return { data };
+}
+function demoImg(id) {
+  const cat = id.split('-').slice(1, -1).join('-'); const R = rng(id); const hue = [...cat].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240"><rect width="320" height="240" fill="hsl(${hue},28%,${38 + R() * 14}%)"/><ellipse cx="${80 + R() * 160}" cy="${70 + R() * 60}" rx="${50 + R() * 40}" ry="${30 + R() * 30}" fill="hsl(${(hue + 40) % 360},30%,62%)"/><rect y="170" width="320" height="70" fill="hsl(${hue},25%,26%)"/><rect x="8" y="196" width="230" height="36" fill="#0009"/><text x="16" y="212" font-family="sans-serif" font-size="11" fill="#fff">${esc(cat).slice(0, 34)}</text><text x="16" y="226" font-family="sans-serif" font-size="10" fill="#ddd">sample photo</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+/* ================= go ================= */
+if (session) start(); else { $('#loginV').classList.remove('hide'); $('#demoNote').classList.toggle('hide', !DEMO); }
+</script>
+</body>
+</html>
