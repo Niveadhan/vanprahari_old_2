@@ -94,6 +94,63 @@ textarea{min-height:70px;resize:vertical}
 @keyframes bl{50%{opacity:.25}}
 .center{text-align:center}
 .hide{display:none!important}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.seg button{border:1.5px solid var(--bd);background:#fff;border-radius:14px;padding:10px 12px;text-align:left;cursor:pointer}
+.seg button b{display:block;color:var(--g);font-size:15px}
+.seg button small{display:block;color:var(--mu);font-size:12px;margin-top:2px}
+.seg button.on{border-color:var(--g);background:var(--g3);box-shadow:inset 0 0 0 1px var(--g)}
+.rolechip{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--g3);color:var(--g);margin-left:6px;vertical-align:1px}
+.hqbox{border-radius:14px;padding:14px;border:2px solid var(--bd);background:#fff;margin-bottom:12px}
+.hqbox.in{border-color:#2e7d32;background:#eaf6ec}
+.hqbox.out{border-color:var(--rd);background:#fdecea;animation:pulse 1.6s ease-in-out 2}
+.hqbox.warn{border-color:var(--am);background:#fff4e0}
+.hqbox h3{margin:0 0 4px;font-size:17px}
+.hqbox.in h3{color:#1b5e20}.hqbox.out h3{color:var(--rd)}.hqbox.warn h3{color:#7a4a00}
+.hqbox .big{font-size:22px;font-weight:800;margin:2px 0 6px}
+.opt{display:flex;gap:8px;margin:10px 0 2px}
+.opt label{flex:1;margin:0;display:flex;align-items:center;gap:8px;border:1.5px solid var(--bd);background:#fff;border-radius:12px;padding:12px;font-size:15px;color:var(--tx);cursor:pointer}
+.opt input{width:auto;margin:0}
+.opt label:has(input:checked){border-color:var(--g);background:var(--g3)}
+@keyframes pulse{50%{box-shadow:0 0 0 6px #b3261e33}}
+@media(prefers-reduced-motion:reduce){.hqbox.out{animation:none}}
+.gmap{height:46vh;min-height:260px;border-bottom:1px solid var(--bd);z-index:1}
+.gtools{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding:6px;background:#fff;border-bottom:1px solid var(--bd)}
+.gtools button{border:0;background:none;border-radius:10px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;min-height:54px}
+.gtools button span{font-size:20px;line-height:1.1}
+.gtools small{font-size:11px;color:var(--mu);font-weight:650;white-space:nowrap}
+.gtools button.on{background:var(--g3)}
+.gtools button.on small{color:var(--g)}
+.gpanel{padding:12px 14px 30px}
+.gpanel h4{margin:14px 0 6px;color:var(--g)}
+.menu{position:fixed;right:8px;top:62px;width:min(340px,calc(100vw - 16px));background:#fff;border:1px solid var(--bd);border-radius:14px;box-shadow:0 10px 30px #0003;z-index:1500;padding:14px;max-height:75vh;overflow:auto}
+.lyr{border:1px solid var(--bd);border-radius:12px;background:#fff;margin-bottom:8px}
+.lyr .lh{display:flex;align-items:center;gap:6px;padding:8px}
+.lyr .lh input[type=text]{flex:1;min-width:0;padding:7px 8px;border:1px solid transparent;font-weight:650;background:transparent}
+.lyr .lh input[type=text]:focus,.fe input[type=text]:focus{border-color:var(--bd);background:#fff;outline:2px solid var(--g2)}
+.lyr input[type=checkbox],.fe input[type=checkbox]{width:20px;height:20px;flex:none;accent-color:var(--g);margin:0}
+.lyr input[type=color]{width:36px;height:32px;padding:0;border:1px solid var(--bd);border-radius:8px;flex:none;background:#fff}
+.lyr .lo{display:flex;align-items:center;gap:8px;padding:0 10px 8px 44px;font-size:13px;color:var(--mu)}
+.lyr .lo input[type=range]{flex:1;padding:0;accent-color:var(--g)}
+.lyr .lo b{min-width:40px;text-align:right;color:var(--tx);font-variant-numeric:tabular-nums}
+.lyr .feats{border-top:1px solid #eef1ee;padding:4px 8px 8px 36px}
+.fe{display:flex;align-items:center;gap:6px;padding:3px 0}
+.fe input[type=text]{flex:1;min-width:0;padding:6px 8px;font-size:14px;border:1px solid transparent;background:transparent}
+.mini{border:0;background:var(--g3);color:var(--g);border-radius:8px;min-width:34px;height:34px;font-size:15px;cursor:pointer;flex:none}
+.mini.red{background:#fde8e6;color:var(--rd)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:15px}
+.kv b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kv span{color:var(--mu)}
+.rose{display:block;margin:4px auto;width:min(250px,68vw);height:auto}
+.heading{text-align:center;font-size:36px;font-weight:800;color:var(--g);font-variant-numeric:tabular-nums}
+.prof{position:relative;margin-top:6px}
+.prof svg{display:block;width:100%;height:180px;touch-action:none}
+.ptip{position:absolute;top:4px;right:6px;background:#1d2420;color:#fff;font-size:12px;padding:4px 8px;border-radius:8px;pointer-events:none}
+.pill{display:inline-flex;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.pill button{border:0;background:#fff;padding:8px 14px;cursor:pointer;font-weight:650}
+.pill button.on{background:var(--g);color:#fff}
+.exp-it{display:flex;align-items:center;gap:10px;padding:8px 0;margin:0;font-size:15px;color:var(--tx);font-weight:500;border-bottom:1px solid #f0f2f0}
+.exp-it input{width:20px;height:20px;margin:0;accent-color:var(--g)}
+.drawhint{background:#fff4e0;border-radius:10px;padding:9px 11px;font-size:14px;color:#6b4300;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -108,6 +165,10 @@ textarea{min-height:70px;resize:vertical}
   </div>
   <div class="wrap">
     <div id="demoBanner1" class="banner hide" data-i18n="demoLogin"></div>
+    <div class="seg" id="portal">
+      <button type="button" data-p="field" class="on"><b data-i18n="pField"></b><small data-i18n="pFieldSub"></small></button>
+      <button type="button" data-p="officer"><b data-i18n="pOfficer"></b><small data-i18n="pOfficerSub"></small></button>
+    </div>
     <div class="card">
       <label data-i18n="empOrMobile"></label>
       <input id="lg-id" autocomplete="username" inputmode="text">
@@ -122,7 +183,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ OTP / SET PASSWORD ============ -->
 <section class="screen" id="s-otp">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="setPwTitle"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="setPwTitle"></h1></div>
   <div class="wrap">
     <div class="card" id="otp1">
       <p class="muted" data-i18n="otpHelp"></p>
@@ -155,11 +216,13 @@ textarea{min-height:70px;resize:vertical}
       <div class="chips"><span class="chip" id="h-net"></span><button class="chip pend" id="h-pend" onclick="trySync(true)"></button></div>
     </div>
     <div class="tiles">
-      <div class="tile" onclick="openPatrol()"><span class="ic">🧭</span><span data-i18n="patrol"></span></div>
-      <div class="tile" onclick="openInspect()"><span class="ic">🌳</span><span data-i18n="inspect"></span></div>
-      <div class="tile" onclick="openAttend()"><span class="ic">📍</span><span data-i18n="attend"></span></div>
-      <div class="tile" onclick="openWorks()"><span class="ic">🛠️</span><span data-i18n="works"></span></div>
-      <div class="tile wide" onclick="openPhotos()"><span class="ic">📷</span><span data-i18n="photos"></span></div>
+      <div class="tile" data-r="field" onclick="openPatrol()"><span class="ic">🧭</span><span data-i18n="patrol"></span></div>
+      <div class="tile" data-r="field" onclick="openInspect()"><span class="ic">🌳</span><span data-i18n="inspect"></span></div>
+      <div class="tile" data-r="field" onclick="openAttend()"><span class="ic">📍</span><span data-i18n="attend"></span></div>
+      <div class="tile" data-r="field" onclick="openWorks()"><span class="ic">🛠️</span><span data-i18n="works"></span></div>
+      <div class="tile" data-r="field" onclick="openPhotos()"><span class="ic">📷</span><span data-i18n="photos"></span></div>
+      <div class="tile" data-r="all" onclick="openGis()"><span class="ic">🗺️</span><span data-i18n="gis"></span></div>
+      <div class="tile wide" data-r="dash" onclick="openDash()"><span class="ic">📊</span><span data-i18n="dashboard"></span></div>
     </div>
     <div id="h-active" class="banner hide" style="margin-top:12px" onclick="show('s-patrol-active')"></div>
   </div>
@@ -167,7 +230,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ PATROL LIST ============ -->
 <section class="screen" id="s-patrol">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="patrol"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="patrol"></h1></div>
   <div class="wrap">
     <button class="btn" onclick="openPatrolStart()">▶ <span data-i18n="startPatrol"></span></button>
     <div class="card" style="margin-top:12px"><h3 data-i18n="pastPatrols"></h3><div class="list" id="pt-list"></div></div>
@@ -176,7 +239,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ PATROL START ============ -->
 <section class="screen" id="s-patrol-start">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="startPatrol"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="startPatrol"></h1></div>
   <div class="wrap">
     <div class="card">
       <label data-i18n="patrolType"></label><select id="ps-type"></select>
@@ -213,18 +276,18 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ PATROL VIEW ============ -->
 <section class="screen" id="s-patrol-view">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 id="pv-title"></h1><button class="ib" onclick="cycleLayer('view')">🗺</button></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 id="pv-title"></h1><button class="ib" onclick="cycleLayer('view')">🗺</button></div>
   <div class="wrap">
     <div id="pv-map" class="map"></div>
     <div class="card" style="margin-top:12px" id="pv-info"></div>
     <div class="row"><button class="btn ghost" onclick="downloadKml()">⬇ <span data-i18n="exportKml"></span></button></div>
-    <div class="row"><button class="btn ghost" onclick="openGmaps()">📍 <span data-i18n="openGmaps"></span></button></div>
+    <div class="row"><a class="btn ghost" id="pv-gmaps" target="_blank" rel="noopener" style="text-decoration:none">📍 <span data-i18n="openGmaps"></span></a></div>
   </div>
 </section>
 
 <!-- ============ BEAT INSPECTION ============ -->
 <section class="screen" id="s-inspect">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="inspect"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="inspect"></h1></div>
   <div class="wrap">
     <div class="card"><div id="in-loc"></div><label data-i18n="date"></label><input id="in-date" type="date"></div>
     <div id="in-items"></div>
@@ -235,12 +298,13 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ ATTENDANCE ============ -->
 <section class="screen" id="s-attend">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="attend"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="attend"></h1></div>
   <div class="wrap">
+    <div id="at-hq" class="hqbox"></div>
     <div class="card">
       <label data-i18n="attType"></label><select id="at-type"></select>
       <div id="at-loc"></div>
-      <label data-i18n="teep"></label><textarea id="at-teep" rows="2"></textarea>
+      <label data-i18n="teep"></label><textarea id="at-teep" rows="3"></textarea>
       <p class="muted" data-i18n="teepHelp"></p>
     </div>
     <div class="card"><h3 data-i18n="attPhoto"></h3><div id="at-photos"></div><p class="muted" data-i18n="stampHelp"></p></div>
@@ -250,7 +314,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ DAILY WORKS ============ -->
 <section class="screen" id="s-works">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="works"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="works"></h1></div>
   <div class="wrap">
     <div class="card">
       <label data-i18n="workType"></label><select id="wk-type"></select>
@@ -267,7 +331,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ PHOTO UPLOAD ============ -->
 <section class="screen" id="s-photos">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="photos"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="photos"></h1></div>
   <div class="wrap">
     <div class="card">
       <label data-i18n="photoCat"></label><select id="ph-cat"></select>
@@ -283,7 +347,7 @@ textarea{min-height:70px;resize:vertical}
 
 <!-- ============ SETTINGS ============ -->
 <section class="screen" id="s-settings">
-  <div class="top"><button class="ib" onclick="history.back()">←</button><h1 data-i18n="settings"></h1></div>
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="settings"></h1></div>
   <div class="wrap">
     <div class="card">
       <h3 data-i18n="sync"></h3>
@@ -309,6 +373,32 @@ textarea{min-height:70px;resize:vertical}
   </div>
 </section>
 
+<!-- ============ GIS ============ -->
+<section class="screen" id="s-gis">
+  <div class="top"><button class="ib" onclick="goBack()">←</button><h1 data-i18n="gis"></h1>
+    <button class="ib" onclick="openLayers()" aria-label="Layers">☰</button>
+    <button class="ib" onclick="toggleExport()" aria-label="Export">⇩</button>
+    <button class="ib" onclick="cycleLayer('gis')" aria-label="Base map">🗺</button></div>
+  <div id="gis-exp" class="menu hide"></div>
+  <div id="gis-map" class="gmap"></div>
+  <div class="gtools" id="gis-tools">
+    <button data-tool="compass"><span>🧭</span><small data-i18n="gCompass"></small></button>
+    <button data-tool="gps"><span>📍</span><small data-i18n="gGps"></small></button>
+    <button data-tool="path"><span>〰️</span><small data-i18n="gPath"></small></button>
+    <button data-tool="polygon"><span>⬠</span><small data-i18n="gPolygon"></small></button>
+    <button data-tool="point"><span>📌</span><small data-i18n="gPoint"></small></button>
+    <button data-tool="kml"><span>＋</span><small data-i18n="gKml"></small></button>
+  </div>
+  <div id="gis-panel" class="gpanel"></div>
+  <input type="file" id="gis-file" accept=".kml,.kmz,.xml,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz" multiple class="hide">
+</section>
+<div class="ov" id="gis-lyr"><div class="sheet" style="max-height:88vh">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h3 data-i18n="gLayers"></h3><button class="btn ghost sm" style="flex:none" onclick="closeLayers()">✕</button></div>
+  <p class="muted" style="margin:0 0 8px" data-i18n="gLayersHelp"></p>
+  <div id="gis-lyr-list"></div>
+  <div class="row"><button class="btn ghost" onclick="closeLayers();$('#gis-file').click()">＋ <span data-i18n="gKml"></span></button></div>
+</div></div>
+
 <!-- Observation sheet -->
 <div class="ov" id="obs-ov"><div class="sheet">
   <h3 data-i18n="addObs"></h3>
@@ -320,23 +410,29 @@ textarea{min-height:70px;resize:vertical}
   <div class="row"><button class="btn ghost sm" onclick="closeObs()" data-i18n="cancel"></button><button class="btn sm" onclick="saveObs()" data-i18n="save"></button></div>
 </div></div>
 
+<div class="ov" id="ask" style="align-items:center"><div class="sheet" style="border-radius:20px;max-width:420px;margin:16px">
+  <p id="ask-t" style="font-size:17px;margin:4px 0 14px"></p>
+  <div class="row"><button class="btn ghost sm" id="ask-no"></button><button class="btn sm" id="ask-ok"></button></div>
+</div></div>
 <div class="ov" id="viewer" onclick="this.classList.remove('on')"><img alt=""></div>
 <div class="ov" id="busy"><div id="busy-t">…</div></div>
 <div id="toast"></div>
 
+<script src="config.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 'use strict';
 /* =====================================================================
    VAN PRAHARI — all-in-one field app for forest staff
-   1. Paste your Google Apps Script Web App URL below (see SETUP-GUIDE).
+   1. Paste your Google Apps Script Web App URL in config.js (see SETUP-GUIDE).
    2. Leave it empty to run in DEMO mode (password: demo, OTP: 123456).
    ===================================================================== */
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbyAoBTQHv94oYfpMHdy6xD1Bf8yvwtTOcwy4sukBVEQklVu0zHkWBokBcrQ0sHjI6s5Kw/exec',
+  API_URL: (window.VP_CONFIG && window.VP_CONFIG.API_URL) || '',
   APP: 'Van Prahari',
-  VERSION: '1.0.0'
+  VERSION: '1.2.0'
 };
 
 /* ---------------- helpers ---------------- */
@@ -370,7 +466,27 @@ en: {
  needNet:'Internet needed for this step', pleaseWait:'Please wait…',
  patrol:'Patrol', inspect:'Beat Inspection', attend:'Attendance', works:'Daily Works Upload', photos:'Photo Upload', settings:'Settings', logout:'Logout',
  online:'● Online', offline:'● Offline', pending:'pending upload', allSynced:'✓ All uploaded', syncing:'Uploading…',
- range:'Range', circle:'Circle', beat:'Beat', select:'-- Select --', camera:'Camera', gallery:'Gallery', remarks:'Remarks', teep:'Teep (auto-written, editable)', submit:'Submit', save:'Save', cancel:'Cancel', date:'Date',
+ range:'Range', circle:'Circle', beat:'Beat', select:'-- Select --', camera:'Camera', gallery:'Gallery', remarks:'Remarks', teep:'Teep (auto-written, editable)', submit:'Submit', save:'Save', cancel:'Cancel', yes:'Yes',
+ gGpsTitle:'My location', gCompass:'Compass', gGps:'GPS', gPath:'Path', gPolygon:'Polygon', gPoint:'Point', gKml:'Add KML', gLayers:'Layers (Places)',
+ gLayersHelp:'Tick to show / hide · tap a name to rename · colour and opacity for each layer · ▸ opens the list of features.',
+ gLat:'Latitude', gLng:'Longitude', gAcc:'Accuracy', gElev:'Elevation', gTime:'Time', gCopy:'Copy', gCopied:'Copied', gMark:'Mark point', gName:'Name',
+ gPathHint:'Tap on the map to add points of the path — or walk and press “Add GPS point” at each turn.', gPolyHint:'Tap the corners on the map — or walk the boundary and press “Add GPS point” at each corner.',
+ gPointHint:'Tap on the map to place a point, or use your GPS location.', gUseGps:'Use my GPS location', gVertices:'Points', gLength:'Length', gPerimeter:'Perimeter', gArea:'Area',
+ gAddGps:'Add GPS point', gUndo:'Undo', gFinish:'Finish', gMyDrawings:'My drawings', gOpacity:'Opacity', gFeatures:'features', gNoLayers:'No layers yet — draw a path / polygon / point or add a KML file.',
+ gZoom:'Zoom to', gElevProfile:'Elevation along the path', gElevLoading:'Loading elevation…', gElevNoNet:'Elevation needs internet (terrain data). Offline, add the path with “Add GPS point” to use GPS elevation.',
+ gDem:'Terrain model (Copernicus DEM 90 m, via Open-Meteo)', gGpsAlt:'GPS elevation of the points', gMin:'Min', gMax:'Max', gAscent:'Ascent', gDescent:'Descent', gSource:'Source',
+ gCompassHelp:'Hold the phone flat. If the reading jumps, move the phone in a figure-8 to calibrate.', gCompassStart:'Start compass', gHeadSensor:'Phone compass sensor (magnetic north)',
+ gHeadGps:'Direction from GPS movement', gNoSensor:'No compass sensor found — walk a few steps to get direction from GPS.',
+ gExport:'Export', gFormat:'Format', gWhat:'What to export', gExpAll:'Everything (all layers)', gExpVisible:'Only layers that are switched on', gToPhone:'Save to phone', gToDrive:'Save to Google Drive',
+ gNothing:'Nothing to export yet', gDelLayer:'Delete layer', gDelFeat:'Delete', gKmzNet:'KMZ needs internet once to load the unzip tool — or use a .kml file', gBadKml:'Not a valid KML file', gEmptyKml:'No points, lines or polygons found in this file',
+ gPreviewDl:'File download works in the real app (blocked in this preview).',
+ pField:'Field staff', pFieldSub:'Beat Guard · Deputy Ranger · Range Officer', pOfficer:'Officers', pOfficerSub:'Range Officer · SDO · DFO · Admin',
+ gis:'GIS tools', dashboard:'Dashboard', notOfficer:'This login is for Range Officer, SDO, DFO and Admin', notField:'Use the Officers login',
+ 'r.beatguard':'Beat Guard', 'r.deputy':'Deputy Ranger', 'r.ranger':'Range Officer', 'r.sdo':'SDO', 'r.dfo':'DFO', 'r.admin':'Admin',
+ hqChecking:'Checking your location against HQ…', hqIn:'You are at HQ', hqOut:'You are OUT of HQ', hqNotSet:'HQ location not set', hqNotSetSub:'Ask the office (admin) to enter your HQ and its GPS location.',
+ hqGpsFail:'Could not check HQ — no GPS', hqFrom:'from', hqAllowed:'allowed', hqWhy:'Why are you outside HQ?', hqOfficial:'Official work', hqLeave:'Leave', hqRemarks:'Remarks (optional)',
+ hqRecheck:'↻ Check location again', hqNeedReason:'You are outside HQ — choose Official work or Leave first', hqPhotoOut:'This photo was taken outside HQ — choose a reason and take the photo again',
+ date:'Date',
  saved:'Saved. It will upload to Google Drive when internet is available.', uploaded:'record(s) uploaded to Google Drive', needPhoto:'Add at least one photo', needLoc:'Please select Range, Circle and Beat',
  gpsFail:'Could not get GPS. Turn on Location and try outdoors', processing:'Stamping photo…',
  startPatrol:'Start new patrol', patrolType:'Patrol type', team:'Team members', purpose:'Purpose', start:'Start patrol', patrolTip:'Keep the screen on during patrol. Tracking works without internet; the track uploads later.',
@@ -405,7 +521,27 @@ hi: {
  needNet:'इस चरण के लिए इंटरनेट चाहिए', pleaseWait:'कृपया प्रतीक्षा करें…',
  patrol:'गश्त', inspect:'बीट निरीक्षण', attend:'उपस्थिति', works:'दैनिक कार्य अपलोड', photos:'फ़ोटो अपलोड', settings:'सेटिंग्स', logout:'लॉगआउट',
  online:'● ऑनलाइन', offline:'● ऑफ़लाइन', pending:'अपलोड बाकी', allSynced:'✓ सब अपलोड', syncing:'अपलोड हो रहा है…',
- range:'परिक्षेत्र', circle:'सर्किल', beat:'बीट', select:'-- चुनें --', camera:'कैमरा', gallery:'गैलरी', remarks:'टिप्पणी', teep:'टीप (स्वतः, बदल सकते हैं)', submit:'जमा करें', save:'सहेजें', cancel:'रद्द करें', date:'दिनांक',
+ range:'परिक्षेत्र', circle:'सर्किल', beat:'बीट', select:'-- चुनें --', camera:'कैमरा', gallery:'गैलरी', remarks:'टिप्पणी', teep:'टीप (स्वतः, बदल सकते हैं)', submit:'जमा करें', save:'सहेजें', cancel:'रद्द करें', yes:'हाँ',
+ gGpsTitle:'मेरी लोकेशन', gCompass:'कम्पास', gGps:'GPS', gPath:'पथ', gPolygon:'बहुभुज', gPoint:'बिंदु', gKml:'KML जोड़ें', gLayers:'परतें (Places)',
+ gLayersHelp:'टिक करके दिखाएँ / छिपाएँ · नाम छूकर बदलें · हर परत का रंग और अपारदर्शिता · ▸ से फ़ीचर सूची खुलेगी।',
+ gLat:'अक्षांश', gLng:'देशांतर', gAcc:'सटीकता', gElev:'ऊँचाई', gTime:'समय', gCopy:'कॉपी', gCopied:'कॉपी हुआ', gMark:'बिंदु लगाएँ', gName:'नाम',
+ gPathHint:'नक्शे पर छूकर पथ के बिंदु जोड़ें — या चलते हुए हर मोड़ पर “GPS बिंदु जोड़ें” दबाएँ।', gPolyHint:'नक्शे पर कोने छुएँ — या सीमा पर चलते हुए हर कोने पर “GPS बिंदु जोड़ें” दबाएँ।',
+ gPointHint:'नक्शे पर छूकर बिंदु लगाएँ, या अपनी GPS लोकेशन लें।', gUseGps:'मेरी GPS लोकेशन', gVertices:'बिंदु', gLength:'लंबाई', gPerimeter:'परिधि', gArea:'क्षेत्रफल',
+ gAddGps:'GPS बिंदु जोड़ें', gUndo:'पूर्ववत', gFinish:'पूर्ण', gMyDrawings:'मेरे चित्र', gOpacity:'अपारदर्शिता', gFeatures:'फ़ीचर', gNoLayers:'अभी कोई परत नहीं — पथ / बहुभुज / बिंदु बनाएँ या KML फ़ाइल जोड़ें।',
+ gZoom:'ज़ूम करें', gElevProfile:'पथ पर ऊँचाई', gElevLoading:'ऊँचाई लोड हो रही है…', gElevNoNet:'ऊँचाई के लिए इंटरनेट चाहिए। ऑफ़लाइन में पथ “GPS बिंदु जोड़ें” से बनाएँ ताकि GPS ऊँचाई मिले।',
+ gDem:'भू-भाग मॉडल (Copernicus DEM 90 मी, Open-Meteo)', gGpsAlt:'बिंदुओं की GPS ऊँचाई', gMin:'न्यूनतम', gMax:'अधिकतम', gAscent:'चढ़ाई', gDescent:'उतराई', gSource:'स्रोत',
+ gCompassHelp:'फ़ोन सीधा (समतल) पकड़ें। रीडिंग अस्थिर हो तो फ़ोन को 8 के आकार में घुमाकर कैलिब्रेट करें।', gCompassStart:'कम्पास चालू करें', gHeadSensor:'फ़ोन का कम्पास सेंसर (चुंबकीय उत्तर)',
+ gHeadGps:'GPS गति से दिशा', gNoSensor:'कम्पास सेंसर नहीं मिला — कुछ कदम चलें, GPS से दिशा मिलेगी।',
+ gExport:'निर्यात (Export)', gFormat:'फ़ॉर्मेट', gWhat:'क्या निर्यात करें', gExpAll:'सब कुछ (सभी परतें)', gExpVisible:'केवल चालू परतें', gToPhone:'फ़ोन में सहेजें', gToDrive:'Google Drive में सहेजें',
+ gNothing:'निर्यात के लिए कुछ नहीं', gDelLayer:'परत हटाएँ', gDelFeat:'हटाएँ', gKmzNet:'KMZ के लिए एक बार इंटरनेट चाहिए — या .kml फ़ाइल लें', gBadKml:'यह सही KML फ़ाइल नहीं है', gEmptyKml:'इस फ़ाइल में कोई बिंदु / रेखा / बहुभुज नहीं मिला',
+ gPreviewDl:'फ़ाइल डाउनलोड असली ऐप में चलेगा (इस प्रीव्यू में बंद है)।',
+ pField:'फ़ील्ड अमला', pFieldSub:'बीट गार्ड · डिप्टी रेंजर · परिक्षेत्र अधिकारी', pOfficer:'अधिकारी', pOfficerSub:'परिक्षेत्र अधिकारी · SDO · DFO · एडमिन',
+ gis:'GIS टूल्स', dashboard:'डैशबोर्ड', notOfficer:'यह लॉगिन परिक्षेत्र अधिकारी, SDO, DFO व एडमिन के लिए है', notField:'अधिकारी लॉगिन का उपयोग करें',
+ 'r.beatguard':'बीट गार्ड', 'r.deputy':'डिप्टी रेंजर', 'r.ranger':'परिक्षेत्र अधिकारी', 'r.sdo':'SDO', 'r.dfo':'DFO', 'r.admin':'एडमिन',
+ hqChecking:'मुख्यालय से आपकी लोकेशन जाँची जा रही है…', hqIn:'आप मुख्यालय में हैं', hqOut:'आप मुख्यालय से बाहर हैं', hqNotSet:'मुख्यालय की लोकेशन दर्ज नहीं है', hqNotSetSub:'कार्यालय (एडमिन) से अपना मुख्यालय व उसकी GPS लोकेशन दर्ज करवाएँ।',
+ hqGpsFail:'मुख्यालय जाँच नहीं हो सकी — GPS नहीं मिला', hqFrom:'दूर', hqAllowed:'सीमा', hqWhy:'मुख्यालय से बाहर होने का कारण?', hqOfficial:'शासकीय कार्य', hqLeave:'अवकाश', hqRemarks:'टिप्पणी (वैकल्पिक)',
+ hqRecheck:'↻ लोकेशन फिर जाँचें', hqNeedReason:'आप मुख्यालय से बाहर हैं — पहले शासकीय कार्य या अवकाश चुनें', hqPhotoOut:'यह फ़ोटो मुख्यालय के बाहर ली गई है — कारण चुनें और फ़ोटो फिर लें',
+ date:'दिनांक',
  saved:'सहेजा गया। इंटरनेट मिलते ही Google Drive पर अपलोड होगा।', uploaded:'प्रविष्टि Google Drive पर अपलोड हुई', needPhoto:'कम से कम एक फ़ोटो जोड़ें', needLoc:'कृपया परिक्षेत्र, सर्किल और बीट चुनें',
  gpsFail:'GPS नहीं मिला। लोकेशन चालू करें और खुले में प्रयास करें', processing:'फ़ोटो पर GPS अंकित हो रहा है…',
  startPatrol:'नई गश्त शुरू करें', patrolType:'गश्त का प्रकार', team:'दल के सदस्य', purpose:'उद्देश्य', start:'गश्त शुरू करें', patrolTip:'गश्त के दौरान स्क्रीन चालू रखें। ट्रैकिंग बिना इंटरनेट के चलती है; ट्रैक बाद में अपलोड होगा।',
@@ -444,21 +580,29 @@ function fillSel(sel, keys, prefix) { const v = sel.value; sel.innerHTML = keys.
 
 /* ---------------- storage (IndexedDB) ---------------- */
 const idb = (() => {
-  let dbp;
+  let dbp; const KP = { outbox: 'uid', patrols: 'id', log: 'uid' };
+  const mem = { outbox: new Map(), patrols: new Map(), kv: new Map(), log: new Map() };   // fallback if the browser blocks storage
   function open() {
-    return dbp || (dbp = new Promise((res, rej) => {
-      const r = indexedDB.open('vanprahari', 1);
-      r.onupgradeneeded = () => { const d = r.result; d.createObjectStore('outbox', { keyPath: 'uid' }); d.createObjectStore('patrols', { keyPath: 'id' }); d.createObjectStore('kv'); d.createObjectStore('log', { keyPath: 'uid' }); };
-      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    return dbp || (dbp = new Promise(res => {
+      try {
+        const r = indexedDB.open('vanprahari', 1);
+        r.onupgradeneeded = () => { const d = r.result; d.createObjectStore('outbox', { keyPath: 'uid' }); d.createObjectStore('patrols', { keyPath: 'id' }); d.createObjectStore('kv'); d.createObjectStore('log', { keyPath: 'uid' }); };
+        r.onsuccess = () => res(r.result); r.onerror = () => res(null); r.onblocked = () => res(null);
+      } catch (e) { res(null); }
     }));
   }
-  async function rq(store, mode, op) { const d = await open(); return new Promise((res, rej) => { const r = op(d.transaction(store, mode).objectStore(store)); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+  async function rq(store, mode, op, memOp) {
+    const d = await open();
+    if (!d) return memOp(mem[store]);
+    return new Promise((res, rej) => { const r = op(d.transaction(store, mode).objectStore(store)); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  }
+  const clone = v => v == null ? v : JSON.parse(JSON.stringify(v));
   return {
-    put: (s, v, k) => rq(s, 'readwrite', o => k === undefined ? o.put(v) : o.put(v, k)),
-    get: (s, k) => rq(s, 'readonly', o => o.get(k)),
-    del: (s, k) => rq(s, 'readwrite', o => o.delete(k)),
-    all: s => rq(s, 'readonly', o => o.getAll()),
-    count: s => rq(s, 'readonly', o => o.count())
+    put: (s, v, k) => rq(s, 'readwrite', o => k === undefined ? o.put(v) : o.put(v, k), m => { m.set(k !== undefined ? k : v[KP[s]], clone(v)); }),
+    get: (s, k) => rq(s, 'readonly', o => o.get(k), m => clone(m.get(k))),
+    del: (s, k) => rq(s, 'readwrite', o => o.delete(k), m => { m.delete(k); }),
+    all: s => rq(s, 'readonly', o => o.getAll(), m => [...m.values()].map(clone)),
+    count: s => rq(s, 'readonly', o => o.count(), m => m.size)
   };
 })();
 
@@ -482,28 +626,61 @@ const DEMO_MASTERS = [
 ];
 function masters() { const m = LS.get('masters', null); return (m && m.length) ? m : DEMO_MASTERS; }
 function user() { return (session && session.user) || {}; }
+const FIELD_ROLES = ['beatguard', 'deputy', 'ranger'], DASH_ROLES = ['ranger', 'sdo', 'dfo', 'admin'];
+function role() { return (user().role || 'beatguard').toLowerCase(); }
+let PORTAL = LS.get('portal', 'field');
+function setPortal(p) { PORTAL = p; LS.set('portal', p); $$('#portal button').forEach(b => b.classList.toggle('on', b.dataset.p === p)); }
+/* demo users (no backend): the ID decides the role — bg…, dy…, ro…, sdo…, dfo…, admin… */
+function demoUser(id) {
+  const k = id.toLowerCase();
+  const r = k.startsWith('admin') ? 'admin' : k.startsWith('dfo') ? 'dfo' : k.startsWith('sdo') ? 'sdo' : k.startsWith('ro') ? 'ranger' : (k.startsWith('dy') || k.startsWith('dep')) ? 'deputy' : 'beatguard';
+  const L = { beatguard: ['Ramesh Uikey', 'Beat Guard', 'Beat 101', { name: 'Khedi Naka', lat: 21.9016, lng: 77.8991, radius: 500 }],
+    deputy: ['Sunil Dhurve', 'Deputy Ranger', 'Beat 102', { name: 'Sehra Chowki', lat: 21.9265, lng: 77.8985, radius: 500 }],
+    ranger: ['Anita Kumre', 'Range Officer', '', { name: 'Range Office, Demo Range A', lat: 21.9012, lng: 77.8987, radius: 500 }],
+    sdo: ['S. Verma', 'SDO', '', null], dfo: ['D. Sharma', 'DFO', '', null], admin: ['Office Admin', 'Admin', '', null] }[r];
+  return { empId: id, name: L[0], designation: L[1], role: r, roleLabel: L[1], range: r === 'sdo' || r === 'dfo' || r === 'admin' ? '' : 'Demo Range A', circle: L[2] ? 'Circle 1' : '', beat: L[2], hq: L[3] };
+}
+function openDash() { LS.set('dash', { token: session.token, user: session.user }); location.href = 'dashboard.html'; }
 
 /* ---------------- navigation ---------------- */
 const stack = [];
 const ONSHOW = {}, RERENDER = {};
 function show(id, push = true) {
+  if (id !== 's-gis' && typeof G !== 'undefined' && G.watch != null) gisStop();
   $$('.screen').forEach(s => s.classList.toggle('on', s.id === id));
-  if (push) { if (stack[stack.length - 1] !== id) { stack.push(id); history.pushState({ id }, ''); } }
+  if (push) { if (stack[stack.length - 1] !== id) { stack.push(id); hpush({ id }, ''); } }
   window.scrollTo(0, 0);
   if (ONSHOW[id]) ONSHOW[id]();
 }
 window.addEventListener('popstate', () => {
   const cur = stack[stack.length - 1];
-  if ($('#viewer').classList.contains('on')) { $('#viewer').classList.remove('on'); history.pushState({}, ''); return; }
-  if ($('#obs-ov').classList.contains('on')) { closeObs(); history.pushState({}, ''); return; }
+  if ($('#viewer').classList.contains('on')) { $('#viewer').classList.remove('on'); hpush({}, ''); return; }
+  if ($('#obs-ov').classList.contains('on')) { closeObs(); hpush({}, ''); return; }
   if (cur === 's-patrol-active' || stack.length <= 1 || cur === 's-home' || cur === 's-login') {
-    history.pushState({}, '');
+    hpush({}, '');
     if (cur === 's-patrol-active') toast(t('endFirst'));
     return;
   }
   stack.pop(); show(stack[stack.length - 1], false);
 });
 function resetTo(id) { stack.length = 0; show(id); }
+function hpush(st) { if (!window.VP_PREVIEW) try { history.pushState(st, ''); } catch (e) {} }
+function goBack() {
+  if ($('#obs-ov').classList.contains('on')) return closeObs();
+  const cur = stack[stack.length - 1];
+  if (cur === 's-patrol-active') return toast(t('endFirst'));
+  if (stack.length <= 1) return;
+  stack.pop(); show(stack[stack.length - 1], false);
+}
+/* in-page confirm dialog (works in every browser and in the preview) */
+function ask(msg) {
+  return new Promise(res => {
+    $('#ask-t').textContent = msg; $('#ask').classList.add('on');
+    $('#ask-ok').textContent = t('yes'); $('#ask-no').textContent = t('cancel');
+    const done = v => { $('#ask').classList.remove('on'); $('#ask-ok').onclick = $('#ask-no').onclick = null; res(v); };
+    $('#ask-ok').onclick = () => done(true); $('#ask-no').onclick = () => done(false);
+  });
+}
 
 /* ---------------- location selector ---------------- */
 function locSel(el, onChange) {
@@ -571,7 +748,9 @@ async function stampPhoto(file, m, teep) {
   x.fillStyle = '#ffd54f'; x.fillRect(bx, by, Math.max(3, fs * 0.2), bh);
   x.textBaseline = 'top';
   lines.forEach((l, i) => { x.fillStyle = i === lines.length - 1 ? '#c8e6c9' : '#fff'; x.fillText(l, bx + pd, by + pd * 0.7 + i * lh); });
-  return cv.toDataURL('image/jpeg', 0.82);
+  const ts = Math.min(1, 360 / Math.max(w, h)), tc = document.createElement('canvas');
+  tc.width = Math.round(w * ts); tc.height = Math.round(h * ts); tc.getContext('2d').drawImage(cv, 0, 0, tc.width, tc.height);
+  return { data: cv.toDataURL('image/jpeg', 0.82), thumb: tc.toDataURL('image/jpeg', 0.7) };
 }
 async function processPhoto(file, src, teep) {
   let meta = null, exTime = null;
@@ -589,8 +768,8 @@ async function processPhoto(file, src, teep) {
     const tm = src === 'gallery' ? (exTime ? new Date(exTime) : new Date(file.lastModified || Date.now())) : new Date();
     meta = p ? { lat: p.coords.latitude, lng: p.coords.longitude, alt: p.coords.altitude, acc: p.coords.accuracy, time: tm, gpsFrom: 'device' } : { lat: null, lng: null, alt: null, acc: null, time: tm, gpsFrom: 'none' };
   }
-  const data = await stampPhoto(file, meta, teep);
-  return { data, lat: meta.lat, lng: meta.lng, alt: meta.alt, acc: meta.acc, time: new Date(meta.time).toISOString(), src, gpsFrom: meta.gpsFrom, teep };
+  const { data, thumb } = await stampPhoto(file, meta, teep);
+  return { data, thumb, lat: meta.lat, lng: meta.lng, alt: meta.alt, acc: meta.acc, time: new Date(meta.time).toISOString(), src, gpsFrom: meta.gpsFrom, teep };
 }
 function photoBox(el, opt = {}) {
   const st = { list: [] };
@@ -598,12 +777,12 @@ function photoBox(el, opt = {}) {
   el.innerHTML = `<div class="prow"><button type="button" class="btn sm cam">📷 ${esc(t('camera'))}</button><button type="button" class="btn sm ghost gal">🖼 ${esc(t('gallery'))}</button></div><div class="thumbs"></div>
     <input type="file" accept="image/*" capture="environment" class="fcam hide"><input type="file" accept="image/*" ${opt.single ? '' : 'multiple'} class="fgal hide">`;
   const th = $('.thumbs', el);
-  $('.cam', el).onclick = () => $('.fcam', el).click();
-  $('.gal', el).onclick = () => $('.fgal', el).click();
+  $('.cam', el).onclick = () => { if (opt.before && !opt.before()) return; $('.fcam', el).click(); };
+  $('.gal', el).onclick = () => { if (opt.before && !opt.before()) return; $('.fgal', el).click(); };
   async function handle(files, src) {
     for (const f of files) {
       const b = document.createElement('div'); b.className = 'thumb busy'; b.textContent = '…'; th.appendChild(b);
-      try { const p = await processPhoto(f, src, opt.teep ? opt.teep() : ''); if (opt.single) st.list = []; st.list.push(p); }
+      try { const p = await processPhoto(f, src, opt.teep ? opt.teep() : ''); if (opt.accept && !opt.accept(p)) continue; if (opt.single) st.list = []; st.list.push(p); }
       catch (e) { toast(e.message); }
       finally { b.remove(); draw(); opt.onChange && opt.onChange(); }
     }
@@ -648,7 +827,7 @@ async function trySync(manual) {
         await api('submit', { token: session.token, record: it });
         await idb.del('outbox', it.uid);
         const lg = await idb.get('log', it.uid); if (lg) { lg.status = 'ok'; lg.err = ''; await idb.put('log', lg); }
-        if (it.kind === 'patrol') { const p = await idb.get('patrols', it.uid); if (p) { p.synced = true; (p.obs || []).forEach(o => o.photos = (o.photos || []).map(x => Object.assign({}, x, { data: '' }))); await idb.put('patrols', p); } }
+        if (it.kind === 'patrol') { const p = await idb.get('patrols', it.uid); if (p) { p.synced = true; (p.obs || []).forEach(o => o.photos = (o.photos || []).map(x => Object.assign({}, x, { data: '', thumb: '' }))); await idb.put('patrols', p); } }
         ok++;
       } catch (e) {
         if (e.code === 'AUTH') { toast(t('sessionExpired'), 5000); session = null; LS.del('session'); resetTo('s-login'); break; }
@@ -676,18 +855,21 @@ $('#lg-pw').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin();
 async function doLogin() {
   const id = $('#lg-id').value.trim(), pw = $('#lg-pw').value;
   if (!id || !pw) return toast(t('fillAll'));
+  let r;
   if (!apiUrl()) {
     if (pw !== 'demo') return toast(t('demoLogin'), 5000);
-    session = { token: 'demo', user: { empId: id, name: 'Demo User', designation: 'Forest Guard', mobile: '', range: '', circle: '', beat: '' } };
-    LS.set('session', session); return enterHome();
+    r = { token: 'demo', user: demoUser(id) };
+  } else {
+    busy(true);
+    try { r = await api('login', { id, password: pw, portal: PORTAL }); if (r.masters) LS.set('masters', r.masters); }
+    catch (e) { busy(false); return toast(e.message, 4000); }
+    busy(false);
   }
-  busy(true);
-  try {
-    const r = await api('login', { id, password: pw });
-    session = { token: r.token, user: r.user }; LS.set('session', session);
-    if (r.masters) LS.set('masters', r.masters);
-    $('#lg-pw').value = ''; enterHome();
-  } catch (e) { toast(e.message, 4000); } finally { busy(false); }
+  const ro = (r.user.role || 'beatguard').toLowerCase();
+  if (PORTAL === 'officer' && !DASH_ROLES.includes(ro)) return toast(t('notOfficer') + ` (${t('r.' + ro)})`, 4500);
+  session = { token: r.token, user: r.user }; LS.set('session', session); $('#lg-pw').value = '';
+  if (PORTAL === 'officer') return openDash();
+  enterHome();
 }
 function openOtp() { $('#otp1').classList.remove('hide'); $('#otp2').classList.add('hide'); $('#ot-id').value = $('#lg-id').value; show('s-otp'); }
 let otpTimer;
@@ -717,18 +899,28 @@ async function resetPw() {
     resetTo('s-login');
   } catch (e) { toast(e.message, 4000); } finally { busy(false); }
 }
-function enterHome() { resetTo('s-home'); trySync(); }
+function enterHome() { resetTo('s-home'); trySync(); refreshMe(); }
+/* refresh profile (role, HQ) and masters from the server when online */
+async function refreshMe() {
+  if (!apiUrl() || !session || session.token === 'demo' || !navigator.onLine) return;
+  try { const r = await api('me', { token: session.token }); session.user = r.user; LS.set('session', session); if (r.masters) LS.set('masters', r.masters); if (stack[stack.length - 1] === 's-home') ONSHOW['s-home'](); }
+  catch (e) { if (e.code === 'AUTH') { toast(t('sessionExpired'), 5000); session = null; LS.del('session'); resetTo('s-login'); } }
+}
 ONSHOW['s-home'] = async () => {
   const u = user();
   $('#h-av').textContent = (u.name || '?').trim().charAt(0).toUpperCase();
   $('#h-name').textContent = u.name || u.empId || '';
-  $('#h-sub').textContent = [u.designation, u.beat, u.range].filter(Boolean).join(' • ');
+  $('#h-sub').textContent = [u.beat, u.range].filter(Boolean).join(' • ');
+  $('#h-name').insertAdjacentHTML('beforeend', `<span class="rolechip">${esc(t('r.' + role()))}</span>`);
+  const fr = FIELD_ROLES.includes(role()), dr = DASH_ROLES.includes(role());
+  $$('#s-home .tile').forEach(tl => tl.classList.toggle('hide', !(tl.dataset.r === 'all' || (tl.dataset.r === 'field' && fr) || (tl.dataset.r === 'dash' && dr))));
   $('#demoBanner2').classList.toggle('hide', !!apiUrl());
   const ap = await idb.get('kv', 'activePatrol');
   $('#h-active').classList.toggle('hide', !ap); $('#h-active').textContent = '🔴 ' + t('activePatrol');
   updateBadge();
 };
-ONSHOW['s-login'] = () => { $('#demoBanner1').classList.toggle('hide', !!apiUrl()); };
+ONSHOW['s-login'] = () => { $('#demoBanner1').classList.toggle('hide', !!apiUrl()); setPortal(PORTAL); };
+$$('#portal button').forEach(b => b.onclick = () => setPortal(b.dataset.p));
 
 /* ---------------- PATROL ---------------- */
 const PT = ['foot', 'vehicle', 'night', 'joint', 'special'];
@@ -769,7 +961,7 @@ async function startPatrol() {
   P = { id: 'pat-' + uid(), type: $('#ps-type').value, loc: psLoc.get(), team: $('#ps-team').value.trim(), purpose: $('#ps-purpose').value.trim(),
         start: Date.now(), end: null, pausedMs: 0, pausedAt: null, segs: [[]], distance: 0, obs: [] };
   await idb.put('kv', P, 'activePatrol');
-  stack.length = 0; stack.push('s-home'); history.pushState({}, '');
+  stack.length = 0; stack.push('s-home'); hpush({}, '');
   resumePatrolUI();
 }
 function resumePatrolUI() {
@@ -826,7 +1018,7 @@ function centerMe() { const m = maps.active; if (lastFix && m) m.map.setView([la
 async function keepAwake() { try { if ('wakeLock' in navigator && document.visibilityState === 'visible') wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && P && !P.end) { keepAwake(); if (P) idb.put('kv', P, 'activePatrol'); } else if (P) idb.put('kv', P, 'activePatrol'); });
 async function stopPatrol() {
-  if (!P || !confirm(t('confirmStop'))) return;
+  if (!P || !(await ask(t('confirmStop')))) return;
   if (P.pausedAt) { P.pausedMs += Date.now() - P.pausedAt; P.pausedAt = null; }
   P.end = Date.now(); P.segs = P.segs.filter(s => s.length);
   if (watchId != null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
@@ -865,7 +1057,7 @@ let viewing = null;
 async function viewPatrol(id) {
   viewing = await idb.get('patrols', id); if (!viewing) return;
   show('s-patrol-view');
-  const p = viewing; $('#pv-title').textContent = t('pt.' + p.type);
+  const p = viewing; $('#pv-title').textContent = t('pt.' + p.type); $('#pv-gmaps').href = gmapsUrl(p);
   const map = makeMap('pv-map', 'view'); const b = [];
   p.segs.forEach(s => { const ll = s.map(x => [x[0], x[1]]); b.push(...ll); L.polyline(ll, { color: '#e53935', weight: 5 }).addTo(map); });
   if (b.length) { L.circleMarker(b[0], { radius: 7, color: '#2e7d32', fillOpacity: 1 }).addTo(map).bindPopup('Start'); L.circleMarker(b[b.length - 1], { radius: 7, color: '#b71c1c', fillOpacity: 1 }).addTo(map).bindPopup('End'); }
@@ -907,15 +1099,16 @@ ${obs}
 }
 function downloadKml() {
   if (!viewing) return;
+  if (window.VP_PREVIEW) return toast('KML download works in the real app (downloads are blocked in this preview).', 4000);
   const blob = new Blob([buildKml(viewing)], { type: 'application/vnd.google-earth.kml+xml' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `patrol_${viewing.loc.beat}_${isoDay(new Date(viewing.start))}.kml`.replace(/\s+/g, '_');
   document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
-function openGmaps() {
-  if (!viewing) return; const all = viewing.segs.flat(); if (!all.length) return toast(t('none'));
+function gmapsUrl(p) {
+  const all = p.segs.flat(); if (!all.length) return '#';
   const pick = n => all[Math.round(n * (all.length - 1))];
   const o = pick(0), d = pick(1), wps = [0.25, 0.5, 0.75].map(pick).map(q => q[0] + ',' + q[1]).join('|');
-  window.open(`https://www.google.com/maps/dir/?api=1&origin=${o[0]},${o[1]}&destination=${d[0]},${d[1]}&waypoints=${encodeURIComponent(wps)}&travelmode=walking`, '_blank');
+  return `https://www.google.com/maps/dir/?api=1&origin=${o[0]},${o[1]}&destination=${d[0]},${d[1]}&waypoints=${encodeURIComponent(wps)}&travelmode=walking`;
 }
 
 /* ---------------- BEAT INSPECTION ---------------- */
@@ -948,32 +1141,88 @@ async function submitInspect() {
   rec.date = $('#in-date').value; rec.remarks = $('#in-rem').value.trim();
   rec.items = INS.map(it => { const c = $('#ins-' + it.k); return { key: it.k, label: T.en['in.' + it.k], status: T.en['s.' + $('.ist', c).value], qty: $('.iqty', c).value.trim(), remarks: $('.irem', c).value.trim(), photos: inBoxes[it.k].get() }; });
   rec.gps = firstGps(rec.items.flatMap(i => i.photos));
-  await enqueue(rec, `${t('inspect')} — ${rec.loc.beat}`); history.back();
+  await enqueue(rec, `${t('inspect')} — ${rec.loc.beat}`); goBack();
 }
 
-/* ---------------- ATTENDANCE ---------------- */
+/* ---------------- ATTENDANCE (with HQ check) ---------------- */
 let atLoc, atBox, atTeepEdited = false;
 const AT = ['in', 'out', 'field'];
-function attTeep() { const u = user(), l = atLoc ? atLoc.get() : {}; return `${u.name || ''}${u.designation ? ', ' + u.designation : ''} — ${T.en['at.' + $('#at-type').value]} — ${[l.beat, l.circle, l.range].filter(Boolean).join(', ')}`; }
+let HQ = { state: 'checking' };   // checking | in | out | nohq | gpsfail
+function hqReason() { const r = $('input[name=hqr]:checked'); return r ? r.value : ''; }
+function hqTag() {
+  if (HQ.state === 'in') return `At HQ (${HQ.hq.name}, ${Math.round(HQ.dist)} m)`;
+  if (HQ.state === 'out') return `Out of HQ ${fmtDist(HQ.dist)} — ${hqReason() === 'leave' ? 'Leave' : hqReason() === 'official' ? 'Official work' : ''}${$('#hq-rem') && $('#hq-rem').value.trim() ? ': ' + $('#hq-rem').value.trim() : ''}`;
+  return '';
+}
+function fmtDist(m) { return m >= 1000 ? (m / 1000).toFixed(2) + ' km' : Math.round(m) + ' m'; }
+function attTeep() { const u = user(), l = atLoc ? atLoc.get() : {}; return [`${u.name || ''}${u.designation ? ', ' + u.designation : ''}`, T.en['at.' + $('#at-type').value], [l.beat, l.circle, l.range].filter(Boolean).join(', '), hqTag()].filter(Boolean).join(' — '); }
+function updTeep() { if (!atTeepEdited) $('#at-teep').value = attTeep(); }
+function hqEval(lat, lng) {
+  const hq = user().hq;
+  if (!hq || hq.lat == null) return { state: 'nohq' };
+  if (lat == null) return { state: 'gpsfail', hq };
+  const dist = hav(lat, lng, hq.lat, hq.lng);
+  return { state: dist <= (hq.radius || 500) ? 'in' : 'out', hq, dist };
+}
+async function checkHQ() {
+  const keep = hqReason(), keepRem = $('#hq-rem') ? $('#hq-rem').value : '';
+  HQ = user().hq ? { state: 'checking' } : { state: 'nohq' }; renderHQ();
+  if (HQ.state === 'nohq') return;
+  try { const p = await getPos(); HQ = hqEval(p.coords.latitude, p.coords.longitude); } catch (e) { HQ = hqEval(null); }
+  renderHQ(keep, keepRem);
+}
+function renderHQ(keep, keepRem) {
+  const b = $('#at-hq'), h = HQ.hq || user().hq || {};
+  b.className = 'hqbox ' + ({ in: 'in', out: 'out', nohq: 'warn', gpsfail: 'warn', checking: '' }[HQ.state]);
+  if (HQ.state === 'checking') b.innerHTML = `<p class="muted" style="margin:0">📡 ${esc(t('hqChecking'))}</p>`;
+  else if (HQ.state === 'nohq') b.innerHTML = `<h3>🏠 ${esc(t('hqNotSet'))}</h3><p class="muted" style="margin:0">${esc(t('hqNotSetSub'))}</p>`;
+  else if (HQ.state === 'gpsfail') b.innerHTML = `<h3>⚠ ${esc(t('hqGpsFail'))}</h3><p class="muted" style="margin:4px 0">${esc(t('gpsFail'))}</p><button class="btn ghost sm" onclick="checkHQ()">${esc(t('hqRecheck'))}</button>`;
+  else if (HQ.state === 'in') b.innerHTML = `<h3>✓ ${esc(t('hqIn'))}</h3><div class="big">${esc(h.name)}</div><p class="muted" style="margin:0">${fmtDist(HQ.dist)} ${esc(t('hqFrom'))} · ${esc(t('hqAllowed'))} ${h.radius || 500} m</p>`;
+  else {
+    b.innerHTML = `<h3>⚠ ${esc(t('hqOut'))}</h3><div class="big">${fmtDist(HQ.dist)} ${esc(t('hqFrom'))} ${esc(h.name)}</div><p class="muted" style="margin:0">${esc(t('hqAllowed'))} ${h.radius || 500} m</p>
+      <label style="color:var(--rd);margin-top:12px">${esc(t('hqWhy'))} *</label>
+      <div class="opt"><label><input type="radio" name="hqr" value="official"> ${esc(t('hqOfficial'))}</label><label><input type="radio" name="hqr" value="leave"> ${esc(t('hqLeave'))}</label></div>
+      <label>${esc(t('hqRemarks'))}</label><input id="hq-rem">
+      <div class="row"><button class="btn ghost sm" onclick="checkHQ()">${esc(t('hqRecheck'))}</button></div>`;
+    if (keep) { const r = $(`input[name=hqr][value=${keep}]`); if (r) r.checked = true; }
+    if (keepRem) $('#hq-rem').value = keepRem;
+    $$('input[name=hqr]').forEach(r => r.onchange = updTeep); $('#hq-rem').oninput = updTeep;
+  }
+  updTeep();
+}
 function openAttend() { show('s-attend'); }
 ONSHOW['s-attend'] = () => {
   fillSel($('#at-type'), AT, 'at.'); const h = new Date().getHours(); $('#at-type').value = h >= 14 ? 'out' : 'in';
   atTeepEdited = false;
-  atLoc = locSel($('#at-loc'), () => { if (!atTeepEdited) $('#at-teep').value = attTeep(); });
-  $('#at-type').onchange = () => { if (!atTeepEdited) $('#at-teep').value = attTeep(); };
-  $('#at-teep').value = attTeep(); $('#at-teep').oninput = () => { atTeepEdited = true; };
-  atBox = photoBox($('#at-photos'), { single: true, teep: () => $('#at-teep').value.trim() });
-  getPos().catch(() => {});
+  atLoc = locSel($('#at-loc'), updTeep);
+  $('#at-type').onchange = updTeep;
+  $('#at-teep').oninput = () => { atTeepEdited = true; };
+  atBox = photoBox($('#at-photos'), { single: true, teep: () => $('#at-teep').value.trim(),
+    before: () => { if (HQ.state === 'checking') { toast(t('hqChecking')); return false; } if (HQ.state === 'out' && !hqReason()) { toast(t('hqNeedReason'), 3500); $('#at-hq').scrollIntoView({ behavior: 'smooth' }); return false; } return true; },
+    accept: p => {   // re-check HQ with the photo's own GPS
+      if (p.lat == null || HQ.state === 'nohq') return true;
+      const e = hqEval(p.lat, p.lng);
+      if (e.state === 'out' && HQ.state !== 'out') { const keep = hqReason(); HQ = e; renderHQ(keep); toast(t('hqPhotoOut'), 4500); return false; }
+      if (e.state === 'in' && HQ.state === 'out') { HQ = e; renderHQ(); }
+      HQ.dist = e.dist; return true;
+    } });
+  checkHQ();
 };
-RERENDER['s-attend'] = () => { fillSel($('#at-type'), AT, 'at.'); };
+RERENDER['s-attend'] = () => { fillSel($('#at-type'), AT, 'at.'); renderHQ(hqReason(), $('#hq-rem') ? $('#hq-rem').value : ''); };
 async function submitAttend() {
   if (!atLoc.valid()) return toast(t('needLoc'));
+  if (HQ.state === 'out' && !hqReason()) return toast(t('hqNeedReason'), 3500);
   if (!atBox.count()) return toast(t('needPhoto'));
   atLoc.remember();
   const rec = baseRecord('attendance', atLoc.get());
   const ph = atBox.get();
   rec.attType = T.en['at.' + $('#at-type').value]; rec.teep = $('#at-teep').value.trim(); rec.photos = ph; rec.gps = firstGps(ph); rec.photoTime = ph[0].time; rec.source = ph[0].src;
-  await enqueue(rec, `${t('attend')} — ${t('at.' + $('#at-type').value)}`); history.back();
+  const hq = HQ.hq || user().hq;
+  rec.hq = { name: hq ? hq.name : '', distance: HQ.dist != null ? Math.round(HQ.dist) : null,
+    status: { in: 'Yes', out: 'No', nohq: 'HQ not set', gpsfail: 'Unknown' }[HQ.state] || 'Unknown',
+    reason: HQ.state === 'out' ? (hqReason() === 'leave' ? 'Leave' : 'Official work') : '', remarks: HQ.state === 'out' && $('#hq-rem') ? $('#hq-rem').value.trim() : '' };
+  const tag = HQ.state === 'in' ? '✓ HQ' : HQ.state === 'out' ? '⚠ ' + rec.hq.reason : '';
+  await enqueue(rec, `${t('attend')} — ${t('at.' + $('#at-type').value)} ${tag}`); goBack();
 }
 
 /* ---------------- DAILY WORKS ---------------- */
@@ -995,7 +1244,7 @@ async function submitWorks() {
   const rec = baseRecord('works', wkLoc.get()); const ph = wkBox.get();
   Object.assign(rec, { workDate: $('#wk-date').value, workType: T.en['wk.' + $('#wk-type').value], workName: $('#wk-name').value.trim(), compartment: $('#wk-comp').value.trim(),
     qty: $('#wk-qty').value.trim(), unit: $('#wk-unit').value, labour: $('#wk-lab').value.trim(), remarks: $('#wk-rem').value.trim(), photos: ph, gps: firstGps(ph) });
-  await enqueue(rec, `${t('wk.' + $('#wk-type').value)} — ${rec.workName || rec.loc.beat}`); history.back();
+  await enqueue(rec, `${t('wk.' + $('#wk-type').value)} — ${rec.workName || rec.loc.beat}`); goBack();
 }
 
 /* ---------------- PHOTO UPLOAD ---------------- */
@@ -1014,7 +1263,447 @@ async function submitPhotos() {
   phLoc.remember();
   const rec = baseRecord('photo', phLoc.get()); const ph = phBox.get();
   Object.assign(rec, { category: T.en['pc.' + $('#ph-cat').value], subject: $('#ph-sub').value.trim(), compartment: $('#ph-comp').value.trim(), remarks: $('#ph-rem').value.trim(), photos: ph, gps: firstGps(ph) });
-  await enqueue(rec, `${t('pc.' + $('#ph-cat').value)} — ${rec.subject || rec.loc.beat} (${ph.length})`); history.back();
+  await enqueue(rec, `${t('pc.' + $('#ph-cat').value)} — ${rec.subject || rec.loc.beat} (${ph.length})`); goBack();
+}
+
+/* ======================= GIS TOOLS ======================= */
+const G = { layers: [], loaded: false, tool: null, draw: null, groups: {}, map: null, watch: null, fix: null, me: null, acc: null,
+  fmt: 'kml', pick: 'all', tmp: null, profMk: null, saveT: null, cmpH: null, heading: null, headSrc: null, cmpT: null };
+const PALETTE = ['#e53935', '#1e88e5', '#fdd835', '#8e24aa', '#00acc1', '#fb8c00', '#43a047', '#d81b60'];
+const gid = () => 'g' + uid();
+function dms(v, pos, neg) {
+  const h = v < 0 ? neg : pos; v = Math.abs(v);
+  let d = Math.floor(v), mf = (v - d) * 60, m = Math.floor(mf), sec = (mf - m) * 60;
+  if (sec >= 59.995) { sec = 0; m++; } if (m >= 60) { m = 0; d++; }
+  return `${d}° ${pad2(m)}′ ${sec.toFixed(2).padStart(5, '0')}″ ${h}`;
+}
+function lineLen(c) { let s = 0; for (let i = 1; i < c.length; i++) s += hav(c[i - 1][0], c[i - 1][1], c[i][0], c[i][1]); return s; }
+function ringArea(c) { if (c.length < 3) return 0; const R = 6378137, r = Math.PI / 180; let a = 0; for (let i = 0; i < c.length; i++) { const p = c[i], q = c[(i + 1) % c.length]; a += (q[1] - p[1]) * r * (2 + Math.sin(p[0] * r) + Math.sin(q[0] * r)); } return Math.abs(a * R * R / 2); }
+function polyArea(f) { return Math.max(0, ringArea(f.rings[0]) - f.rings.slice(1).reduce((a, r) => a + ringArea(r), 0)); }
+function fmtLen(m) { return m >= 1000 ? (m / 1000).toFixed(3) + ' km' : m.toFixed(1) + ' m'; }
+function fmtArea(a) { return `${(a / 10000).toFixed(3)} ha · ${Math.round(a).toLocaleString('en-IN')} m² · ${(a / 4046.856).toFixed(2)} acre`; }
+function saveGis() { clearTimeout(G.saveT); G.saveT = setTimeout(() => idb.put('kv', { layers: G.layers }, 'gis'), 300); }
+function saveFile(name, text, mime) {
+  if (window.VP_PREVIEW) return toast(t('gPreviewDl'), 4000);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+
+/* ---- map & layers ---- */
+function gisStyle(l, f) {
+  const op = (l.opacity ?? 100) / 100, c = (l.keepOwn && f.color) || l.color || '#e53935';
+  return { color: c, weight: 3, opacity: op, fillColor: c, fillOpacity: 0.3 * op };
+}
+function renderLayer(l) {
+  if (!G.map) return;
+  if (G.groups[l.id]) G.map.removeLayer(G.groups[l.id]);
+  const g = G.groups[l.id] = L.featureGroup();
+  if (l.visible !== false) l.features.forEach(f => {
+    if (f.visible === false) return;
+    const st = gisStyle(l, f); let o;
+    if (f.type === 'Point') o = L.circleMarker([f.coords[0][0], f.coords[0][1]], { radius: 7, color: '#fff', weight: 2, fillColor: st.color, fillOpacity: st.opacity, opacity: Math.max(.3, st.opacity) });
+    else if (f.type === 'LineString') o = L.polyline(f.coords.map(c => [c[0], c[1]]), st);
+    else o = L.polygon(f.rings.map(r => r.map(c => [c[0], c[1]])), st);
+    o.bindTooltip(esc(f.name || ''), { sticky: f.type !== 'Point' });
+    o.on('click', ev => { L.DomEvent.stopPropagation(ev); if (!G.draw) featInfo(l, f); });
+    g.addLayer(o);
+  });
+  g.addTo(G.map);
+}
+function gisBounds(layers) {
+  const pts = [];
+  (layers || G.layers).forEach(l => { if (l.visible === false) return; l.features.forEach(f => { if (f.visible === false) return; (f.type === 'Polygon' ? f.rings[0] : f.coords).forEach(c => pts.push([c[0], c[1]])); }); });
+  return pts.length ? L.latLngBounds(pts) : null;
+}
+function zoomTo(b) { if (b && G.map) { if (b.getNorthEast().equals(b.getSouthWest())) G.map.setView(b.getCenter(), 17); else G.map.fitBounds(b, { padding: [24, 24] }); } }
+function findLF(lid, fid) { const l = G.layers.find(x => x.id === lid); return [l, l && fid ? l.features.find(x => x.id === fid) : null]; }
+function zoomFeat(lid, fid) { const [l, f] = findLF(lid, fid); if (!f) return; const fake = Object.assign({}, l, { visible: true, features: [Object.assign({}, f, { visible: true })] }); zoomTo(gisBounds([fake])); }
+
+function openGis() { show('s-gis'); }
+ONSHOW['s-gis'] = async () => {
+  if (!G.loaded) { const s = await idb.get('kv', 'gis'); G.layers = (s && s.layers) || []; G.loaded = true; }
+  G.me = G.acc = G.tmp = G.profMk = null; G.draw = null;
+  G.map = makeMap('gis-map', 'gis'); G.groups = {};
+  G.map.on('click', e => { $('#gis-exp').classList.add('hide'); gisClick(e.latlng); });
+  G.layers.forEach(renderLayer);
+  setTimeout(() => zoomTo(gisBounds()), 260);
+  gisWatchStart();
+  setTool('gps');
+};
+RERENDER['s-gis'] = () => { if (G.tool) setTool(G.tool); };
+function gisWatchStart() {
+  if (G.watch != null) return;
+  G.watch = navigator.geolocation.watchPosition(p => {
+    G.fix = p; lastFix = p; const c = p.coords, ll = [c.latitude, c.longitude];
+    if (!G.map) return;
+    if (!G.me) {
+      G.acc = L.circle(ll, { radius: c.accuracy, color: '#1e88e5', weight: 1, fillOpacity: .08, interactive: false }).addTo(G.map);
+      G.me = L.circleMarker(ll, { radius: 8, color: '#fff', weight: 3, fillColor: '#1e88e5', fillOpacity: 1, interactive: false }).addTo(G.map);
+      if (!gisBounds()) G.map.setView(ll, 16);
+    } else { G.me.setLatLng(ll); G.acc.setLatLng(ll).setRadius(c.accuracy); }
+    if (G.tool === 'gps') renderGps();
+    if (G.tool === 'compass' && G.headSrc !== 'sensor' && c.heading != null && !isNaN(c.heading) && c.speed > 0.5) setHeading(c.heading, 'gps');
+  }, () => { if (G.tool === 'gps') renderGps(); }, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+}
+function gisStop() { if (G.watch != null) { navigator.geolocation.clearWatch(G.watch); G.watch = null; } compassOff(); G.draw = null; G.map = null; }
+
+/* ---- tools ---- */
+function setTool(tool) {
+  if (tool === 'kml') { $('#gis-file').click(); return; }
+  if (G.draw && tool !== G.draw.type) cancelDraw(true);
+  if (tool !== 'compass') compassOff();
+  if (G.profMk && G.map) { G.map.removeLayer(G.profMk); G.profMk = null; }
+  G.tool = tool;
+  $$('#gis-tools button').forEach(b => b.classList.toggle('on', b.dataset.tool === tool));
+  if (tool === 'gps') { $('#gis-panel').innerHTML = ''; renderGps(); }
+  else if (tool === 'compass') compassOn();
+  else if (tool === 'path' || tool === 'polygon') { if (!G.draw) startDraw(tool); else drawPanel(); }
+  else if (tool === 'point') renderPoint();
+}
+$$('#gis-tools button').forEach(b => b.onclick = () => setTool(b.dataset.tool));
+function noTool() { G.tool = null; $$('#gis-tools button').forEach(b => b.classList.remove('on')); compassOff(); }
+
+/* GPS readout: decimal + DMS, accuracy, elevation */
+function renderGps() {
+  const el = $('#gis-panel');
+  if (!$('#gps-kv', el)) el.innerHTML = `<h4 style="margin-top:0">${esc(t('gGpsTitle'))}</h4><div class="kv" id="gps-kv"></div>
+    <div class="row"><button class="btn ghost sm" onclick="gisCenter()">◎ ${esc(t('center'))}</button><button class="btn ghost sm" onclick="copyGps()">⧉ ${esc(t('gCopy'))}</button><button class="btn ghost sm" onclick="markHere()">📌 ${esc(t('gMark'))}</button></div>`;
+  const p = G.fix, kv = $('#gps-kv');
+  if (!p) { kv.innerHTML = `<span>${esc(t('waitingGps'))}</span><b></b>`; return; }
+  const c = p.coords;
+  kv.innerHTML = `<span>${esc(t('gLat'))}</span><b>${c.latitude.toFixed(6)}°</b><span></span><b>${dms(c.latitude, 'N', 'S')}</b>
+    <span>${esc(t('gLng'))}</span><b>${c.longitude.toFixed(6)}°</b><span></span><b>${dms(c.longitude, 'E', 'W')}</b>
+    <span>${esc(t('gAcc'))}</span><b>± ${Math.round(c.accuracy)} m</b>
+    <span>${esc(t('gElev'))}</span><b>${c.altitude != null ? Math.round(c.altitude) + ' m' + (c.altitudeAccuracy ? ` (± ${Math.round(c.altitudeAccuracy)} m)` : '') : '—'}</b>
+    <span>${esc(t('gTime'))}</span><b>${fmtTime(new Date(p.timestamp))}</b>`;
+}
+function gisCenter() { if (G.fix && G.map) G.map.setView([G.fix.coords.latitude, G.fix.coords.longitude], Math.max(G.map.getZoom(), 16)); }
+async function copyGps() {
+  if (!G.fix) return; const c = G.fix.coords;
+  const txt = `${c.latitude.toFixed(6)}, ${c.longitude.toFixed(6)} (${dms(c.latitude, 'N', 'S')}, ${dms(c.longitude, 'E', 'W')}) ±${Math.round(c.accuracy)} m${c.altitude != null ? ', elev ' + Math.round(c.altitude) + ' m' : ''}`;
+  try { await navigator.clipboard.writeText(txt); toast('✓ ' + t('gCopied')); } catch (e) { toast(txt, 6000); }
+}
+
+/* Compass */
+function card16(h) { return ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'][Math.round(h / 22.5) % 16]; }
+function roseSvg() {
+  let ticks = '';
+  for (let a = 0; a < 360; a += 5) { const long = a % 30 === 0, r1 = long ? 80 : (a % 10 === 0 ? 86 : 90); const rad = a * Math.PI / 180;
+    ticks += `<line x1="${(Math.sin(rad) * r1).toFixed(1)}" y1="${(-Math.cos(rad) * r1).toFixed(1)}" x2="${(Math.sin(rad) * 96).toFixed(1)}" y2="${(-Math.cos(rad) * 96).toFixed(1)}" stroke="${long ? '#1d2420' : '#8a968e'}" stroke-width="${long ? 2 : 1}"/>`;
+    if (long && a % 90) ticks += `<text x="${(Math.sin(rad) * 68).toFixed(1)}" y="${(-Math.cos(rad) * 68 + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#5d6b62">${a}</text>`; }
+  const L = (txt, a, col) => { const rad = a * Math.PI / 180; return `<text x="${(Math.sin(rad) * 62).toFixed(1)}" y="${(-Math.cos(rad) * 62 + 8).toFixed(1)}" text-anchor="middle" font-size="24" font-weight="800" fill="${col}">${txt}</text>`; };
+  return `<svg class="rose" viewBox="-110 -110 220 220" role="img" aria-label="compass">
+    <circle r="104" fill="#fff" stroke="#d5ddd7" stroke-width="2"/>
+    <g id="rose">${ticks}${L('N', 0, '#c62828')}${L('E', 90, '#1d2420')}${L('S', 180, '#1d2420')}${L('W', 270, '#1d2420')}
+      <polygon points="0,-44 9,0 0,6 -9,0" fill="#c62828"/><polygon points="0,44 9,0 0,-6 -9,0" fill="#90a4ae"/><circle r="5" fill="#1d2420"/></g>
+    <polygon points="0,-108 -9,-92 9,-92" fill="#1b4d2e"/></svg>`;
+}
+function compassOn() {
+  $('#gis-panel').innerHTML = `${roseSvg()}<div class="heading" id="hdg">—</div><p class="muted center" id="hdg-src" style="margin:2px 0 8px">${esc(t('gCompassHelp'))}</p>
+    <div class="row" id="cmp-btn-row"></div>`;
+  compassOff();
+  const h = e => { let hd = null; if (e.webkitCompassHeading != null) hd = e.webkitCompassHeading; else if (e.absolute && e.alpha != null) hd = 360 - e.alpha; else if (e.alpha != null && e.type === 'deviceorientationabsolute') hd = 360 - e.alpha; if (hd != null && !isNaN(hd)) setHeading(hd + (screen.orientation ? screen.orientation.angle || 0 : 0), 'sensor'); };
+  G.cmpH = h;
+  const listen = () => { if ('ondeviceorientationabsolute' in window) window.addEventListener('deviceorientationabsolute', h); window.addEventListener('deviceorientation', h); };
+  listen();
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {   // iPhone asks permission on a tap
+    const btn = () => { if (!$('#cmp-btn-row')) return; $('#cmp-btn-row').innerHTML = `<button class="btn" id="cmp-perm">${esc(t('gCompassStart'))}</button>`;
+      $('#cmp-perm').onclick = () => DeviceOrientationEvent.requestPermission().then(r => { if (r === 'granted') { $('#cmp-btn-row').innerHTML = ''; } }).catch(() => toast(t('gNoSensor'))); };
+    try { DeviceOrientationEvent.requestPermission().then(r => { if (r !== 'granted') btn(); }).catch(btn); } catch (e) { btn(); }
+  }
+  clearTimeout(G.cmpT); G.cmpT = setTimeout(() => { if (G.tool === 'compass' && G.headSrc !== 'sensor' && $('#hdg-src')) $('#hdg-src').textContent = t('gNoSensor'); }, 3500);
+}
+function compassOff() { if (G.cmpH) { window.removeEventListener('deviceorientationabsolute', G.cmpH); window.removeEventListener('deviceorientation', G.cmpH); G.cmpH = null; } G.headSrc = null; clearTimeout(G.cmpT); }
+function setHeading(h, src) {
+  h = (h % 360 + 360) % 360; G.heading = h; G.headSrc = src;
+  const r = $('#rose'); if (!r) return;
+  r.setAttribute('transform', `rotate(${(-h).toFixed(1)})`);
+  $('#hdg').textContent = `${Math.round(h) % 360}° ${card16(h)}`;
+  $('#hdg-src').textContent = t(src === 'gps' ? 'gHeadGps' : 'gHeadSensor');
+}
+
+/* Drawing: path & polygon */
+function startDraw(type) { clearTmp(); G.draw = { type, pts: [] }; G.tmp = L.featureGroup().addTo(G.map); drawPanel(); }
+function gisClick(ll) {
+  const p = [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null];
+  if (G.draw) { G.draw.pts.push(p); redrawTmp(); drawPanel(); }
+  else if (G.tool === 'point') pendPoint(p);
+}
+function addGpsVertex() {
+  if (!G.fix) return toast(t('waitingGps'));
+  const c = G.fix.coords; G.draw.pts.push([+c.latitude.toFixed(6), +c.longitude.toFixed(6), c.altitude != null ? Math.round(c.altitude) : null]);
+  redrawTmp(); drawPanel(); gisCenter();
+}
+function redrawTmp() {
+  if (!G.tmp) return; G.tmp.clearLayers();
+  const ll = G.draw.pts.map(p => [p[0], p[1]]), st = { color: '#ff6f00', weight: 3, dashArray: '6 6', fillOpacity: .15, interactive: false };
+  if (ll.length > 1) G.tmp.addLayer(G.draw.type === 'polygon' ? L.polygon(ll, st) : L.polyline(ll, st));
+  ll.forEach(p => G.tmp.addLayer(L.circleMarker(p, { radius: 5, color: '#ff6f00', fillColor: '#fff', fillOpacity: 1, weight: 2, interactive: false })));
+}
+function drawPanel() {
+  const d = G.draw, n = d.pts.length, poly = d.type === 'polygon';
+  const len = lineLen(poly && n > 2 ? [...d.pts, d.pts[0]] : d.pts);
+  $('#gis-panel').innerHTML = `<div class="drawhint">${esc(t(poly ? 'gPolyHint' : 'gPathHint'))}</div>
+    <div class="kv"><span>${esc(t('gVertices'))}</span><b>${n}</b><span>${esc(t(poly ? 'gPerimeter' : 'gLength'))}</span><b>${fmtLen(len)}</b>
+    ${poly ? `<span>${esc(t('gArea'))}</span><b>${n > 2 ? fmtArea(ringArea(d.pts)) : '—'}</b>` : ''}</div>
+    <div class="row"><button class="btn ghost sm" onclick="addGpsVertex()">📍 ${esc(t('gAddGps'))}</button><button class="btn ghost sm" onclick="undoVertex()" ${n ? '' : 'disabled'}>↶ ${esc(t('gUndo'))}</button></div>
+    <div class="row"><button class="btn ghost sm" onclick="cancelDraw()">✕ ${esc(t('cancel'))}</button><button class="btn sm" onclick="finishDraw()" ${n >= (poly ? 3 : 2) ? '' : 'disabled'}>✓ ${esc(t('gFinish'))}</button></div>`;
+}
+function undoVertex() { G.draw.pts.pop(); redrawTmp(); drawPanel(); }
+function cancelDraw(silent) { G.draw = null; clearTmp(); if (!silent) setTool('gps'); }
+function clearTmp() { if (G.tmp && G.map) G.map.removeLayer(G.tmp); G.tmp = null; }
+function drawnLayer() {
+  let l = G.layers.find(x => x.id === 'drawn');
+  if (!l) { l = { id: 'drawn', name: t('gMyDrawings'), source: 'drawn', visible: true, color: '#ff6f00', opacity: 100, open: true, features: [] }; G.layers.unshift(l); }
+  return l;
+}
+function askName(def, onSave, extra, onCancel) {
+  $('#gis-panel').innerHTML = `${extra || ''}<label>${esc(t('gName'))}</label><input id="g-name" value="${esc(def)}">
+    <div class="row"><button class="btn ghost sm" id="g-cancel">${esc(t('cancel'))}</button><button class="btn sm" id="g-save">✓ ${esc(t('save'))}</button></div>`;
+  $('#g-name').select();
+  $('#g-save').onclick = () => onSave($('#g-name').value.trim() || def);
+  $('#g-cancel').onclick = onCancel;
+}
+function finishDraw() {
+  const d = G.draw, poly = d.type === 'polygon', l = drawnLayer();
+  const n = l.features.filter(f => f.type === (poly ? 'Polygon' : 'LineString')).length + 1;
+  askName(`${t(poly ? 'gPolygon' : 'gPath')} ${n}`, name => {
+    const f = poly ? { id: gid(), name, type: 'Polygon', rings: [d.pts.slice()], visible: true, created: new Date().toISOString() }
+                   : { id: gid(), name, type: 'LineString', coords: d.pts.slice(), visible: true, created: new Date().toISOString() };
+    l.features.push(f); G.draw = null; clearTmp(); renderLayer(l); saveGis(); toast('✓ ' + name); featInfo(l, f);
+  }, '', () => drawPanel());
+}
+/* Points */
+function renderPoint() { $('#gis-panel').innerHTML = `<div class="drawhint">${esc(t('gPointHint'))}</div><button class="btn ghost" onclick="markHere()">📍 ${esc(t('gUseGps'))}</button>`; }
+function markHere() { if (!G.fix) return toast(t('waitingGps')); const c = G.fix.coords; pendPoint([+c.latitude.toFixed(6), +c.longitude.toFixed(6), c.altitude != null ? Math.round(c.altitude) : null]); }
+function pendPoint(p) {
+  clearTmp(); G.tmp = L.featureGroup([L.circleMarker([p[0], p[1]], { radius: 9, color: '#ff6f00', fillColor: '#fff', fillOpacity: 1, weight: 3 })]).addTo(G.map);
+  const l = drawnLayer(), n = l.features.filter(f => f.type === 'Point').length + 1;
+  askName(`${t('gPoint')} ${n}`, name => {
+    const f = { id: gid(), name, type: 'Point', coords: [p], visible: true, created: new Date().toISOString() };
+    l.features.push(f); clearTmp(); renderLayer(l); saveGis(); toast('✓ ' + name); featInfo(l, f);
+  }, `<div class="kv" style="margin-bottom:6px"><span>${esc(t('gLat'))}</span><b>${p[0].toFixed(6)}° · ${dms(p[0], 'N', 'S')}</b><span>${esc(t('gLng'))}</span><b>${p[1].toFixed(6)}° · ${dms(p[1], 'E', 'W')}</b>${p[2] != null ? `<span>${esc(t('gElev'))}</span><b>${p[2]} m</b>` : ''}</div>`,
+  () => { clearTmp(); G.tool === 'point' ? renderPoint() : setTool('gps'); });
+}
+
+/* Feature details + elevation profile */
+function featInfo(l, f) {
+  noTool();
+  let body = '';
+  if (f.type === 'Point') { const c = f.coords[0]; body = `<div class="kv"><span>${esc(t('gLat'))}</span><b>${c[0].toFixed(6)}° · ${dms(c[0], 'N', 'S')}</b><span>${esc(t('gLng'))}</span><b>${c[1].toFixed(6)}° · ${dms(c[1], 'E', 'W')}</b><span>${esc(t('gElev'))}</span><b>${c[2] != null ? Math.round(c[2]) + ' m' : '—'}</b></div>`; }
+  else if (f.type === 'LineString') body = `<div class="kv"><span>${esc(t('gLength'))}</span><b>${fmtLen(lineLen(f.coords))}</b><span>${esc(t('gVertices'))}</span><b>${f.coords.length}</b></div><h4>${esc(t('gElevProfile'))}</h4><div id="g-prof"></div>`;
+  else { const r = f.rings[0]; body = `<div class="kv"><span>${esc(t('gArea'))}</span><b>${fmtArea(polyArea(f))}</b><span>${esc(t('gPerimeter'))}</span><b>${fmtLen(lineLen([...r, r[0]]))}</b><span>${esc(t('gVertices'))}</span><b>${r.length}</b></div>`; }
+  $('#gis-panel').innerHTML = `<h3 style="margin:0;color:var(--g)">${f.type === 'Point' ? '📌' : f.type === 'LineString' ? '〰️' : '⬠'} ${esc(f.name)}</h3><p class="muted" style="margin:2px 0 10px">${esc(l.name)}</p>${body}
+    <div class="row"><button class="btn ghost sm" onclick="zoomFeat('${l.id}','${f.id}')">⌖ ${esc(t('gZoom'))}</button><button class="btn ghost sm" onclick="setTool('gps')">📍 ${esc(t('gGps'))}</button></div>`;
+  zoomFeat(l.id, f.id);
+  if (f.type === 'LineString') showProfile(f);
+}
+async function showProfile(f) {
+  const box = $('#g-prof'); if (!box) return;
+  box.innerHTML = `<p class="muted">${esc(t('gElevLoading'))}</p>`;
+  try { if (!f.profile) { f.profile = await buildProfile(f.coords); saveGis(); } if ($('#g-prof') === box) drawProfile(box, f); }
+  catch (e) { box.innerHTML = `<p class="muted">${esc(e.message)}</p>`; }
+}
+async function buildProfile(c) {
+  const cum = [0]; for (let i = 1; i < c.length; i++) cum.push(cum[i - 1] + hav(c[i - 1][0], c[i - 1][1], c[i][0], c[i][1]));
+  const Lt = cum[cum.length - 1], N = Math.min(100, Math.max(c.length, Math.ceil(Lt / 25) + 1, 2)), S = [];
+  for (let k = 0; k < N; k++) {
+    const d = Lt * k / (N - 1); let i = 1; while (i < c.length - 1 && cum[i] < d) i++;
+    const seg = (cum[i] - cum[i - 1]) || 1, fr = Math.min(1, Math.max(0, (d - cum[i - 1]) / seg));
+    S.push([d, c[i - 1][0] + (c[i][0] - c[i - 1][0]) * fr, c[i - 1][1] + (c[i][1] - c[i - 1][1]) * fr]);
+  }
+  try {
+    const r = await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${S.map(s => s[1].toFixed(5)).join(',')}&longitude=${S.map(s => s[2].toFixed(5)).join(',')}`);
+    const j = await r.json(); if (!j.elevation || j.elevation.length !== S.length) throw new Error('bad');
+    return { src: t('gDem'), pts: S.map((s, i) => [s[0], j.elevation[i], s[1], s[2]]) };
+  } catch (e) {
+    if (c.length > 1 && c.every(p => p[2] != null)) return { src: t('gGpsAlt'), pts: c.map((p, i) => [cum[i], p[2], p[0], p[1]]) };
+    throw new Error(t('gElevNoNet'));
+  }
+}
+function drawProfile(box, f) {
+  const P = f.profile.pts, el = P.map(p => p[1]), mn = Math.min(...el), mx = Math.max(...el);
+  let up = 0, dn = 0; for (let i = 1; i < el.length; i++) { const d = el[i] - el[i - 1]; if (d > 0) up += d; else dn -= d; }
+  box.innerHTML = `<div class="kv"><span>${esc(t('gMin'))} / ${esc(t('gMax'))}</span><b>${Math.round(mn)} m / ${Math.round(mx)} m</b><span>${esc(t('gAscent'))} / ${esc(t('gDescent'))}</span><b>↗ ${Math.round(up)} m · ↘ ${Math.round(dn)} m</b><span>${esc(t('gSource'))}</span><b style="font-weight:500">${esc(f.profile.src)}</b></div>
+    <div class="prof"><svg id="psvg"></svg><div class="ptip hide" id="ptip"></div></div>`;
+  const s = $('#psvg'), W = Math.max(280, s.clientWidth || box.clientWidth || 320), H = 180, m = { l: 42, r: 10, t: 10, b: 24 };
+  const Lm = P[P.length - 1][0] || 1, span = Math.max(10, mx - mn), y0 = mn - span * .12, y1 = mx + span * .12;
+  const X = d => m.l + d / Lm * (W - m.l - m.r), Y = e => m.t + (1 - (e - y0) / (y1 - y0)) * (H - m.t - m.b);
+  const line = P.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const yt = [mn, (mn + mx) / 2, mx].map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="#e7e7e7"/><text x="${m.l - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#666">${Math.round(v)}</text>`).join('');
+  const xt = [0, .5, 1].map(fr => `<text x="${X(Lm * fr).toFixed(1)}" y="${H - 6}" text-anchor="${fr === 0 ? 'start' : fr === 1 ? 'end' : 'middle'}" font-size="11" fill="#666">${fmtLen(Lm * fr)}</text>`).join('');
+  s.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  s.innerHTML = `${yt}<path d="${line}L${X(Lm).toFixed(1)},${H - m.b}L${m.l},${H - m.b}Z" fill="#2e7d4f22"/><path d="${line}" fill="none" stroke="#2e7d4f" stroke-width="2"/>${xt}
+    <line id="pcur" y1="${m.t}" y2="${H - m.b}" stroke="#1d2420" stroke-dasharray="3 3" visibility="hidden"/><circle id="pdot" r="4" fill="#ff6f00" stroke="#fff" stroke-width="2" visibility="hidden"/>`;
+  const tip = $('#ptip');
+  const mv = ev => {
+    const r = s.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * W, d = Math.max(0, Math.min(Lm, (x - m.l) / (W - m.l - m.r) * Lm));
+    let k = 0; for (let i = 1; i < P.length; i++) if (Math.abs(P[i][0] - d) < Math.abs(P[k][0] - d)) k = i;
+    const p = P[k];
+    $('#pcur').setAttribute('x1', X(p[0])); $('#pcur').setAttribute('x2', X(p[0])); $('#pcur').setAttribute('visibility', 'visible');
+    $('#pdot').setAttribute('cx', X(p[0])); $('#pdot').setAttribute('cy', Y(p[1])); $('#pdot').setAttribute('visibility', 'visible');
+    tip.textContent = `${fmtLen(p[0])} · ${Math.round(p[1])} m`; tip.classList.remove('hide');
+    if (G.map) { if (!G.profMk) G.profMk = L.circleMarker([p[2], p[3]], { radius: 7, color: '#fff', weight: 2, fillColor: '#ff6f00', fillOpacity: 1, interactive: false }).addTo(G.map); else G.profMk.setLatLng([p[2], p[3]]); }
+  };
+  s.addEventListener('pointermove', mv); s.addEventListener('pointerdown', mv);
+}
+
+/* ---- KML / KMZ import ---- */
+$('#gis-file').onchange = async e => {
+  const files = [...e.target.files]; e.target.value = ''; let added = [];
+  for (const file of files) {
+    try { const l = await readGeoFile(file); G.layers.push(l); renderLayer(l); added.push(l); toast('✓ ' + file.name); }
+    catch (x) { toast(file.name + ': ' + x.message, 4500); }
+  }
+  if (added.length) { saveGis(); zoomTo(gisBounds(added)); openLayers(); }
+};
+async function readGeoFile(file) {
+  let text;
+  if (/\.kmz$/i.test(file.name) || /kmz/.test(file.type)) {
+    if (!window.JSZip) throw new Error(t('gKmzNet'));
+    const z = await JSZip.loadAsync(file); const k = Object.keys(z.files).find(n => /\.kml$/i.test(n));
+    if (!k) throw new Error('No KML inside KMZ'); text = await z.files[k].async('string');
+  } else text = await file.text();
+  return parseKml(text, file.name.replace(/\.(kml|kmz|xml)$/i, ''));
+}
+function kChild(el, tag) { for (const c of el.children) if (c.localName === tag) return c.textContent; return ''; }
+function parseKml(text, fname) {
+  const doc = new DOMParser().parseFromString(text, 'text/xml');
+  if (doc.getElementsByTagName('parsererror').length) throw new Error(t('gBadKml'));
+  const byTag = (el, tag) => [...el.getElementsByTagNameNS('*', tag)];
+  const kcol = s => { s = (s || '').trim(); return /^[0-9a-f]{8}$/i.test(s) ? '#' + s.slice(6, 8) + s.slice(4, 6) + s.slice(2, 4) : null; };
+  const stColor = st => { for (const tg of ['LineStyle', 'PolyStyle', 'IconStyle']) { const e = byTag(st, tg)[0]; const c = e && byTag(e, 'color')[0]; if (c && kcol(c.textContent)) return kcol(c.textContent); } return null; };
+  const styles = {};
+  byTag(doc, 'Style').forEach(st => { const id = st.getAttribute('id'); if (id) styles['#' + id] = stColor(st); });
+  byTag(doc, 'StyleMap').forEach(sm => { const id = sm.getAttribute('id'); const pair = byTag(sm, 'Pair').find(p => (byTag(p, 'key')[0] || {}).textContent === 'normal'); const u = pair && byTag(pair, 'styleUrl')[0]; if (id && u) styles['#' + id] = styles[u.textContent.trim()] || null; });
+  const crd = el => el ? el.textContent.trim().split(/\s+/).map(s => s.split(',').map(Number)).filter(a => a.length >= 2 && !isNaN(a[0]) && !isNaN(a[1]))
+    .map(a => [+a[1].toFixed(7), +a[0].toFixed(7), a.length > 2 && !isNaN(a[2]) && a[2] !== 0 ? a[2] : null]) : [];
+  const feats = [];
+  byTag(doc, 'Placemark').forEach(pm => {
+    const nm = kChild(pm, 'name').trim(); const su = byTag(pm, 'styleUrl')[0]; const ist = byTag(pm, 'Style')[0];
+    const color = (ist && stColor(ist)) || (su ? styles[su.textContent.trim()] : null) || null;
+    const push = (type, data) => feats.push(Object.assign({ id: gid(), name: nm || type, type, visible: true, color }, data));
+    byTag(pm, 'Point').forEach(p => { const c = crd(byTag(p, 'coordinates')[0]); if (c.length) push('Point', { coords: [c[0]] }); });
+    byTag(pm, 'LineString').forEach(ls => { const c = crd(byTag(ls, 'coordinates')[0]); if (c.length > 1) push('LineString', { coords: c }); });
+    byTag(pm, 'Polygon').forEach(pg => {
+      const rings = [];
+      byTag(pg, 'outerBoundaryIs').forEach(b => rings.push(crd(byTag(b, 'coordinates')[0])));
+      byTag(pg, 'innerBoundaryIs').forEach(b => rings.push(crd(byTag(b, 'coordinates')[0])));
+      const rr = rings.filter(r => r.length > 2).map(r => (r.length > 3 && r[0][0] === r[r.length - 1][0] && r[0][1] === r[r.length - 1][1]) ? r.slice(0, -1) : r);
+      if (rr.length) push('Polygon', { rings: rr });
+    });
+    const gx = byTag(pm, 'coord'); if (gx.length > 1) push('LineString', { coords: gx.map(e => e.textContent.trim().split(/\s+/).map(Number)).map(a => [a[1], a[0], a[2] || null]) });
+  });
+  if (!feats.length) throw new Error(t('gEmptyKml'));
+  const dn = byTag(doc, 'Document')[0], lname = ((dn && kChild(dn, 'name')) || fname).trim() || fname;
+  const own = feats.find(f => f.color);
+  return { id: gid(), name: lname, file: fname, source: 'kml', visible: true, color: own ? own.color : PALETTE[G.layers.length % PALETTE.length], opacity: 100, open: false, keepOwn: !!own, features: feats };
+}
+
+/* ---- Layers panel (like Google Earth "Places") ---- */
+function openLayers() { $('#gis-exp').classList.add('hide'); renderLayers(); $('#gis-lyr').classList.add('on'); }
+function closeLayers() { $('#gis-lyr').classList.remove('on'); }
+const FICON = { Point: '📌', LineString: '〰️', Polygon: '⬠' };
+function renderLayers() {
+  const box = $('#gis-lyr-list');
+  if (!G.layers.length) { box.innerHTML = `<p class="muted">${esc(t('gNoLayers'))}</p>`; return; }
+  box.innerHTML = G.layers.map(l => `<div class="lyr" data-l="${l.id}">
+    <div class="lh"><button class="mini" data-a="open" aria-label="expand">${l.open ? '▾' : '▸'}</button><input type="checkbox" data-a="vis" ${l.visible !== false ? 'checked' : ''} aria-label="show">
+      <input type="text" data-a="name" value="${esc(l.name)}" aria-label="layer name"><input type="color" data-a="color" value="${esc(l.color)}" aria-label="colour">
+      <button class="mini" data-a="zoom" aria-label="zoom">⌖</button><button class="mini red" data-a="del" aria-label="delete">✕</button></div>
+    <div class="lo">${esc(t('gOpacity'))} <input type="range" min="0" max="100" step="5" data-a="op" value="${l.opacity ?? 100}"><b data-op>${l.opacity ?? 100}%</b></div>
+    <div class="lo" style="padding-top:0">${l.features.length} ${esc(t('gFeatures'))}${l.source === 'kml' ? ' · KML' : ''}</div>
+    ${l.open ? `<div class="feats">${l.features.map(f => `<div class="fe" data-f="${f.id}"><input type="checkbox" data-a="fvis" ${f.visible !== false ? 'checked' : ''} aria-label="show"><span>${FICON[f.type]}</span>
+      <input type="text" data-a="fname" value="${esc(f.name)}" aria-label="name"><button class="mini" data-a="finfo" aria-label="details">ⓘ</button><button class="mini red" data-a="fdel" aria-label="delete">✕</button></div>`).join('')}</div>` : ''}
+  </div>`).join('');
+}
+(() => {
+  const box = $('#gis-lyr-list');
+  const ctx = e => { const ld = e.target.closest('[data-l]'); if (!ld) return []; const l = G.layers.find(x => x.id === ld.dataset.l); const fd = e.target.closest('[data-f]'); return [l, fd && l.features.find(x => x.id === fd.dataset.f), ld]; };
+  box.addEventListener('input', e => {
+    const a = e.target.dataset.a, [l, f, ld] = ctx(e); if (!l) return;
+    if (a === 'op') { l.opacity = +e.target.value; ld.querySelector('[data-op]').textContent = l.opacity + '%'; renderLayer(l); }
+    else if (a === 'color') { l.color = e.target.value; l.keepOwn = false; renderLayer(l); }
+    else if (a === 'name') l.name = e.target.value;
+    else if (a === 'fname' && f) { f.name = e.target.value; renderLayer(l); }
+    saveGis();
+  });
+  box.addEventListener('change', e => {
+    const a = e.target.dataset.a, [l, f] = ctx(e); if (!l) return;
+    if (a === 'vis') { l.visible = e.target.checked; renderLayer(l); saveGis(); }
+    if (a === 'fvis' && f) { f.visible = e.target.checked; renderLayer(l); saveGis(); }
+  });
+  box.addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b) return; const a = b.dataset.a, [l, f] = ctx(e); if (!l) return;
+    if (a === 'open') { l.open = !l.open; renderLayers(); saveGis(); }
+    else if (a === 'zoom') { closeLayers(); zoomTo(gisBounds([Object.assign({}, l, { visible: true })])); }
+    else if (a === 'del' && await ask(t('gDelLayer') + ' “' + l.name + '”')) { if (G.groups[l.id] && G.map) G.map.removeLayer(G.groups[l.id]); G.layers = G.layers.filter(x => x !== l); renderLayers(); saveGis(); }
+    else if (a === 'finfo' && f) { closeLayers(); featInfo(l, f); }
+    else if (a === 'fdel' && f && await ask(t('gDelFeat') + ' “' + f.name + '”')) { l.features = l.features.filter(x => x !== f); renderLayer(l); renderLayers(); saveGis(); }
+  });
+})();
+
+/* ---- Export (drop-down menu) ---- */
+function toggleExport() { const m = $('#gis-exp'); if (!m.classList.contains('hide')) return m.classList.add('hide'); renderExport(); m.classList.remove('hide'); }
+function renderExport() {
+  const opts = [['all', t('gExpAll')], ['visible', t('gExpVisible')], ...G.layers.map(l => [l.id, `${l.name} (${l.features.length})`])];
+  if (!opts.some(o => o[0] === G.pick)) G.pick = 'all';
+  $('#gis-exp').innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:16px">${esc(t('gExport'))}</b><button class="mini" onclick="$('#gis-exp').classList.add('hide')">✕</button></div>
+    <label style="margin-top:10px">${esc(t('gFormat'))}</label><span class="pill"><button data-fmt="kml" class="${G.fmt === 'kml' ? 'on' : ''}">KML</button><button data-fmt="geojson" class="${G.fmt === 'geojson' ? 'on' : ''}">GeoJSON</button></span>
+    <label style="margin-top:12px">${esc(t('gWhat'))}</label>
+    ${opts.map(([v, lab]) => `<label class="exp-it"><input type="radio" name="gx" value="${esc(v)}" ${G.pick === v ? 'checked' : ''}> ${esc(lab)}</label>`).join('')}
+    <div class="row"><button class="btn ghost sm" onclick="doExport('phone')">⬇ ${esc(t('gToPhone'))}</button><button class="btn sm" onclick="doExport('drive')">☁ ${esc(t('gToDrive'))}</button></div>`;
+  $$('#gis-exp [data-fmt]').forEach(b => b.onclick = () => { G.fmt = b.dataset.fmt; renderExport(); });
+  $$('#gis-exp input[name=gx]').forEach(r => r.onchange = () => { G.pick = r.value; });
+}
+function exportLayers() {
+  if (G.pick === 'all') return G.layers;
+  if (G.pick === 'visible') return G.layers.filter(l => l.visible !== false).map(l => Object.assign({}, l, { features: l.features.filter(f => f.visible !== false) }));
+  return G.layers.filter(l => l.id === G.pick);
+}
+function kmlColor(hex, op) { const a = Math.round(Math.max(0, Math.min(1, op)) * 255).toString(16).padStart(2, '0'); return a + hex.slice(5, 7) + hex.slice(3, 5) + hex.slice(1, 3); }
+function toKml(ls, title) {
+  const crd = c => c.map(p => `${p[1]},${p[0]},${p[2] ?? 0}`).join(' ');
+  const sty = (c, op) => `<LineStyle><color>${kmlColor(c, op)}</color><width>3</width></LineStyle><PolyStyle><color>${kmlColor(c, .35 * op)}</color></PolyStyle><IconStyle><color>${kmlColor(c, op)}</color><Icon><href>http://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>`;
+  const pm = (l, f) => {
+    const op = (l.opacity ?? 100) / 100;
+    const st = l.keepOwn && f.color ? `<Style>${sty(f.color, op)}</Style>` : `<styleUrl>#s_${l.id}</styleUrl>`;
+    let g, ext = '';
+    if (f.type === 'Point') g = `<Point><coordinates>${crd(f.coords)}</coordinates></Point>`;
+    else if (f.type === 'LineString') { g = `<LineString><tessellate>1</tessellate><coordinates>${crd(f.coords)}</coordinates></LineString>`; ext = `<ExtendedData><Data name="Length_m"><value>${lineLen(f.coords).toFixed(1)}</value></Data></ExtendedData>`; }
+    else { g = `<Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>${crd([...f.rings[0], f.rings[0][0]])}</coordinates></LinearRing></outerBoundaryIs>${f.rings.slice(1).map(r => `<innerBoundaryIs><LinearRing><coordinates>${crd([...r, r[0]])}</coordinates></LinearRing></innerBoundaryIs>`).join('')}</Polygon>`;
+      ext = `<ExtendedData><Data name="Area_ha"><value>${(polyArea(f) / 10000).toFixed(4)}</value></Data></ExtendedData>`; }
+    return `<Placemark><name>${esc(f.name)}</name><visibility>${f.visible === false || l.visible === false ? 0 : 1}</visibility>${st}${ext}${g}</Placemark>`;
+  };
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>${esc(title)}</name>
+${ls.map(l => `<Style id="s_${l.id}">${sty(l.color, (l.opacity ?? 100) / 100)}</Style>`).join('\n')}
+${ls.map(l => `<Folder><name>${esc(l.name)}</name><visibility>${l.visible === false ? 0 : 1}</visibility>${l.features.map(f => pm(l, f)).join('')}</Folder>`).join('\n')}
+</Document></kml>`;
+}
+function toGeoJSON(ls) {
+  const ll = p => p[2] != null ? [p[1], p[0], p[2]] : [p[1], p[0]];
+  return { type: 'FeatureCollection', features: ls.flatMap(l => l.features.map(f => {
+    const op = (l.opacity ?? 100) / 100, c = (l.keepOwn && f.color) || l.color;
+    const props = { name: f.name, layer: l.name, stroke: c, 'stroke-opacity': op, fill: c, 'fill-opacity': +(0.35 * op).toFixed(2), visible: f.visible !== false && l.visible !== false };
+    if (f.type === 'LineString') props.length_m = +lineLen(f.coords).toFixed(1);
+    if (f.type === 'Polygon') props.area_ha = +(polyArea(f) / 10000).toFixed(4);
+    const geometry = f.type === 'Point' ? { type: 'Point', coordinates: ll(f.coords[0]) } : f.type === 'LineString' ? { type: 'LineString', coordinates: f.coords.map(ll) } : { type: 'Polygon', coordinates: f.rings.map(r => [...r, r[0]].map(ll)) };
+    return { type: 'Feature', properties: props, geometry };
+  })) };
+}
+async function doExport(dest) {
+  const ls = exportLayers().filter(l => l.features.length); if (!ls.length) return toast(t('gNothing'));
+  const title = G.pick === 'all' ? 'All layers' : G.pick === 'visible' ? 'Visible layers' : ls[0].name;
+  const content = G.fmt === 'kml' ? toKml(ls, title) : JSON.stringify(toGeoJSON(ls), null, 1);
+  $('#gis-exp').classList.add('hide');
+  if (dest === 'phone') return saveFile(`${title}_${isoDay(new Date())}`.replace(/[^\wऀ-ॿ-]+/g, '_') + (G.fmt === 'kml' ? '.kml' : '.geojson'), content, G.fmt === 'kml' ? 'application/vnd.google-earth.kml+xml' : 'application/geo+json');
+  const all = ls.flatMap(l => l.features);
+  const u = user(), rec = baseRecord('gis', { range: u.range || '', circle: u.circle || '', beat: u.beat || '' });
+  Object.assign(rec, { title, format: G.fmt, content, layers: ls.map(l => l.name).join(', '), features: all.length,
+    lengthKm: +(all.filter(f => f.type === 'LineString').reduce((a, f) => a + lineLen(f.coords), 0) / 1000).toFixed(3),
+    areaHa: +(all.filter(f => f.type === 'Polygon').reduce((a, f) => a + polyArea(f), 0) / 10000).toFixed(3) });
+  await enqueue(rec, `GIS — ${title} (${G.fmt.toUpperCase()})`);
 }
 
 /* ---------------- SETTINGS ---------------- */
@@ -1030,18 +1719,18 @@ async function renderSettings() {
 ONSHOW['s-settings'] = renderSettings; RERENDER['s-settings'] = renderSettings;
 function saveApi() { const v = $('#st-api').value.trim(); if (v && !/^https:\/\/script\.google(usercontent)?\.com\//.test(v)) return toast('URL should start with https://script.google.com/'); LS.set('api', v); toast(t('apiSaved')); }
 async function logout() {
-  const n = await idb.count('outbox'); if (n && !confirm(t('confirmLogout'))) return;
+  const n = await idb.count('outbox'); if (n && !(await ask(t('confirmLogout')))) return;
   if (session && session.token !== 'demo' && apiUrl()) api('logout', { token: session.token }).catch(() => {});
-  session = null; LS.del('session'); resetTo('s-login');
+  session = null; LS.del('session'); LS.del('dash'); resetTo('s-login');
 }
 
 /* ---------------- start ---------------- */
-if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+try { if (!window.VP_PREVIEW && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
 applyI18n();
 (async () => {
   if (session) {
     const ap = await idb.get('kv', 'activePatrol');
-    if (ap) { P = ap; stack.push('s-home'); history.replaceState({}, ''); resumePatrolUI(); } else enterHome();
+    if (ap) { P = ap; stack.push('s-home');  resumePatrolUI(); } else enterHome();
   } else resetTo('s-login');
 })();
 </script>

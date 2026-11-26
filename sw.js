@@ -1,9 +1,9 @@
 /* Van Prahari service worker — makes the app open and work without internet */
-const VER = 'vp-v1.0.0';
-const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png'];
+const VER = 'vp-v1.2.0';
+const SHELL = ['./', './index.html', './manifest.json', './config.js', './icons/icon-192.png', './icons/icon-512.png'];
 const LIBS = ['https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
   'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png', 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png', 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js'];
+  'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png', 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js', 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'];
 const TILE_CACHE = 'vp-tiles';
 const TILE_MAX = 6000;
 const TILE_HOSTS = ['tile.openstreetmap.org', 'server.arcgisonline.com', 'tile.opentopomap.org'];
@@ -43,6 +43,7 @@ self.addEventListener('fetch', e => {
   e.respondWith((async () => {                                     // app + libraries: cache, refresh in background
     const c = await caches.open(VER);
     const hit = await c.match(req, { ignoreSearch: url.origin === location.origin });
+    if (url.pathname.endsWith('config.js')) { const r = await net; if (r) return r; }  // always prefer fresh config
     const net = fetch(req).then(r => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => null);
     if (hit) { e.waitUntil(net); return hit; }
     const r = await net; if (r) return r;
